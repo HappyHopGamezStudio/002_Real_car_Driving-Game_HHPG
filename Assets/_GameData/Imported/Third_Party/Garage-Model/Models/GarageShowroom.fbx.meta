@@ -1,0 +1,206 @@
+fileFormatVersion: 2
+guid: 4cc6e5a9700ff804dab792ebffed3004
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: CarStand
+    100002: Floor
+    100004: //RootNode
+    100006: Roof
+    100008: RoofLights
+    100010: RoofWindows
+    100012: UnderLight2
+    100014: UnderLights
+    100016: Underlights3
+    100018: Ventilation
+    100020: Ventilation2
+    100022: Ventilation3
+    100024: Ventilation4
+    100026: Walls
+    400000: CarStand
+    400002: Floor
+    400004: //RootNode
+    400006: Roof
+    400008: RoofLights
+    400010: RoofWindows
+    400012: UnderLight2
+    400014: UnderLights
+    400016: Underlights3
+    400018: Ventilation
+    400020: Ventilation2
+    400022: Ventilation3
+    400024: Ventilation4
+    400026: Walls
+    2100000: Floor
+    2100002: RoofWindows
+    2100004: Ventilation
+    2100006: RoofLights
+    2100008: CarStand
+    2100010: UnderLight1
+    2100012: UnderLight2
+    2100014: Wall
+    2300000: CarStand
+    2300002: Floor
+    2300004: Roof
+    2300006: RoofLights
+    2300008: RoofWindows
+    2300010: UnderLight2
+    2300012: UnderLights
+    2300014: Underlights3
+    2300016: Ventilation
+    2300018: Ventilation2
+    2300020: Ventilation3
+    2300022: Ventilation4
+    2300024: Walls
+    3300000: CarStand
+    3300002: Floor
+    3300004: Roof
+    3300006: RoofLights
+    3300008: RoofWindows
+    3300010: UnderLight2
+    3300012: UnderLights
+    3300014: Underlights3
+    3300016: Ventilation
+    3300018: Ventilation2
+    3300020: Ventilation3
+    3300022: Ventilation4
+    3300024: Walls
+    4300000: Roof
+    4300002: RoofWindows
+    4300004: Ventilation4
+    4300006: Ventilation3
+    4300008: Ventilation2
+    4300010: Ventilation
+    4300012: RoofLights
+    4300014: CarStand
+    4300016: Floor
+    4300018: Underlights3
+    4300020: UnderLight2
+    4300022: UnderLights
+    4300024: Walls
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CarStand
+    second: {fileID: 2100000, guid: 072f38aab71fcac439cbf483500ed686, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Floor
+    second: {fileID: 2100000, guid: 283cf42163e3874409a891b69775b4e9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RoofLights
+    second: {fileID: 2100000, guid: 19e2e0670d8da5843be455b644bed085, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RoofWindows
+    second: {fileID: 2100000, guid: e301a73538506b64eb4270d2cd5986a6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: UnderLight1
+    second: {fileID: 2100000, guid: c2bd1a3062855f64295d115a5eb77511, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: UnderLight2
+    second: {fileID: 2100000, guid: f53475c0f905f6e478a84cce2f7fc00a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Ventilation
+    second: {fileID: 2100000, guid: 3cb46f1cc5fc2c04ea2a916008e4f347, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wall
+    second: {fileID: 2100000, guid: 28e57cead2738f34092624001f8c5bc1, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.2
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
