@@ -31,7 +31,7 @@ public class HHG_UiManager : MonoBehaviour
     
     [Header("health WORK")] 
     public Text HealthText;
-    public GameObject repairPanel;
+    public GameObject repairPanel ,Ripairebutton;
     public Image FillhealthBar;
     
     
@@ -51,6 +51,8 @@ public class HHG_UiManager : MonoBehaviour
         Time.timeScale = 1f;
         HHG_LevelManager.instace.SelectedPlayer.GetComponent<VehicleProperties>().UpdateHealthText();
         FillhealthBar.color  = HHG_LevelManager.instace.SelectedPlayer.GetComponent<VehicleProperties>().colers[0];
+        Ripairebutton.SetActive(false);
+        uiPanel.SetActive(false);
     }
 
     public void OnspeedCaputer()
@@ -272,7 +274,7 @@ public class HHG_UiManager : MonoBehaviour
             PrefsManager.SetInterInt(1);
         }
         Pause.SetActive(true);
-        HHG_SoundManager.Instance.OffPlayTimmerSound();
+        HHG_LevelManager.instace.rcc_camera.GetComponentInChildren<Camera>().GetComponent<AudioListener>().enabled = false;
         SetTimeScale(0);
         HideGamePlay();
         await Task.Delay(2000);
@@ -290,16 +292,14 @@ public class HHG_UiManager : MonoBehaviour
         Pause.SetActive(false);
         SetTimeScale(1);
         ShowGamePlay();
-        HHG_SoundManager.Instance.PlayTimmerSound();
-        GameObject.FindGameObjectWithTag ("SoundManager").transform.GetChild (0).gameObject.GetComponent<AudioSource> ().enabled = true;
-        GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<AudioSource> ().enabled = true;
-        HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
+        HHG_LevelManager.instace.rcc_camera.GetComponentInChildren<Camera>().GetComponent<AudioListener>().enabled = true;
         //AdmobAdsManager.Instance.LoadInterstitialAd();
     }
 
     public void Restart()
     {
         Time.timeScale = 1;
+        HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
         Loading.SetActive(true);
         Loading.GetComponentInChildren<bl_SceneLoader>().LoadLevel("HHG_GamePlay");
         HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);

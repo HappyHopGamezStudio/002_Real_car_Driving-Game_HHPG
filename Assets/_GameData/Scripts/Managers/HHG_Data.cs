@@ -142,7 +142,8 @@ public class HHG_Data : MonoBehaviour {
         }
         else if (AdType == 7)
         {
-         
+	       HHG_GameManager.Instance. CurrentCar.GetComponent<VehicleProperties>().RepairCar();
+	       GameAnalytics.NewAdEvent(GAAdAction.RewardReceived,GAAdType.RewardedVideo,"Admob","GEt_Car_repaired");
 
         }
         if (AdType == 8)

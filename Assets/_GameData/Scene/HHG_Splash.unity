@@ -603,7 +603,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11465290, guid: a9d27d37bab3c447b8eb7a2a6756e952, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a9d27d37bab3c447b8eb7a2a6756e952, type: 3}
 --- !u!1 &1176189575
 GameObject:
@@ -2918,6 +2919,49 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!1 &1741800421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1741800423}
+  - component: {fileID: 1741800422}
+  m_Layer: 0
+  m_Name: Logger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1741800422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741800421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ac9bf135e3dbee4fa5d6b3fc9e89352, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1741800423
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741800421}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 94.21773, y: 1.4561684, z: 10.771371}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1891493876
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2984,7 +3028,7 @@ PrefabInstance:
     - target: {fileID: 114000013211611000, guid: 752096fa1e4186c4599b5c6145dd71de, type: 3}
       propertyPath: BgSound
       value: 
-      objectReference: {fileID: 8300000, guid: 1c014954a9f7e954ab2fa94e9bb40154, type: 3}
+      objectReference: {fileID: 8300000, guid: 14ef701ec76b8f24eb69bdf2437c0650, type: 3}
     - target: {fileID: 114000013211611000, guid: 752096fa1e4186c4599b5c6145dd71de, type: 3}
       propertyPath: levelFail
       value: 
@@ -2992,7 +3036,7 @@ PrefabInstance:
     - target: {fileID: 114000013211611000, guid: 752096fa1e4186c4599b5c6145dd71de, type: 3}
       propertyPath: menuSound
       value: 
-      objectReference: {fileID: 8300000, guid: 1c014954a9f7e954ab2fa94e9bb40154, type: 3}
+      objectReference: {fileID: 8300000, guid: 14ef701ec76b8f24eb69bdf2437c0650, type: 3}
     - target: {fileID: 114000013211611000, guid: 752096fa1e4186c4599b5c6145dd71de, type: 3}
       propertyPath: LevelComplete
       value: 

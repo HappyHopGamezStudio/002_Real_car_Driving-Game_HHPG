@@ -35,6 +35,8 @@ public class HHG_GameManager : MonoBehaviour
     public Transform Dust;
 
     public HUDNavigationSystem hud;
+
+    public MapCanvasController MapCanvasController;
     private void Awake()
     {
         Instance = this;
@@ -43,7 +45,7 @@ public class HHG_GameManager : MonoBehaviour
     private void Start()
     {
         hud.PlayerCamera = TpsCamera.GetComponent<Camera>();
-        hud.PlayerController = TPSPlayer.transform; 
+        hud.PlayerController = TPSPlayer.transform;
     }
 
     public async void GetInVehicle()
@@ -76,7 +78,7 @@ public class HHG_GameManager : MonoBehaviour
         HHG_LevelManager.instace.rcc_camera.SetTarget(CurrentCar);
         hud.PlayerCamera = VehicleCamera.GetComponentInChildren<Camera>();
         hud.PlayerController = CurrentCar.transform;
-      
+        MapCanvasController.playerTransform = CurrentCar.transform;
     }
 
     public void SartEngein()
@@ -127,6 +129,7 @@ public class HHG_GameManager : MonoBehaviour
         TpsStatus = PlayerStatus.ThirdPerson;
         hud.PlayerCamera = TpsCamera.GetComponent<Camera>();
         hud.PlayerController = TPSPlayer.transform;
+        MapCanvasController.playerTransform = TPSPlayer.transform;
        
      
     }
@@ -242,9 +245,21 @@ public class HHG_GameManager : MonoBehaviour
     #endregion*/
 
 
-
+    public Camera mainCamera;  
     public void RepairCar()
     {
        CurrentCar.GetComponent<VehicleProperties>().RepairCar();
     }
+
+    public void ResumwTime()
+    {
+        Time.timeScale = 1;
+        mainCamera.gameObject.SetActive(false);
+        HHG_LevelManager.instace.rcc_camera.gameObject.SetActive(true);
+        HHG_UiManager.instance.ShowGamePlay();
+        CurrentCar.GetComponent<VehicleProperties>(). isTimeStopped = false;
+        HHG_UiManager.instance.uiPanel.SetActive(false);
+        
+    }
+    
 }

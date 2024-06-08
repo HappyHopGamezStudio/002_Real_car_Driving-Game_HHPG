@@ -147,14 +147,6 @@ public class RCC_WheelCollider : MonoBehaviour {
 			audioSource.transform.position = transform.position;
 		}
 
-	
-			
-	}
-
-	void Start(){
-
-		allWheelColliders = carController.allWheelColliders.ToList();
-		allWheelColliders.Remove(this);
 		if (!RCC_Settings.Instance.dontUseAnyParticleEffects) {
 
 			for (int i = 0; i < RCC_GroundMaterials.Instance.frictions.Length; i++) {
@@ -170,6 +162,14 @@ public class RCC_WheelCollider : MonoBehaviour {
 			}
 
 		}
+			
+	}
+
+	void Start(){
+
+		allWheelColliders = carController.allWheelColliders.ToList();
+		allWheelColliders.Remove(this);
+		
 
 	}
 

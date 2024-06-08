@@ -11,21 +11,36 @@ using Random = UnityEngine.Random;
 
 public enum  CarNames
 {
-    Policecar1=0,
-    Policecar2=1,
-    Policecar3=2, 
-    Policecar4=3, 
-    Policecar5=4,
-    Policecar6=5,
-    Policecar7=6,
-    Policecar8=7,
-    Policecar9=8,
-    Policecar10=9,
-   
+	Supra_01=0,
+	GT_02=1,
+	NFT_03=2, 
+	NFT_04=3, 
+	Doge_05=4,
+	RR_06=5,
+	Nisan_07=6,
+	Speed_08=7,
+	GV_09=8,
+	Mhri_10=9,
+	CrolaType_11=10,
+	GV_Sexy_12=11,
+	Green3i_13=12,
+	Open_eys_14=13,
+	Paerot_15=14,
+	Etron_16=15,
+	Bugati_Cirun_17=16,
+	Baba_car_18=17,
+	Taxi_Car=18,
+	White_Vagem=19,
+	Green_GVagan=20,
+	Green_Car=21,
+	Blue_Car=22,
+	Ambulance=23,
+	Prado_Car=24,
 }
 
 public class VehicleProperties : MonoBehaviour
 {
+	public CarNames Names;
     public Transform TpsPosition;
     public GameObject ConeEffect;
     public Rigidbody Rb;
@@ -45,10 +60,12 @@ public class VehicleProperties : MonoBehaviour
 		{
 			CarController = GetComponent<RCC_CarControllerV3>();
 		}
-		
+		if (mainCamera == null)
+		{
+			mainCamera = HHG_GameManager.Instance.mainCamera;
+		}
 	
-		currentHealth =  PlayerPrefs.GetFloat("CarHealth", maxHealth);;
-		
+		CarName = Names.ToString();
 	}
 	
 	private void Start()
@@ -62,12 +79,14 @@ public class VehicleProperties : MonoBehaviour
 	public bool TrafficCarAi=false;
 	public async void GetInCarForDrive()
 	{
+		
 		if (FindObjectOfType<HHG_AdsCall>())
 		{
 			FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
 			PrefsManager.SetInterInt(1);
 		}
 		TrafficCarAi = false;
+		currentHealth = PrefsManager.Gethealth(CarName);
 		StopCoroutine(CheckisGrounded());
 		if (CarController.chassis)
 		{
@@ -130,6 +149,8 @@ public class VehicleProperties : MonoBehaviour
 		GetComponent<HHG_CarShadow>().enabled = true; 
 		GetComponent<HHG_CarShadow>().ombrePlane.gameObject.SetActive(true);
 		
+		UpdateHealthText();
+		
 		await Task.Delay(2000);
 		if (AllAudioSource != null)
 		{
@@ -185,6 +206,10 @@ public class VehicleProperties : MonoBehaviour
 		Exuset.SetActive(false);
 		CarController.enabled = false;
 		GetComponent<RCC_CameraConfig>().enabled = false;
+		
+		PrefsManager.Sethealth(CarName,currentHealth);
+		
+		
 		if (GetComponent<TSSimpleCar>())
 		{
 			if (CarController.chassis)
@@ -199,6 +224,9 @@ public class VehicleProperties : MonoBehaviour
 			GetComponent<TSAntiRollBar>().enabled = true;
 			GetComponent<TSTrafficAI>().enabled = true;
 			GetComponent<ChangeWheelTrafficToPlayer>().ChangeToAI();
+			
+			UpdateHealthText();
+			
 			enabled = false;
 		}
 		else if (!TrafficCarAi)
@@ -213,7 +241,7 @@ public class VehicleProperties : MonoBehaviour
 			}
 			else
 			{
-				Debug.Log("Grounded Car is in the Air");
+				Logger.ShowLog("Grounded Car is in the Air");
 				Rb.isKinematic = true;
 				await Task.Delay(500);
 				Rb.isKinematic = false;
@@ -236,9 +264,9 @@ public class VehicleProperties : MonoBehaviour
 
 	public IEnumerator CheckisGrounded()
 	{
-		Debug.Log("Grounded StartDebugging....");
+		Logger.ShowLog("Grounded StartDebugging....");
 		yield return new WaitUntil(() => Grounded);
-		Debug.Log("Grounded is true "+Grounded);
+		Logger.ShowLog("Grounded is true "+Grounded);
 		yield return new WaitForSeconds(1f);
 		Rb.isKinematic = true;
 		enabled = false;
@@ -267,21 +295,12 @@ public class VehicleProperties : MonoBehaviour
 
     }
     
-    
-    string AiCarTag = "TrafficCar";
-    string StuntTag = "Stunt";
-    string FailTag = "Fail";
-    string CallManagerTrue = "Call";
-
-
-
-
 
     public async void OnTriggerEnter(Collider other)
     {
 	    if (TrafficCarAi)
 		    return;
-	    if (other.gameObject.tag == "Coin")
+	    if (other.gameObject.CompareTag(GameConstant.Tag_Coin))
 	    {
 		    HHG_LevelManager.instace.CoinSound.Play();
 		    HHG_UiManager.instance.EffectForcoin.SetActive(true);
@@ -290,6 +309,23 @@ public class VehicleProperties : MonoBehaviour
 		    other.gameObject.SetActive(false);
 		    await Task.Delay(2000);
 		    other.gameObject.SetActive(true);
+	    }
+	    if (other.CompareTag(GameConstant.Tag_ScrrenShot) && !isTimeStopped)
+	    {
+		    if (HHG_LevelManager.instace.Canvas.GetComponent<RCC_DashboardInputs>().KMH >= 80)
+		    {
+			    other.gameObject.SetActive(false);
+			    HHG_UiManager.instance.rewradMoneyText.text = 1000 + "";
+			    HHG_UiManager.instance.SpeedCaputer[0].text=CarController.speed.ToString("00");
+			    HHG_UiManager.instance.SpeedCaputer[1].text=CarController.speed.ToString("00");
+			    StopTimeAndCapture();
+		    }
+		    else
+		    { 
+			    HHG_UiManager.instance.SpeedCaputer[0].text=CarController.speed.ToString("00");
+			    HHG_UiManager.instance.SpeedCaputer[1].text=CarController.speed.ToString("00");
+			    HHG_UiManager.instance.OnspeedCaputer();
+		    }
 	    }
     }
     
@@ -315,13 +351,18 @@ public class VehicleProperties : MonoBehaviour
     public void ApplyDamage(float damage)
     {
 	    currentHealth -= damage;
-	    
+	    UpdateHealthText();
+    }
+
+    public void UpdateHealthText()
+    {
+	    HHG_UiManager.instance.HealthText.text = "" + currentHealth.ToString("F0");
 	    currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 	    HHG_UiManager.instance.FillhealthBar.fillAmount = (float)currentHealth / maxHealth;
-	    
 	    if (currentHealth <= 100)
 	    {
 		    HHG_UiManager.instance.FillhealthBar.color  = colers[0];
+		    HHG_UiManager.instance.Ripairebutton.SetActive(true);
 	    }
 	    if (currentHealth <= 50)
 	    {
@@ -334,29 +375,21 @@ public class VehicleProperties : MonoBehaviour
 	    if (currentHealth <= 30)
 	    {
 		    HHG_UiManager.instance.FillhealthBar.color  = colers[3];
-		    
-		    
 	    }
 	    if (currentHealth <= 0)
 	    {
 		    currentHealth = 0;
 		    DestroyCar();
 	    }
-	    UpdateHealthText();
-	    PlayerPrefs.SetFloat("CarHealth", currentHealth);
-    }
-
-    public void UpdateHealthText()
-    {
-	    HHG_UiManager.instance.HealthText.text = "" + currentHealth.ToString("F0");
+	    
     }
 
     private void DestroyCar()
     {
 	    transform.GetComponent<Rigidbody>().velocity=Vector3.zero; 
-	    transform.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
-	    Instantiate(HHG_LevelManager.instace.destroyedCarPrefab, transform.position, transform.rotation);
-	    transform.gameObject.SetActive(false);
+	    transform.GetComponent<Rigidbody>().angularVelocity=Vector3.zero;
+
+	    CarController.engineRunning = false;
 	    Invoke("onpanel",3f);
     }
 
@@ -364,23 +397,72 @@ public class VehicleProperties : MonoBehaviour
     {
 	    HHG_UiManager.instance.repairPanel.SetActive(true);
     }
+    public string CarName = "";
     public void RepairCar()
     { 
 	    currentHealth = maxHealth;
-	    CarController.repaired = true;
+	    CarController.repairNow = true;
+	    CarController.engineRunning = true;
 	    HHG_UiManager.instance.FillhealthBar.color  = colers[0];
 	    HHG_UiManager.instance.FillhealthBar.fillAmount = 1;
-	    PlayerPrefs.SetFloat("CarHealth", currentHealth); 
+	    PrefsManager.Sethealth(CarName,currentHealth);
+	  //  PlayerPrefs.SetFloat("CarHealth", currentHealth); 
 	    UpdateHealthText();
-	    transform.gameObject.SetActive(true);
-	    Destroy(GameObject.FindWithTag("DestroyedCar"));
 	    HHG_UiManager.instance.repairPanel.SetActive(false);
+	    HHG_UiManager.instance.Ripairebutton.SetActive(false);
     }
 
     #endregion
+
+
+    #region Car Speed Work 
+
     
-    
-    
+
+    private float originalFOV;
+    public bool isTimeStopped = false;
+
+    public Camera mainCamera;
+
+  
+    void StopTimeAndCapture()
+    {
+     
+        HHG_LevelManager.instace.rcc_camera.gameObject.SetActive(false);
+        originalFOV = mainCamera.fieldOfView;
+        HHG_UiManager.instance.HideGamePlay();
+        isTimeStopped = true;
+        mainCamera.gameObject.SetActive(true);
+        // Position the capture camera
+        mainCamera.transform.position = transform.position + transform.forward * 7 + Vector3.up * 2f;
+        mainCamera.transform.LookAt(transform);
+        
+        StartCoroutine(CaptureAndShow());
+        Time.timeScale = 0;
+    }
+
+    System.Collections.IEnumerator CaptureAndShow()
+    {
+       // isTransitioning = true;
+        yield return new WaitForEndOfFrame();
+        RenderTexture rt = new RenderTexture(Screen.width, Screen.height, 24);
+        mainCamera.targetTexture = rt;
+        Texture2D screenShot = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+        mainCamera.Render();
+        RenderTexture.active = rt;
+        screenShot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+        screenShot.Apply();
+        mainCamera.targetTexture = null;
+        RenderTexture.active = null;
+        Destroy(rt);
+        // Show the captured image in the UI
+       HHG_UiManager.instance.capturedImage.sprite = Sprite.Create(screenShot, new Rect(0, 0, screenShot.width, screenShot.height), new Vector2(0.5f, 0.5f));
+       HHG_UiManager.instance.uiPanel.SetActive(true);
+    }
+
+
+
+    #endregion
     
     
     

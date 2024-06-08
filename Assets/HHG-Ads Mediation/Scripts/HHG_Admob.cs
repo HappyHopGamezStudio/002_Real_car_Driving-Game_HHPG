@@ -188,6 +188,7 @@ namespace HHG_Mediation
                 loadBigBannerAD();
                 loadRewardInt();
                 loadRewardVideoAD();
+                
             }
         }
 
@@ -356,12 +357,14 @@ namespace HHG_Mediation
                         if (error != null)
                         {
                             HHG_Logger.HHG_LogEvent("Interstitial ad failed to load an ad with error : " + error);
+                            interstitial_Status = AdsLoadingStatus.NotLoaded;
                             return;
                         }
 
                         if (ad == null)
                         {
                             HHG_Logger.HHG_LogEvent("Unexpected error: Interstitial load event fired with null ad and null error.");
+                            interstitial_Status = AdsLoadingStatus.NotLoaded;
                             return;
                         }
 
@@ -867,7 +870,9 @@ namespace HHG_Mediation
                 NotifyReward = _delegate;
                 HHG_Logger.HHG_LogSender(HHG_AdmobEvents.HHG_ShowRewardedVideo_High_Ecpm);
 
-                if (this.rewardBasedVideo.CanShowAd())
+                if (this.rewardBasedVideo!=null)
+                {
+                    if (this.rewardBasedVideo.CanShowAd())
                 {
 
                     if (HHG_appOpenHandler.Instance)
@@ -881,6 +886,7 @@ namespace HHG_Mediation
                                                 reward.Amount,
                                                 reward.Type));
                     });
+                }       
                 }
             }
             else if (UnityRewarded)

@@ -437,8 +437,11 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 		changingGear = false;
 		PlayerCameraNew = HHG_LevelManager.instace.rcc_camera.GetComponent<RCC_Camera>();
 		NosEffect = PlayerCameraNew.transform.GetChild(0).gameObject;
+		
+		
 	}
 
+	
 
 	public void SetColliderToModel()
 	{
@@ -725,6 +728,7 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 			if (enabled)
 			{
 				GetComponent<VehicleProperties>().ApplyDamage(cos/8);
+				//PrefsManager.Gethealth(CarName,GetComponent<VehicleProperties>().currentHealth);
 			}
 			
 			

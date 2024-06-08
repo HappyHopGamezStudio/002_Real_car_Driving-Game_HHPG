@@ -27,12 +27,33 @@ public class PrefsManager : MonoBehaviour
     public const string CurrentLevel = "CURRENT_LEVEL";
     public const string CurrentPlayer = "CURRENT_PLAYER";
     public const string UnlockedLevel = "UNLOCKED_LEVEL";
-    public const string FuelCapacity = "FuelCapacity";
+    public const string Health = "Health";
     static string TestDrivePlayer = "Testdrive";
     static string NosCount = "NosCount";
     static string LoadInt = "LoadInt";
 
     // Use this for initialization
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public static void Sethealth(string Name,float currentPlayer)
+    {
+        PlayerPrefs.SetFloat(Name+Health, currentPlayer);
+    }
+    public static float Gethealth(string Name)
+    {
+        return PlayerPrefs.GetFloat(Name+Health, 100);
+    }
+
+    
+    
+    
     
     public static int GetInterInt()
     {
@@ -45,14 +66,16 @@ public class PrefsManager : MonoBehaviour
         PlayerPrefs.SetInt(LoadInt, quality);
     }
     
+    /*
     public static void SetFuel(float currentPlayer)
     {
-        PlayerPrefs.SetFloat(FuelCapacity, currentPlayer);
+       // PlayerPrefs.SetFloat(FuelCapacity, currentPlayer);
     }
     public static float GetFuel()
     {
-        return PlayerPrefs.GetFloat(FuelCapacity, 100);
+       // return PlayerPrefs.GetFloat(FuelCapacity, 100);
     }
+    */
 
     public static void SetNosCount(int value)
     {

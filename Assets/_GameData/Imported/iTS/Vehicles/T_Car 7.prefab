@@ -1554,6 +1554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82743c9543ceb864989f5008a18b2f0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Names: 18
   TpsPosition: {fileID: 1578640891357783585}
   ConeEffect: {fileID: 7434505051868441086}
   Rb: {fileID: 0}
@@ -1566,6 +1567,14 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1
+  maxHealth: 100
+  currentHealth: 100
+  colers:
+  - {r: 1, g: 0, b: 0.76862746, a: 1}
+  - {r: 0.99215686, g: 0, b: 0.32941177, a: 1}
+  - {r: 1, g: 0.36862746, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  CarName: 
 --- !u!114 &4639217958930057827
 MonoBehaviour:
   m_ObjectHideFlags: 0

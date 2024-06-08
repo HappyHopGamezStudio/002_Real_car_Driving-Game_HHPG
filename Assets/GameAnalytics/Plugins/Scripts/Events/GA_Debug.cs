@@ -43,7 +43,7 @@ namespace GameAnalyticsSDK.Events
             }
 
             //We only submit exceptions and errors
-            if (GameAnalytics.SettingsGA != null && GameAnalytics.SettingsGA.SubmitErrors && _errorCount < MaxErrorCount && type != LogType.Log)
+            if (GameAnalytics.SettingsGA != null && GameAnalytics.SettingsGA.SubmitErrors && _errorCount < MaxErrorCount && type != LogType.Log && type != LogType.Warning)
             {
                 if (string.IsNullOrEmpty (stackTrace)) {
                     stackTrace = "";

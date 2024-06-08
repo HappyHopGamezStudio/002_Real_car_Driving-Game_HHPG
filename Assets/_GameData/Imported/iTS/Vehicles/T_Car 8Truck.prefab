@@ -8972,6 +8972,13 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1
+  maxHealth: 100
+  currentHealth: 100
+  colers:
+  - {r: 1, g: 0, b: 0.76862746, a: 1}
+  - {r: 0.99215686, g: 0, b: 0.32941177, a: 1}
+  - {r: 1, g: 0.36862746, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &3945582913041625578
 MonoBehaviour:
   m_ObjectHideFlags: 0
