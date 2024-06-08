@@ -12,6 +12,7 @@ TagManager:
   - DriftOK
   - TrafficCar
   - RigidKine
+  - DestroyedCar
   layers:
   - Default
   - TransparentFX

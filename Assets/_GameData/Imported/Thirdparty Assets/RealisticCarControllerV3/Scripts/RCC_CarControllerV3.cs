@@ -225,7 +225,8 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 	
 	private float minimumVertDistanceForDamagedMesh = .002f;		// Comparing Original Vertex Positions Between Last Vertex Positions To Decide Mesh Is Repaired Or Not.
 
-	[HideInInspector]public bool repaired = true;		// Returns true if vehicle is repaired.
+	[HideInInspector]
+	public bool repaired = true;		// Returns true if vehicle is repaired.
 	
 	public float maximumDamage = .5f;		// Maximum Vert Distance For Limiting Damage. 0 Value Will Disable The Limit.
 	private float minimumCollisionForce = 5f;		// Minimum collision force.
@@ -309,6 +310,9 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 
 		rigid = GetComponent<Rigidbody>();
 		carPhysics = GetComponent<DriftPhysics>();
+		
+
+		
 		rigid.maxAngularVelocity = RCCSettings.maxAngularVelocity;
 		rigid.drag = .05f;
 		rigid.angularDrag = .25f;
@@ -633,6 +637,7 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 
 	void DamageInit (){
 
+		
 		if (deformableMeshFilters.Length == 0){
 
 			MeshFilter[] allMeshFilters = GetComponentsInChildren<MeshFilter>();
@@ -673,17 +678,21 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 
 	}
 
+
 	void Damage(){
 
 		if (!repaired && repairNow){
 			
 			int k;
 			repaired = true;
-
+			
 			for(k = 0; k < deformableMeshFilters.Length; k++){
 
 				Vector3[] vertices = deformableMeshFilters[k].mesh.vertices;
 
+				
+				
+				
 				if(originalMeshData==null)
 					LoadOriginalMeshData();
 
@@ -713,6 +722,11 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 		Vector3[] vertices = mesh.vertices;
 		
 		foreach (ContactPoint contact in collision.contacts){
+			if (enabled)
+			{
+				GetComponent<VehicleProperties>().ApplyDamage(cos/8);
+			}
+			
 			
 			Vector3 point = meshTransform.InverseTransformPoint(contact.point);
 			 
@@ -726,7 +740,7 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 				}
 					
 			}
-			
+		
 		}
 		
 		mesh.vertices = vertices;
@@ -745,6 +759,8 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 				contactSparkeList[i].transform.position = contactPoint;
 				ParticleSystem.EmissionModule em = contactSparkeList[i].emission;
 				em.enabled = true;
+				
+				
 				contactSparkeList[i].Play(); 
 			}
 	}
@@ -1637,26 +1653,24 @@ public	void ResetCarFrombutton (){
 }
 
 
-
 	void OnCollisionEnter (Collision collision){
 
-
+		
 		if (HHG_GameManager.Instance.TpsStatus == PlayerStatus.ThirdPerson)
 		{
 			return;
 		}
 		
-
-		
-		
 		if (collision.contacts.Length < 1 || collision.relativeVelocity.magnitude < minimumCollisionForce)
 			return;
-
-			if(crashClips.Length > 0){
-				if (collision.contacts[0].thisCollider.gameObject.transform != transform.parent){
-					crashSound = RCC_CreateAudioSource.NewAudioSource(gameObject, "Crash Sound AudioSource", 5, 20, RCCSettings.maxCrashSoundVolume, crashClips[UnityEngine.Random.Range(0, crashClips.Length)], false, true, true);
-				if(!crashSound.isPlaying)
-					if (HHG_GameManager.Instance.TpsStatus==PlayerStatus.CarDriving)
+		if(crashClips.Length > 0){
+			if (collision.contacts[0].thisCollider.gameObject.transform != transform.parent)
+			{
+				crashSound = RCC_CreateAudioSource.NewAudioSource(gameObject, "Crash Sound AudioSource", 5, 20,
+					RCCSettings.maxCrashSoundVolume, crashClips[UnityEngine.Random.Range(0, crashClips.Length)], false,
+					true, true);
+				if (!crashSound.isPlaying)
+					if (HHG_GameManager.Instance.TpsStatus == PlayerStatus.CarDriving)
 					{
 						crashSound.Play();
 					}
@@ -1664,11 +1678,12 @@ public	void ResetCarFrombutton (){
 					{
 						return;
 					}
-				}
 			}
+		}
 
 		if(useDamage)
 		{
+			
 			CollisionParticles(collision.contacts[0].point);
 			Vector3 colRelVel = collision.relativeVelocity;
 			colRelVel *= 1f - Mathf.Abs(Vector3.Dot(transform.up,collision.contacts[0].normal));

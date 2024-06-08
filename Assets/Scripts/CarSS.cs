@@ -8,14 +8,13 @@ public class CarSS : MonoBehaviour
 
     private float originalFOV;
     private bool isTimeStopped = false;
-    public float transitionSpeed = 0.4f;
-    public bool isTransitioning = false;
-
-    int reward;
-    private void OnEnable()
+    public float transitionSpeed = 0.1f;
+   // public bool isTransitioning = false;
+    
+    private void Awake()
     {
-        reward = HHG_LevelManager.instace.Reward[PrefsManager.GetPlayer()];
-        PrefsManager.SetCoinsValue(PrefsManager.GetCoinsValue() + reward + (HHG_LevelManager.instace.coinsCounter));
+       // reward = HHG_LevelManager.instace.Reward[PrefsManager.GetSelectedPlayerValue()];
+       // PrefsManager.SetCoinsValue(PrefsManager.GetCoinsValue() + reward + (HHG_LevelManager.instace.coinsCounter));
     }
 
     void Start()
@@ -32,7 +31,7 @@ public class CarSS : MonoBehaviour
             if (HHG_LevelManager.instace.Canvas.GetComponent<RCC_DashboardInputs>().KMH >= 80)
             {
                 other.gameObject.SetActive(false);
-                HHG_UiManager.instance.rewradMoneyText.text = reward + "";
+                HHG_UiManager.instance.rewradMoneyText.text = 1000 + "";
                 HHG_UiManager.instance.SpeedCaputer[0].text=HHG_GameManager.Instance.CurrentCar.GetComponent<RCC_CarControllerV3>().speed.ToString("00");
                 HHG_UiManager.instance.SpeedCaputer[1].text=HHG_GameManager.Instance.CurrentCar.GetComponent<RCC_CarControllerV3>().speed.ToString("00");
                 StopTimeAndCapture();
@@ -48,7 +47,8 @@ public class CarSS : MonoBehaviour
 
     void StopTimeAndCapture()
     {
-        isTransitioning = true;
+     
+        HHG_LevelManager.instace.rcc_camera.gameObject.SetActive(false);
         originalFOV = mainCamera.fieldOfView;
         HHG_UiManager.instance.HideGamePlay();
         isTimeStopped = true;
@@ -63,6 +63,7 @@ public class CarSS : MonoBehaviour
 
     System.Collections.IEnumerator CaptureAndShow()
     {
+       // isTransitioning = true;
         yield return new WaitForEndOfFrame();
         RenderTexture rt = new RenderTexture(Screen.width, Screen.height, 24);
         mainCamera.targetTexture = rt;
@@ -84,17 +85,18 @@ public class CarSS : MonoBehaviour
         Time.timeScale = 1;
         mainCamera.fieldOfView = originalFOV;
         mainCamera.gameObject.SetActive(false);
+        HHG_LevelManager.instace.rcc_camera.gameObject.SetActive(true);
         HHG_UiManager.instance.ShowGamePlay();
         isTimeStopped = false;
-        isTransitioning = false;
+       // isTransitioning = false;
         HHG_UiManager.instance.uiPanel.SetActive(false);
     }
     
-    void Update()
+    /*void Update()
     {
         if (isTransitioning)
         {
-            mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, 65, Time.unscaledDeltaTime * transitionSpeed);
+            mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, 65,  Time.unscaledDeltaTime * transitionSpeed);
         }
-    }
+    }*/
 }

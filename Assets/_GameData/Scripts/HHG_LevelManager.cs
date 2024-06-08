@@ -24,7 +24,8 @@ public class HHG_LevelManager : MonoBehaviour
    public GameObject TpsPlayer;
    public DriftCanvasManager driftCanvasManagerNow;
 
-
+   public GameObject destroyedCarPrefab;
+  
    public AudioSource CoinSound;
    
     void Awake()

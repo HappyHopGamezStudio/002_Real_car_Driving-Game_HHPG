@@ -45,11 +45,16 @@ public class VehicleProperties : MonoBehaviour
 		{
 			CarController = GetComponent<RCC_CarControllerV3>();
 		}
+		
+	
+		currentHealth =  PlayerPrefs.GetFloat("CarHealth", maxHealth);;
+		
 	}
 	
 	private void Start()
 	{
 		AllAudioSource = transform.Find("All Audio Sources").gameObject;
+		
 	}
 
 	
@@ -287,24 +292,113 @@ public class VehicleProperties : MonoBehaviour
 		    other.gameObject.SetActive(true);
 	    }
     }
-
- 
-    /*string AiCarTage = "AiCar";
-
-    public void OnCollisionStay(Collision collision)
-    {
-
-        if (collision.gameObject.tag == AiCarTage)
-        {
-            if (collision.gameObject.GetComponentInParent<DamagManager>())
-            {
-               collision.gameObject.GetComponentInParent<DamagManager>().Damage(Time.timeScale / 1.2f);
-            }
-        }
-    }*/
+    
 
     public void OffCoinsEffect()
     {
 	    HHG_UiManager.instance.EffectForcoin.SetActive(false);
     }
+
+
+
+    #region HeallthWork
+    
+    
+    public float maxHealth = 100f;
+    public float currentHealth;
+
+
+
+
+    public Color[] colers;
+
+    public void ApplyDamage(float damage)
+    {
+	    currentHealth -= damage;
+	    
+	    currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+	    HHG_UiManager.instance.FillhealthBar.fillAmount = (float)currentHealth / maxHealth;
+	    
+	    if (currentHealth <= 100)
+	    {
+		    HHG_UiManager.instance.FillhealthBar.color  = colers[0];
+	    }
+	    if (currentHealth <= 50)
+	    {
+		    HHG_UiManager.instance.FillhealthBar.color  = colers[1];
+	    }
+	    if (currentHealth <= 40)
+	    {
+		    HHG_UiManager.instance.FillhealthBar.color  = colers[2];
+	    }
+	    if (currentHealth <= 30)
+	    {
+		    HHG_UiManager.instance.FillhealthBar.color  = colers[3];
+		    
+		    
+	    }
+	    if (currentHealth <= 0)
+	    {
+		    currentHealth = 0;
+		    DestroyCar();
+	    }
+	    UpdateHealthText();
+	    PlayerPrefs.SetFloat("CarHealth", currentHealth);
+    }
+
+    public void UpdateHealthText()
+    {
+	    HHG_UiManager.instance.HealthText.text = "" + currentHealth.ToString("F0");
+    }
+
+    private void DestroyCar()
+    {
+	    transform.GetComponent<Rigidbody>().velocity=Vector3.zero; 
+	    transform.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
+	    Instantiate(HHG_LevelManager.instace.destroyedCarPrefab, transform.position, transform.rotation);
+	    transform.gameObject.SetActive(false);
+	    Invoke("onpanel",3f);
+    }
+
+    public void onpanel()
+    {
+	    HHG_UiManager.instance.repairPanel.SetActive(true);
+    }
+    public void RepairCar()
+    { 
+	    currentHealth = maxHealth;
+	    CarController.repaired = true;
+	    HHG_UiManager.instance.FillhealthBar.color  = colers[0];
+	    HHG_UiManager.instance.FillhealthBar.fillAmount = 1;
+	    PlayerPrefs.SetFloat("CarHealth", currentHealth); 
+	    UpdateHealthText();
+	    transform.gameObject.SetActive(true);
+	    Destroy(GameObject.FindWithTag("DestroyedCar"));
+	    HHG_UiManager.instance.repairPanel.SetActive(false);
+    }
+
+    #endregion
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

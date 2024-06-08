@@ -77,6 +77,7 @@ public class MapCanvasController : MonoBehaviour
      * and vice versa
      */
     public bool rotateMap = false;
+    public bool RotateinZ = false;
 
     /* Sets the scale of the radaDistance and maxRadarDistance
      */
@@ -160,14 +161,20 @@ public class MapCanvasController : MonoBehaviour
         }
 		miniMapCam.position = new Vector3 (playerTransform.position.x,miniMapCam.position.y,playerTransform.position.z);
         
-		if (rotateMap)
+        if (rotateMap)
         {
-            mapRect.GetChild(1).rotation = Quaternion.Euler(new Vector3(0, 0, playerTransform.eulerAngles.y));
+            if(RotateinZ)
+                mapRect.rotation = Quaternion.Euler(new Vector3(0,  playerTransform.eulerAngles.z, 0));
+            else
+                mapRect.rotation = Quaternion.Euler(new Vector3(0, 0, playerTransform.eulerAngles.y));
             mapArrow.rotate(Quaternion.identity);
         }
         else
         {
-            mapArrow.rotate(Quaternion.Euler(new Vector3(0, 0, -playerTransform.eulerAngles.y)));
+            if(RotateinZ)
+                mapArrow.rotate(Quaternion.Euler(new Vector3(0,  -playerTransform.eulerAngles.z,0)));
+            else
+                mapArrow.rotate(Quaternion.Euler(new Vector3(0, 0, -playerTransform.eulerAngles.y)));
         }
     }
 

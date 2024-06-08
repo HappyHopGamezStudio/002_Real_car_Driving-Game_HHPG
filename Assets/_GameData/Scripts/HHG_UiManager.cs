@@ -29,6 +29,11 @@ public class HHG_UiManager : MonoBehaviour
     public GameObject musicbuttonON, musicebuttonOff, SounButtonON, SoundButtonOFF;
     
     
+    [Header("health WORK")] 
+    public Text HealthText;
+    public GameObject repairPanel;
+    public Image FillhealthBar;
+    
     
     [Header("SS WORK")]
     public GameObject uiPanel;    // The UI Panel to show the captured picture
@@ -44,7 +49,8 @@ public class HHG_UiManager : MonoBehaviour
         instance = this;
         HHG_SoundManager.Instance.PlayAudio(HHG_SoundManager.Instance.BgSound);
         Time.timeScale = 1f;
-        
+        HHG_LevelManager.instace.SelectedPlayer.GetComponent<VehicleProperties>().UpdateHealthText();
+        FillhealthBar.color  = HHG_LevelManager.instace.SelectedPlayer.GetComponent<VehicleProperties>().colers[0];
     }
 
     public void OnspeedCaputer()

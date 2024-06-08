@@ -240,4 +240,11 @@ public class HHG_GameManager : MonoBehaviour
     }
     
     #endregion*/
+
+
+
+    public void RepairCar()
+    {
+       CurrentCar.GetComponent<VehicleProperties>().RepairCar();
+    }
 }
