@@ -63,6 +63,7 @@ public class HHG_LevelManager : MonoBehaviour
         SelectedPlayer.SetActive(true);
         
         SelectedPlayer.GetComponent<RCC_CarControllerV3>().KillOrStartEngine();
+        SelectedPlayer.GetComponent<Rigidbody>().isKinematic=false;
         SelectedPlayer.GetComponent<VehicleProperties>().ConeEffect.SetActive(false);
     }
     public void SetTransform(Transform playerposition, Transform defulcar)

@@ -240,14 +240,14 @@ public class CameraRotate : MonoBehaviour
 			    }
 		    }
 	    }
-	    if (!isPanelOn)
+	    /*if (!isPanelOn)
 	    {
 		    timer -= Time.deltaTime;
 		    if (timer <= 0f)
 		    {
 			    onanimater();
 		    }
-	    }
+	    }*/
     }
     public  void ResetTimer()
     {
@@ -264,10 +264,10 @@ public class CameraRotate : MonoBehaviour
 
     private void onanimater()
     {
-	    GetComponent<Animator>().enabled = true;
+	    //GetComponent<Animator>().enabled = true;
     }
     public void OFFanimater()
     {
-	    GetComponent<Animator>().enabled = false;
+	   // GetComponent<Animator>().enabled = false;
     }
 }
