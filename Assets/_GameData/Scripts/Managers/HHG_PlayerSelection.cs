@@ -53,7 +53,7 @@ public class HHG_PlayerSelection : MonoBehaviour
 
     private float savedValue;
 
-    public ParticleSystem EffectinGrage;
+    public ParticleSystem []EffectinGrage;
 
     public Color[] effectcolers;
     
@@ -86,7 +86,11 @@ public class HHG_PlayerSelection : MonoBehaviour
             selectedPlayerValue++;
             ShowPlayerNow(selectedPlayerValue);
             CutSceanCamera.GetComponent<LookAtTargetSetter>().SetTarget(CurrentPlayer);
-            EffectinGrage.startColor = effectcolers[selectedPlayerValue];
+            foreach (var Effect in EffectinGrage)
+            {
+                Effect.startColor = effectcolers[selectedPlayerValue];
+            }
+          
             
             MainCamera.GetComponent<CameraRotate>().ResetTimer();
            // EffectinGrage.Play();
@@ -101,7 +105,10 @@ public class HHG_PlayerSelection : MonoBehaviour
             selectedPlayerValue--;
             ShowPlayerNow(selectedPlayerValue);
             CutSceanCamera.GetComponent<LookAtTargetSetter>().SetTarget(CurrentPlayer);
-            EffectinGrage.startColor = effectcolers[selectedPlayerValue];
+            foreach (var Effect in EffectinGrage)
+            {
+                Effect.startColor = effectcolers[selectedPlayerValue];
+            }
           
             MainCamera.GetComponent<CameraRotate>().ResetTimer();
            // EffectinGrage.Play();

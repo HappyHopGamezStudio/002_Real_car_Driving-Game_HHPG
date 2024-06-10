@@ -47,8 +47,8 @@ public class VehicleProperties : MonoBehaviour
     [FormerlySerializedAs("controller")] public RCC_CarControllerV3 CarController;
     public GameObject Exuset;
     public GameObject AllAudioSource;
-    
-    
+
+    public GameObject Fire;
 	private void Awake()
 	{
 		if (Rb==null)
@@ -303,9 +303,9 @@ public class VehicleProperties : MonoBehaviour
 	    if (other.gameObject.CompareTag(GameConstant.Tag_Coin))
 	    {
 		    HHG_LevelManager.instace.CoinSound.Play();
-		    HHG_UiManager.instance.EffectForcoin.SetActive(true);
+		  //  HHG_UiManager.instance.EffectForcoin.SetActive(true);
 		    Invoke("OffCoinsEffect", 3f);
-		    PrefsManager.SetCoinsValue(PrefsManager.GetCoinsValue() + 10);
+		    PrefsManager.SetJEMValue(PrefsManager.GetJEMValue() + 1);
 		    other.gameObject.SetActive(false);
 		    await Task.Delay(2000);
 		    other.gameObject.SetActive(true);
@@ -332,7 +332,7 @@ public class VehicleProperties : MonoBehaviour
 
     public void OffCoinsEffect()
     {
-	    HHG_UiManager.instance.EffectForcoin.SetActive(false);
+	   // HHG_UiManager.instance.EffectForcoin.SetActive(false);
     }
 
 
@@ -363,22 +363,27 @@ public class VehicleProperties : MonoBehaviour
 	    {
 		    HHG_UiManager.instance.FillhealthBar.color  = colers[0];
 		    HHG_UiManager.instance.Ripairebutton.SetActive(true);
+		    Fire.SetActive(false);
 	    }
 	    if (currentHealth <= 50)
 	    {
 		    HHG_UiManager.instance.FillhealthBar.color  = colers[1];
+		    Fire.SetActive(false);
 	    }
 	    if (currentHealth <= 40)
 	    {
 		    HHG_UiManager.instance.FillhealthBar.color  = colers[2];
+		    Fire.SetActive(false);
 	    }
 	    if (currentHealth <= 30)
 	    {
 		    HHG_UiManager.instance.FillhealthBar.color  = colers[3];
+		    Fire.SetActive(true);
 	    }
 	    if (currentHealth <= 0)
 	    {
 		    currentHealth = 0;
+		    Fire.SetActive(true);
 		    DestroyCar();
 	    }
 	    
@@ -402,6 +407,7 @@ public class VehicleProperties : MonoBehaviour
     { 
 	    currentHealth = maxHealth;
 	    CarController.repairNow = true;
+	    Fire.SetActive(false);
 	    CarController.engineRunning = true;
 	    HHG_UiManager.instance.FillhealthBar.color  = colers[0];
 	    HHG_UiManager.instance.FillhealthBar.fillAmount = 1;
@@ -459,28 +465,8 @@ public class VehicleProperties : MonoBehaviour
        HHG_UiManager.instance.capturedImage.sprite = Sprite.Create(screenShot, new Rect(0, 0, screenShot.width, screenShot.height), new Vector2(0.5f, 0.5f));
        HHG_UiManager.instance.uiPanel.SetActive(true);
     }
-
-
+    
 
     #endregion
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

@@ -12,7 +12,7 @@ public class HHG_LevelManager : MonoBehaviour
     public int[] Reward;
     [FormerlySerializedAs("CurrentLevelProperties")] public HHG_LevelProperties currentHhgLevelProperties;
     public DrawMapPath mapPath;
-    public GameObject SelectedPlayer,FreeMode,coinBar;
+    public GameObject SelectedPlayer,FreeMode,coinBar,JemBar;
     public static HHG_LevelManager instace;
     public LineRenderer Line;
     public int CurrentLevel, coinsCounter;
@@ -24,6 +24,10 @@ public class HHG_LevelManager : MonoBehaviour
    public GameObject TpsPlayer;
    public DriftCanvasManager driftCanvasManagerNow;
 
+   public Vector3 LastPosition;
+   public Quaternion LastRotion;
+   
+   
    public GameObject destroyedCarPrefab;
   
    public AudioSource CoinSound;
@@ -31,7 +35,7 @@ public class HHG_LevelManager : MonoBehaviour
     void Awake()
     {
         instace = this;
-       
+
         if (PrefsManager.GetGameMode() != "free")
         {
             if (PrefsManager.GetLevelMode() == 0)
@@ -48,8 +52,11 @@ public class HHG_LevelManager : MonoBehaviour
         {
             Time.timeScale = 1; 
             FreeMode.SetActive(true);
-            coinBar.GetComponentInChildren<Text>().text = "" + PrefsManager.GetCoinsValue();
-            coinBar.SetActive(true);
+          //  coinBar.GetComponentInChildren<Text>().text = "" + PrefsManager.GetCoinsValue();
+            JemBar.GetComponentInChildren<Text>().text = "" + PrefsManager.GetJEMValue();
+            
+          //  coinBar.SetActive(true);
+            JemBar.SetActive(true);
             SelectedPlayer = Players[PrefsManager.GetSelectedPlayerValue()];
             SetTransform(hhgOpenWorldManager.TpsPosition, hhgOpenWorldManager.CarPostiom);
         }

@@ -231,6 +231,10 @@ public class DriftPhysics : MonoBehaviour
 				{
 					thisRigidbody.velocity = currentVel;
 					thisRigidbody.angularVelocity = currentVelAngle;
+					driftCanvasManager.DriftpointBar123.GetComponent<Animator>().Play("OffBar");
+					driftCanvasManager.DriftpointBar.GetComponent<Animator>().Play("OffBar");
+					driftCanvasManager.DriftfactorBar.GetComponent<Animator>().Play("OffDriftFacter");
+					driftCanvasManager.DriftpointBar.GetComponent<Animator>().Play("OffBare");
 
 				}
 			}

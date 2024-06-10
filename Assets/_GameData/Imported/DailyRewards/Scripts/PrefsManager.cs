@@ -8,6 +8,7 @@ public class PrefsManager : MonoBehaviour
 	public const string selectedPlayer = "SELECTEDPlayer";
     public const string selectedPlayerDirt = "SELECTEDPlayerDirt";
     public const string coinsEarned = "COINSEARNED";
+    public const string JEMS = "JEMS";
     public const string ShowAds = "ShowAds";
     public const string Sounds = "sounds";
     public const string Music = "Music";
@@ -358,6 +359,15 @@ public class PrefsManager : MonoBehaviour
 	{
 		PlayerPrefs.SetInt (coinsEarned, coinsValue);
 	}
+    public static int GetJEMValue ()
+    {
+        return PlayerPrefs.GetInt (JEMS, 0);
+    }
+
+    public static void SetJEMValue (int coinsValue)
+    {
+        PlayerPrefs.SetInt (JEMS, coinsValue);
+    }
 
 
     public static bool isTestDrive = false;

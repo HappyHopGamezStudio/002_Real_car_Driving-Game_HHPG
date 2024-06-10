@@ -16,7 +16,7 @@ public class HHG_UiManager : MonoBehaviour
     public static HHG_UiManager instance;
     public int TotalLevels;
     public Image fuelBar;
-    public GameObject EffectForcoin,blankimage;
+    public GameObject /*EffectForcoin*/blankimage;
     public Image []NosFiller;
     public GameObject []NosButton; 
     public Text []NosCountText;

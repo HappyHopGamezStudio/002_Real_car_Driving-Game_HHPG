@@ -727,7 +727,7 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 		foreach (ContactPoint contact in collision.contacts){
 			if (enabled)
 			{
-				GetComponent<VehicleProperties>().ApplyDamage(cos/8);
+				GetComponent<VehicleProperties>().ApplyDamage(cos/5);
 				//PrefsManager.Gethealth(CarName,GetComponent<VehicleProperties>().currentHealth);
 			}
 			
