@@ -306,13 +306,14 @@ public class VehicleProperties : MonoBehaviour
 		  //  HHG_UiManager.instance.EffectForcoin.SetActive(true);
 		    Invoke("OffCoinsEffect", 3f);
 		    PrefsManager.SetJEMValue(PrefsManager.GetJEMValue() + 1);
+		    HHG_LevelManager.instace.JemBar.GetComponentInChildren<Text>().text = PrefsManager.GetJEMValue().ToString();
 		    other.gameObject.SetActive(false);
 		    await Task.Delay(2000);
 		    other.gameObject.SetActive(true);
 	    }
 	    if (other.CompareTag(GameConstant.Tag_ScrrenShot) && !isTimeStopped)
 	    {
-		    if (HHG_LevelManager.instace.Canvas.GetComponent<RCC_DashboardInputs>().KMH >= 80)
+		    if (HHG_LevelManager.instace.Canvas.GetComponent<RCC_DashboardInputs>().KMH >= other.GetComponent<speedcheck>().meterspeed)
 		    {
 			    other.gameObject.SetActive(false);
 			    HHG_UiManager.instance.rewradMoneyText.text = 1000 + "";
@@ -401,16 +402,20 @@ public class VehicleProperties : MonoBehaviour
     public void onpanel()
     {
 	    HHG_UiManager.instance.repairPanel.SetActive(true);
+	    HHG_UiManager.instance.HideGamePlay();
     }
     public string CarName = "";
     public void RepairCar()
     { 
 	    currentHealth = maxHealth;
 	    CarController.repairNow = true;
+	    PrefsManager.SetJEMValue(PrefsManager.GetJEMValue() - 1000);
+	    HHG_LevelManager.instace.coinBar.GetComponentInChildren<Text>().text = PrefsManager.GetCoinsValue().ToString();
 	    Fire.SetActive(false);
 	    CarController.engineRunning = true;
 	    HHG_UiManager.instance.FillhealthBar.color  = colers[0];
 	    HHG_UiManager.instance.FillhealthBar.fillAmount = 1;
+	    HHG_UiManager.instance.ShowGamePlay();
 	    PrefsManager.Sethealth(CarName,currentHealth);
 	  //  PlayerPrefs.SetFloat("CarHealth", currentHealth); 
 	    UpdateHealthText();
@@ -469,4 +474,5 @@ public class VehicleProperties : MonoBehaviour
 
     #endregion
 
+    
 }

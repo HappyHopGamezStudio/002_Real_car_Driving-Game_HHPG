@@ -1316,6 +1316,7 @@ MonoBehaviour:
   CarController: {fileID: 0}
   Exuset: {fileID: 4046766978589706851}
   AllAudioSource: {fileID: 0}
+  Fire: {fileID: 0}
   TrafficCarAi: 1
   Grounded: 0
   groundCheckDistance: 1.1
@@ -1373,7 +1374,7 @@ MonoBehaviour:
   ombrePlane: {fileID: 4414563027850168157}
   layerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 449
 --- !u!1 &2785725023102935088
 GameObject:
   m_ObjectHideFlags: 0
@@ -6727,7 +6728,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4533524380672028478}
   m_LocalRotation: {x: 2.6810291e-15, y: -0, z: 2.3432663e-15, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.073, z: -0}
   m_LocalScale: {x: 0.79999995, y: 0.79999995, z: 0.79999995}
   m_Children:
   - {fileID: 4533524380936714384}
@@ -7337,7 +7338,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4533524381246558860}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.015, z: 0}
+  m_LocalPosition: {x: 0, y: -0.058, z: 0}
   m_LocalScale: {x: 0.79999995, y: 0.79999995, z: 0.79999995}
   m_Children:
   - {fileID: 4533524381150421052}

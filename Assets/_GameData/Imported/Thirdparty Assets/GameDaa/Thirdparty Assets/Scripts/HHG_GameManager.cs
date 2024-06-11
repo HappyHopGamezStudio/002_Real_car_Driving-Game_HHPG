@@ -37,6 +37,8 @@ public class HHG_GameManager : MonoBehaviour
     public HUDNavigationSystem hud;
 
     public MapCanvasController MapCanvasController;
+ 
+  
     private void Awake()
     {
         Instance = this;
@@ -250,7 +252,6 @@ public class HHG_GameManager : MonoBehaviour
     {
        CurrentCar.GetComponent<VehicleProperties>().RepairCar();
     }
-
     public void ResumwTime()
     {
         Time.timeScale = 1;

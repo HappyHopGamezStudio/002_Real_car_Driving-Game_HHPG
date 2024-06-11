@@ -11,7 +11,7 @@ public static class GameConstant
     public static readonly  string Tag_CallManagerTrue = "Call";
     public static readonly  string Tag_Coin = "Coin";
     public static readonly  string Tag_ScrrenShot = "SS";
-    
+
     public static readonly  int Layer_Default = LayerMask.NameToLayer("Default");
     
     

@@ -7618,6 +7618,7 @@ MonoBehaviour:
   CarController: {fileID: 0}
   Exuset: {fileID: 5637113627966563295}
   AllAudioSource: {fileID: 0}
+  Fire: {fileID: 0}
   TrafficCarAi: 1
   Grounded: 0
   groundCheckDistance: 1.1
@@ -7632,6 +7633,8 @@ MonoBehaviour:
   - {r: 1, g: 0.36862746, b: 0, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
   CarName: 
+  isTimeStopped: 0
+  mainCamera: {fileID: 0}
 --- !u!114 &7599391341002440770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7673,7 +7676,7 @@ MonoBehaviour:
   ombrePlane: {fileID: 4233737727761521274}
   layerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 449
 --- !u!1 &4395464346030876621
 GameObject:
   m_ObjectHideFlags: 0

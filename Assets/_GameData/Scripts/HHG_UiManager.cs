@@ -58,7 +58,8 @@ public class HHG_UiManager : MonoBehaviour
     public void OnspeedCaputer()
     {
         ToSlowPanel.SetActive(true);
-        Invoke("OFFspeedCaputer",3f);
+        ToSlowPanel.GetComponent<Animator>().Play("SpeedChacker");
+        Invoke("OFFspeedCaputer",3.5f);
     }
     public void OFFspeedCaputer()
     {

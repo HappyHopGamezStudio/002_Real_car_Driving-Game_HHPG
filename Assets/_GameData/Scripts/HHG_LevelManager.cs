@@ -52,10 +52,9 @@ public class HHG_LevelManager : MonoBehaviour
         {
             Time.timeScale = 1; 
             FreeMode.SetActive(true);
-          //  coinBar.GetComponentInChildren<Text>().text = "" + PrefsManager.GetCoinsValue();
+            coinBar.GetComponentInChildren<Text>().text = "" + PrefsManager.GetCoinsValue();
             JemBar.GetComponentInChildren<Text>().text = "" + PrefsManager.GetJEMValue();
-            
-          //  coinBar.SetActive(true);
+            coinBar.SetActive(true);
             JemBar.SetActive(true);
             SelectedPlayer = Players[PrefsManager.GetSelectedPlayerValue()];
             SetTransform(hhgOpenWorldManager.TpsPosition, hhgOpenWorldManager.CarPostiom);
@@ -64,6 +63,7 @@ public class HHG_LevelManager : MonoBehaviour
         
         SelectedPlayer.GetComponent<RCC_CarControllerV3>().KillOrStartEngine();
         SelectedPlayer.GetComponent<Rigidbody>().isKinematic=false;
+        SelectedPlayer.GetComponent<HHG_CarShadow>().enabled=true;
         SelectedPlayer.GetComponent<VehicleProperties>().ConeEffect.SetActive(false);
     }
     public void SetTransform(Transform playerposition, Transform defulcar)
