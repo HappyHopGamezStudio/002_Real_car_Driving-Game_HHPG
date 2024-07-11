@@ -190,24 +190,13 @@ public class HHG_UiManager : MonoBehaviour
         GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<AudioSource> ().enabled = false;
         PrefsManager.SetMusic(0);
     }
-    private void Update()
-    {
 
-        if (volume_value != null)
-        {
-            volume_value.onValueChanged.AddListener(SettingVolume);
-            SettingVolume(volume_value.value);
-        }
-    }
 
-    public  void SettingVolume(float value)
+    public  void SettingVolume(Slider volumeSlider)
     {
-        // Calculate the percentage
-        int percentage = Mathf.RoundToInt(value * 100);
-        
-        // Update the text
-        PercentageText.text = percentage + "%";
-        PrefsManager.SetSound(volume_value.value);
+      PercentageText.text = volumeSlider.value + "%";
+      PrefsManager.SetSound(volume_value.value);
+      AudioListener.volume = volumeSlider.value / 100; 
     }
     public void FillFuelbar(float fillAmount) {
         fuelBar.fillAmount = fillAmount;

@@ -179,16 +179,12 @@ public class HHG_MainMenu : MonoBehaviour
 
 
 
+
+
     private void Update()
     {
         CoinText.text = PrefsManager.GetCoinsValue().ToString();
-        CoinOnSpin.text = PrefsManager.GetCoinsValue().ToString();
-        
-        if (volume_value != null)
-        {
-            volume_value.onValueChanged.AddListener(SettingVolume);
-            SettingVolume(volume_value.value);
-        }
+        CoinOnSpin.text = PrefsManager.GetCoinsValue().ToString();      
     }
 
     /// <summary>
@@ -269,15 +265,12 @@ public class HHG_MainMenu : MonoBehaviour
         HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
        // UnlockModes();
     }
-    
-  public  void SettingVolume(float value)
+
+    public void SettingVolume(Slider volumeSlider)
     {
-        // Calculate the percentage
-        int percentage = Mathf.RoundToInt(value * 100);
-        
-        // Update the text
-        PercentageText.text = percentage + "%";
+        PercentageText.text = volumeSlider.value + "%";
         PrefsManager.SetSound(volume_value.value);
+        AudioListener.volume = volumeSlider.value / 100;
     }
 
     public void ClickSound() {
