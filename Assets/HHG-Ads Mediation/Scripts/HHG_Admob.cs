@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using GameAnalyticsSDK;
 using UnityEngine;
 using UnityEngine.Advertisements;
+using ToastPlugin;
 
 namespace HHG_Mediation
 {
@@ -870,23 +871,27 @@ namespace HHG_Mediation
                 NotifyReward = _delegate;
                 HHG_Logger.HHG_LogSender(HHG_AdmobEvents.HHG_ShowRewardedVideo_High_Ecpm);
 
-                if (this.rewardBasedVideo!=null)
+                if (this.rewardBasedVideo != null)
                 {
                     if (this.rewardBasedVideo.CanShowAd())
-                {
-
-                    if (HHG_appOpenHandler.Instance)
-                        HHG_appOpenHandler.Instance.AdShowing = true;
-
-                    HHG_Logger.HHG_LogSender(HHG_AdmobEvents.HHG_RewardedVideo_WillDisplay_High_Ecpm);
-
-                    this.rewardBasedVideo.Show((Reward reward) =>
                     {
-                        HHG_Logging.Log(String.Format("Rewarded ad granted a reward: {0} {1}",
-                                                reward.Amount,
-                                                reward.Type));
-                    });
-                }       
+
+                        if (HHG_appOpenHandler.Instance)
+                            HHG_appOpenHandler.Instance.AdShowing = true;
+
+                        HHG_Logger.HHG_LogSender(HHG_AdmobEvents.HHG_RewardedVideo_WillDisplay_High_Ecpm);
+                        GameAnalytics.NewAdEvent(GAAdAction.Show, GAAdType.Interstitial, "Admob", "Rewarded_Vedio");
+                        this.rewardBasedVideo.Show((Reward reward) =>
+                        {
+                            HHG_Logging.Log(String.Format("Rewarded ad granted a reward: {0} {1}",
+                                                    reward.Amount,
+                                                    reward.Type));
+                        });
+                    }
+                }
+                else
+                {
+                    ToastHelper.ShowToast("Ads Not AvailAble");
                 }
             }
             else if (UnityRewarded)
@@ -895,7 +900,11 @@ namespace HHG_Mediation
                     HHG_appOpenHandler.Instance.AdShowing = true;
 
                 NotifyReward = _delegate;
-               // Advertisement.Show(ADMOB_ID.Unity_RewardedVideo, this);
+                // Advertisement.Show(ADMOB_ID.Unity_RewardedVideo, this);
+            }
+            else
+            {
+                ToastHelper.ShowToast("Ads Not AvailAble");
             }
         }
 
@@ -1041,7 +1050,12 @@ namespace HHG_Mediation
                         HHG_appOpenHandler.Instance.AdShowing = true;
 
                     this.rewardedInterstitialAd.Show(userEarnedRewardCallback);
+                    GameAnalytics.NewAdEvent(GAAdAction.Show, GAAdType.Interstitial, "Admob", "Rewarded_Inter");
                 }
+            }
+            else
+            {
+                ToastHelper.ShowToast("Ads Not AvailAble");
             }
         }
 

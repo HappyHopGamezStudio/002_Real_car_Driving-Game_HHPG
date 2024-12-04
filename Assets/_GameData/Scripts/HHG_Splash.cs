@@ -9,28 +9,28 @@ public class HHG_Splash : MonoBehaviour
     public bl_SceneLoader bl_SceneLoader;
 
 
-    void Awake() {
+    void Awake() 
+    {
         GameAnalyticsSDK.GameAnalytics.Initialize();
     }
 
     public void Loadappopenad()
     {
-        if (FindObjectOfType<HHG_appOpenHandler>())
+        if(FindObjectOfType<HHG_appOpenHandler>())
         {
             FindObjectOfType<HHG_appOpenHandler>().LoadAppOpenAd();
         }
     }
     void Start()
     {
+        Invoke(nameof(Loadappopenad),3);
         StartCoroutine("changeScene");
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        Invoke("Loadappopenad",6);
         Application.targetFrameRate = Screen.currentResolution.refreshRate;
     }
     IEnumerator changeScene()
     {
         yield return new WaitForSeconds(0.4f);
-        //AdmobAdsManager.Instance.LoadInterstitialAd();
         if (FindObjectOfType<HHG_AdsCall>())
         {
             Debug.Log("Find Ads Called Done loading");

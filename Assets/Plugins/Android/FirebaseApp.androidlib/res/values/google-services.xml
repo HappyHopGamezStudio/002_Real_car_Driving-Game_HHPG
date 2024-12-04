@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id">
+  <string name="gcm_defaultSenderId" translatable="false">292866909114</string>
+  <string name="google_storage_bucket" translatable="false">hh-02-real-car-simulator.appspot.com</string>
+  <string name="project_id" translatable="false">hh-02-real-car-simulator</string>
+  <string name="google_api_key" translatable="false">AIzaSyCE4aDbEE97WaoR2o71m5ga9ORMlkbhE9w</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCE4aDbEE97WaoR2o71m5ga9ORMlkbhE9w</string>
+  <string name="google_app_id" translatable="false">1:292866909114:android:d72ef4155c535798b23383</string>
+</resources>

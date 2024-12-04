@@ -78,7 +78,7 @@ public class HHG_UiManager : MonoBehaviour
                FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
            }
        }
-       
+       SetGraphicQuality(PrefsManager.GetGameQuality());
        
        if (PrefsManager.GetMusic()==0)
        {
@@ -264,7 +264,6 @@ public class HHG_UiManager : MonoBehaviour
             PrefsManager.SetInterInt(1);
         }
         Pause.SetActive(true);
-        HHG_LevelManager.instace.rcc_camera.GetComponentInChildren<Camera>().GetComponent<AudioListener>().enabled = false;
         SetTimeScale(0);
         HideGamePlay();
         await Task.Delay(2000);
@@ -282,7 +281,6 @@ public class HHG_UiManager : MonoBehaviour
         Pause.SetActive(false);
         SetTimeScale(1);
         ShowGamePlay();
-        HHG_LevelManager.instace.rcc_camera.GetComponentInChildren<Camera>().GetComponent<AudioListener>().enabled = true;
         //AdmobAdsManager.Instance.LoadInterstitialAd();
     }
 

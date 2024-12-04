@@ -181,6 +181,7 @@ public class HHG_PlayerSelection : MonoBehaviour
         }
 
         selectedPlayerValue = ActivePlayervalue;
+        MainCamera.GetComponent<CameraRotate>().SetMianPos();
     }
 
     public void TestDrive()

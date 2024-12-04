@@ -44,11 +44,15 @@ public class VehicleProperties : MonoBehaviour
     public Transform TpsPosition;
     public GameObject ConeEffect;
     public Rigidbody Rb;
-    [FormerlySerializedAs("controller")] public RCC_CarControllerV3 CarController;
+    public RCC_CarControllerV3 CarController;
     public GameObject Exuset;
     public GameObject AllAudioSource;
 
     public GameObject Fire;
+    
+   
+    
+    
 	private void Awake()
 	{
 		if (Rb==null)
@@ -294,7 +298,7 @@ public class VehicleProperties : MonoBehaviour
 
 
     }
-    
+
 
     public async void OnTriggerEnter(Collider other)
     {
@@ -303,7 +307,7 @@ public class VehicleProperties : MonoBehaviour
 	    if (other.gameObject.CompareTag(GameConstant.Tag_Coin))
 	    {
 		    HHG_LevelManager.instace.CoinSound.Play();
-		  //  HHG_UiManager.instance.EffectForcoin.SetActive(true);
+		    //  HHG_UiManager.instance.EffectForcoin.SetActive(true);
 		    Invoke("OffCoinsEffect", 3f);
 		    PrefsManager.SetJEMValue(PrefsManager.GetJEMValue() + 1);
 		    HHG_LevelManager.instace.JemBar.GetComponentInChildren<Text>().text = PrefsManager.GetJEMValue().ToString();
@@ -311,28 +315,41 @@ public class VehicleProperties : MonoBehaviour
 		    await Task.Delay(2000);
 		    other.gameObject.SetActive(true);
 	    }
+
 	    if (other.CompareTag(GameConstant.Tag_ScrrenShot) && !isTimeStopped)
 	    {
-		    if (HHG_LevelManager.instace.Canvas.GetComponent<RCC_DashboardInputs>().KMH >= other.GetComponent<speedcheck>().meterspeed)
+		    if (HHG_LevelManager.instace.Canvas.GetComponent<RCC_DashboardInputs>().KMH >=
+		        other.GetComponent<speedcheck>().meterspeed)
 		    {
+
 			    other.gameObject.SetActive(false);
 			    HHG_UiManager.instance.rewradMoneyText.text = 1000 + "";
-			    HHG_UiManager.instance.SpeedCaputer[0].text=CarController.speed.ToString("00");
-			    HHG_UiManager.instance.SpeedCaputer[1].text=CarController.speed.ToString("00");
+			    HHG_UiManager.instance.SpeedCaputer[0].text = CarController.speed.ToString("00");
+			    HHG_UiManager.instance.SpeedCaputer[1].text = CarController.speed.ToString("00");
+
+
 			    StopTimeAndCapture();
+
 		    }
 		    else
-		    { 
-			    HHG_UiManager.instance.SpeedCaputer[0].text=CarController.speed.ToString("00");
-			    HHG_UiManager.instance.SpeedCaputer[1].text=CarController.speed.ToString("00");
-			    HHG_UiManager.instance.OnspeedCaputer();
+		    {
+			    if (ison)
+			    {
+				    HHG_UiManager.instance.SpeedCaputer[0].text = CarController.speed.ToString("00");
+				    HHG_UiManager.instance.SpeedCaputer[1].text = CarController.speed.ToString("00");
+				    HHG_UiManager.instance.SpeedCaputer[3].text = other.GetComponent<speedcheck>().meterspeed.ToString();
+				    HHG_UiManager.instance.OnspeedCaputer();
+				    ison = false;
+				    Invoke("OffCoinsEffect", 3f);
+			    }
 		    }
 	    }
     }
-    
 
+    private bool ison = true;
     public void OffCoinsEffect()
     {
+	    ison = true;
 	   // HHG_UiManager.instance.EffectForcoin.SetActive(false);
     }
 

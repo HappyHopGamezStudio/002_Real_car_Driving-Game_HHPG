@@ -230,7 +230,7 @@ public class PrefsManager : MonoBehaviour
 
     public static float GetMusic ()
     {
-        return PlayerPrefs.GetFloat (Music, 1);
+        return PlayerPrefs.GetFloat (Music, 30f);
     }
 
     public static void SetMusic (float AdValue)

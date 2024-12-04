@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731713, g: 0.13414735, b: 0.1210785, a: 1}
+  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -839,7 +839,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1004189105680303631, guid: db76a5a78e57de24da8a2166fade8ed4, type: 3}
       propertyPath: _adUnitId
-      value: ca-app-pub-4649793560651008/3757278887
+      value: ca-app-pub-1644949846512836/1435331248
       objectReference: {fileID: 0}
     - target: {fileID: 2214116484807182946, guid: db76a5a78e57de24da8a2166fade8ed4, type: 3}
       propertyPath: testingMode
@@ -851,35 +851,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2214116484807182946, guid: db76a5a78e57de24da8a2166fade8ed4, type: 3}
       propertyPath: AndroidAdmob_ID.banner1
-      value: ca-app-pub-4649793560651008/7348754126
+      value: ca-app-pub-1644949846512836/9838896452
       objectReference: {fileID: 0}
     - target: {fileID: 2214116484807182946, guid: db76a5a78e57de24da8a2166fade8ed4, type: 3}
       propertyPath: AndroidAdmob_ID.banner2
-      value: ca-app-pub-4649793560651008/2635768906
+      value: ca-app-pub-1644949846512836/2822061964
       objectReference: {fileID: 0}
     - target: {fileID: 2214116484807182946, guid: db76a5a78e57de24da8a2166fade8ed4, type: 3}
       propertyPath: AndroidAdmob_ID.appOpenID
-      value: ca-app-pub-4649793560651008/5675288809
+      value: ca-app-pub-9477014626943747/2336267800
       objectReference: {fileID: 0}
     - target: {fileID: 2214116484807182946, guid: db76a5a78e57de24da8a2166fade8ed4, type: 3}
       propertyPath: AndroidAdmob_ID.admobAppID
-      value: ca-app-pub-4649793560651008~5720811838
+      value: ca-app-pub-1644949846512836~7570991617
       objectReference: {fileID: 0}
     - target: {fileID: 2214116484807182946, guid: db76a5a78e57de24da8a2166fade8ed4, type: 3}
       propertyPath: AndroidAdmob_ID.bigBannerID
-      value: ca-app-pub-4649793560651008/2488143833
+      value: ca-app-pub-1644949846512836/3273488105
       objectReference: {fileID: 0}
     - target: {fileID: 2214116484807182946, guid: db76a5a78e57de24da8a2166fade8ed4, type: 3}
       propertyPath: AndroidAdmob_ID.rewardedVideo
-      value: ca-app-pub-4649793560651008/5461689901
+      value: ca-app-pub-1644949846512836/5374576252
       objectReference: {fileID: 0}
     - target: {fileID: 2214116484807182946, guid: db76a5a78e57de24da8a2166fade8ed4, type: 3}
       propertyPath: AndroidAdmob_ID.interstitialID
-      value: ca-app-pub-4649793560651008/6288073455
+      value: ca-app-pub-1644949846512836/9002830071
       objectReference: {fileID: 0}
     - target: {fileID: 2214116484807182946, guid: db76a5a78e57de24da8a2166fade8ed4, type: 3}
       propertyPath: AndroidAdmob_ID.rewardInterstitial
-      value: ca-app-pub-4649793560651008/9165518231
+      value: ca-app-pub-1644949846512836/1028137139
       objectReference: {fileID: 0}
     - target: {fileID: 2214116484807182947, guid: db76a5a78e57de24da8a2166fade8ed4, type: 3}
       propertyPath: m_Name
@@ -3019,7 +3019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 82000014277175666, guid: 752096fa1e4186c4599b5c6145dd71de, type: 3}
       propertyPath: m_Volume
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 114000013211611000, guid: 752096fa1e4186c4599b5c6145dd71de, type: 3}
       propertyPath: click

@@ -16,6 +16,7 @@ public class LoadingScreen : MonoBehaviour
         loadingSlider.value = 0;
         if (FindObjectOfType<HHG_AdsCall>())
         {
+            FindObjectOfType<HHG_AdsCall>().hideBanner1();
             FindObjectOfType<HHG_AdsCall>().showBigBannerAD(AdPosition.BottomLeft);
 
             if (PrefsManager.GetInterInt()!=5)
@@ -57,5 +58,8 @@ public class LoadingScreen : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
+    }
+    void OnDisable(){
+        FindObjectOfType<HHG_AdsCall>().showBanner1();
     }
 }

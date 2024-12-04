@@ -30,7 +30,7 @@ MonoBehaviour:
   secretKey:
   - 638f0ac0779919c6e7ae3a6d3d5da74743294122
   Build:
-  - 0.1
+  - 1.4
   SelectedPlatformOrganization:
   - HHG
   SelectedPlatformStudio:
@@ -38,7 +38,7 @@ MonoBehaviour:
   SelectedPlatformGame:
   - 001_Car Driving Drifting Game
   SelectedPlatformGameID: b26f0400
-  SelectedOrganization: 03000000
+  SelectedOrganization: 05000000
   SelectedStudio: 01000000
   SelectedGame: 01000000
   NewVersion: 

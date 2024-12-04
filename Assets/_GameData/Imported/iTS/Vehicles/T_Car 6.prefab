@@ -6310,6 +6310,7 @@ GameObject:
   - component: {fileID: 8735250226509172688}
   - component: {fileID: 7858598684395653414}
   - component: {fileID: 523784349189849788}
+  - component: {fileID: 5225578238213705983}
   m_Layer: 3
   m_Name: T_Car 6
   m_TagString: TrafficCar
@@ -7042,7 +7043,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4073220524314632845}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 978d66fa28ee3dd449ff193fc4c3c7d6, type: 3}
   m_Name: 
@@ -7051,6 +7052,40 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 449
+--- !u!114 &5225578238213705983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073220524314632845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8436de23494dc9340ada1705a2001365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angerEmotePrefabs:
+  - {fileID: 1382818019173320, guid: dba3940cf9c7d2c4fbaec53b941be11c, type: 3}
+  - {fileID: 1261065250135926, guid: 4ef96a71a04be544192efb3463b62a68, type: 3}
+  - {fileID: 1942613021249539, guid: 2367b8c0dd905604582cc2b824b8fa1e, type: 3}
+  randomEmotePrefabs:
+  - {fileID: 1900865797525301, guid: be89350c58d3b35479a4f60bb5dfbb47, type: 3}
+  - {fileID: 1255879782926054, guid: 462c922919f47c245830562001e935a2, type: 3}
+  - {fileID: 1369447551493211, guid: 9da5c7aae5955ef4786289b162c4da67, type: 3}
+  - {fileID: 1136473420708772, guid: ff760efbd002e044f80b6b1136cc295e, type: 3}
+  - {fileID: 1866772605478255, guid: b88cf8a5fc87f6f4f963be4b64692a16, type: 3}
+  - {fileID: 1261065250135926, guid: 4ef96a71a04be544192efb3463b62a68, type: 3}
+  AngerySounds:
+  - {fileID: 8300000, guid: 6b40f9fb88bec3d4796b5368b5b6e7f1, type: 3}
+  - {fileID: 8300000, guid: b2cf8003632e2f74aaa190fcb3d34b13, type: 3}
+  - {fileID: 8300000, guid: d2fb807e20d52e54ba0e3481f1c65d55, type: 3}
+  - {fileID: 8300000, guid: 9e216dd6c56ab714b9c8a52010a0d60f, type: 3}
+  - {fileID: 8300000, guid: 35f5a323bd67aae498f7f659f72a07b1, type: 3}
+  - {fileID: 8300000, guid: ed070ab24bf43cd459d98079a74bee5a, type: 3}
+  - {fileID: 8300000, guid: 7a0671bff41361b4cbff2dd27702ce12, type: 3}
+  - {fileID: 8300000, guid: 6f3beb2632361cb4ca0e0b89a08d243e, type: 3}
+  isCritical: 0
+  normalhit: 0
 --- !u!1 &4073220524314632929
 GameObject:
   m_ObjectHideFlags: 0
@@ -7763,7 +7798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4519483157799834398
 Transform:
   m_ObjectHideFlags: 0

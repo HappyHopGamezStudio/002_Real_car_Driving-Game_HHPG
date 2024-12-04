@@ -71,8 +71,8 @@ public class HHG_MainMenu : MonoBehaviour
     
        
 
-        AudioListener.volume = PrefsManager.GetSound();
-        volume_value.value = PrefsManager.GetSound();
+        AudioListener.volume = PrefsManager.GetMusic();
+        volume_value.value = PrefsManager.GetMusic();
 
         Time.timeScale = 1;
        
@@ -214,7 +214,7 @@ public class HHG_MainMenu : MonoBehaviour
 	public void MoreGamesEvent ()
 	{
 		HHG_SoundManager.Instance.PlayOneShotSounds (HHG_SoundManager.Instance.click);
-		Application.OpenURL("https://play.google.com/store/apps/dev?id=8181417484042973102");
+		Application.OpenURL("https://play.google.com/store/apps/developer?id=Happie+Hop+Gamez");
     }
 
 	public void RateUsButtonEvent ()
@@ -270,7 +270,7 @@ public class HHG_MainMenu : MonoBehaviour
     {
         PercentageText.text = volumeSlider.value + "%";
         PrefsManager.SetSound(volume_value.value);
-        AudioListener.volume = volumeSlider.value / 100;
+        AudioListener.volume = volumeSlider.value / 100f;
     }
 
     public void ClickSound() {
