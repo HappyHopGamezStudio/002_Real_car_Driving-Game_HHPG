@@ -22,6 +22,7 @@ public class HHG_GameManager : MonoBehaviour
     [Space(5)]
 
     public GameObject TPSPlayer;
+    public GameObject Dog;
 
     [Space(5)]
     [Header("Car Stuff")]
@@ -48,6 +49,8 @@ public class HHG_GameManager : MonoBehaviour
     {
         hud.PlayerCamera = TpsCamera.GetComponent<Camera>();
         hud.PlayerController = TPSPlayer.transform;
+        MapCanvasController.playerTransform= TPSPlayer.transform;
+        Dog.transform.position = TPSPlayer.transform.position;
     }
 
     public async void GetInVehicle()
@@ -72,6 +75,7 @@ public class HHG_GameManager : MonoBehaviour
       //  CurrentCar.GetComponent<DriftPhysics>().Awakewhenicall();
         CurrentCar.GetComponent<VehicleProperties>().GetInCarForDrive(); // = true;
         TPSPlayer.SetActive(false);
+        Dog.SetActive(false);
         TpsCamera.gameObject.SetActive(false);
         VehicleCamera.gameObject.SetActive(true);
         OnVehicleInteraction?.Invoke(PlayerStatus.CarDriving);
@@ -117,6 +121,7 @@ public class HHG_GameManager : MonoBehaviour
         HHG_UiManager.instance.TpsControle.SetActive(true);
         Invoke("offimage",0.5f);
         TPSPlayer.SetActive(true);
+        Dog.SetActive(true);
         TpsCamera.gameObject.SetActive(true);
         VehicleCamera.gameObject.SetActive(false);
         CurrentCar.GetComponent<VehicleProperties>().GetOutVehicle();
@@ -124,6 +129,7 @@ public class HHG_GameManager : MonoBehaviour
         CurrentCar.GetComponent<DriftPhysics>().enabled = false;
         TPSPlayer.transform.position =CurrentCar.GetComponent<VehicleProperties>().TpsPosition.position; 
         TPSPlayer.transform.eulerAngles =new Vector3(0,CurrentCar.GetComponent<VehicleProperties>().TpsPosition.rotation.y,0);
+        Dog.transform.eulerAngles =new Vector3(0,CurrentCar.GetComponent<VehicleProperties>().TpsPosition.rotation.y,0);
        // LevelManager.Instance.VehicleCameraNew.GetComponent<RCC_Camera>().RemoveTarget();
       
         OnVehicleInteraction?.Invoke(PlayerStatus.ThirdPerson);

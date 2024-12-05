@@ -5,46 +5,45 @@ using UnityEngine;
 public class ShowEmotes : MonoBehaviour
 {
 	public GameObject[] angerEmotePrefabs; 
-	public GameObject[] randomEmotePrefabs;
+//	public GameObject[] randomEmotePrefabs;
 	public AudioClip[] AngerySounds;
 
 	private int angerIndex = 0;
 	public bool isCritical,normalhit;
-
+	private int randomIndex;
 	void OnCollisionEnter(Collision collision)
 	{
 		if (collision.gameObject.CompareTag("Player"))
 		{
 			if (HHG_GameManager.Instance.TpsStatus == PlayerStatus.CarDriving)
 			{
-				ForNormal = false;
+
 				if (!forall)
 				{
-					if (!foranger)
-					{
-						// Determine if the hit is critical
-						isCritical = collision.relativeVelocity.magnitude > 20f; // Adjust critical threshold
-						normalhit = collision.relativeVelocity.magnitude > 2f; // Adjust critical threshold
 
-						if (isCritical)
-						{
-							Debug.Log("here");
-							InstantiateEmote(angerEmotePrefabs[1], collision.transform); // Show the second anger emote
-							int randomIndex = Random.Range(0, AngerySounds.Length);
-							GetComponent<AudioSource>().PlayOneShot(AngerySounds[randomIndex]);
-							forall = true;
-							foranger = true;
-						}
-						else if (normalhit)
-						{
-							Debug.Log("here");
-							InstantiateEmote(angerEmotePrefabs[angerIndex], collision.transform);
-							forall = true;
-							foranger = true;
-							int randomIndex = Random.Range(0, AngerySounds.Length);
-							GetComponent<AudioSource>().PlayOneShot(AngerySounds[randomIndex]);
-							angerIndex = (angerIndex + 1) % angerEmotePrefabs.Length; // Cycle through anger emotes
-						}
+					// Determine if the hit is critical
+					isCritical = collision.relativeVelocity.magnitude > 20f; // Adjust critical threshold
+					normalhit = collision.relativeVelocity.magnitude > 2f; // Adjust critical threshold
+
+					if (isCritical)
+					{
+						Debug.Log("here");
+						int Emoteindex = Random.Range(0, angerEmotePrefabs.Length);
+						InstantiateEmote(angerEmotePrefabs[Emoteindex], collision.transform); // Show the second anger emote
+						randomIndex = Random.Range(0, AngerySounds.Length);
+						GetComponent<AudioSource>().PlayOneShot(AngerySounds[randomIndex]);
+						forall = true;
+
+					}
+					else if (normalhit)
+					{
+						Debug.Log("here");
+					
+						forall = true;
+						InstantiateEmote(angerEmotePrefabs[angerIndex], collision.transform);
+						int randomIndex = Random.Range(0, AngerySounds.Length);
+						GetComponent<AudioSource>().PlayOneShot(AngerySounds[randomIndex]);
+						angerIndex = (angerIndex + 1) % angerEmotePrefabs.Length;
 					}
 				}
 			}
@@ -52,29 +51,19 @@ public class ShowEmotes : MonoBehaviour
 	}
 
 	private bool forall = false;
-	private bool foranger = true;
-	private bool ForNormal = true;
+	
 
-	void OnTriggerEnter(Collider other)
+	public void ForNormalEmotes()
 	{
-		if (other.CompareTag("Player"))
+
+		/*if (HHG_GameManager.Instance.TpsStatus == PlayerStatus.CarDriving)
 		{
-			if (HHG_GameManager.Instance.TpsStatus == PlayerStatus.CarDriving)
-			{
-				foranger = false;
-				if (!forall)
-				{
-					if (ForNormal)
-					{
-						Debug.Log("here");
-						// Show a random emote from the randomEmotePrefabs array
-						int randomIndex = Random.Range(0, randomEmotePrefabs.Length);
-						InstantiateEmote(randomEmotePrefabs[randomIndex], other.transform);
-						forall = true;
-					}
-				}
-			}
-		}
+			Debug.Log("here");
+			// Show a random emote from the randomEmotePrefabs array
+			int randomIndex = Random.Range(0, randomEmotePrefabs.Length);
+			InstantiateEmote(randomEmotePrefabs[randomIndex], HHG_GameManager.Instance.CurrentCar.transform);
+		}*/
+
 	}
 
 	private void InstantiateEmote(GameObject emotePrefab, Transform targetCar)
@@ -83,11 +72,9 @@ public class ShowEmotes : MonoBehaviour
 		Vector3 emotePosition = targetCar.position + Vector3.up * 2f; // Adjust the height as needed
 		GameObject emoteInstance = Instantiate(emotePrefab, emotePosition, Quaternion.identity);
 		emoteInstance.transform.SetParent(targetCar); // Attach to the car for proper positioning
-
 		// Destroy the emote after 3 seconds
 		Destroy(emoteInstance, 2f);
-		foranger = false;
 		forall = false;
-		ForNormal = true;
+	
 	}
 }

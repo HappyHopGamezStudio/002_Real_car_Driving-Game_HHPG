@@ -37,7 +37,7 @@ public class HHG_OpenWorldManager : MonoBehaviour
     public void HideTimeline()
     {
         Timeline.SetActive(false);
-        HHG_LevelManager.instace.Tpscamera.GetComponent<Camera>().farClipPlane = getFar();
+       // HHG_LevelManager.instace.Tpscamera.GetComponent<Camera>().farClipPlane = getFar();
         HHG_UiManager.instance.ShowGamePlay();
        // LevelManager.instace.canvashud.gameObject.SetActive(true);
     }

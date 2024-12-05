@@ -19,7 +19,7 @@ public class HHG_LevelManager : MonoBehaviour
    public HUDNavigationSystem system;
    public RCC_Camera rcc_camera;
    public RCC_DashboardInputs Canvas;
-   public PlayerCamera_New Tpscamera;
+  // public PlayerCamera_New Tpscamera;
    public HHG_OpenWorldManager hhgOpenWorldManager;
    public GameObject TpsPlayer;
    public DriftCanvasManager driftCanvasManagerNow;
@@ -71,8 +71,8 @@ public class HHG_LevelManager : MonoBehaviour
         TpsPlayer.transform.position = playerposition.position;
         TpsPlayer.transform.rotation = playerposition.rotation;
 
-        Tpscamera.transform.position = playerposition.position;
-        Tpscamera.transform.rotation = playerposition.rotation;
+        /*Tpscamera.transform.position = playerposition.position;
+        Tpscamera.transform.rotation = playerposition.rotation;*/
         
         SelectedPlayer.transform.position = defulcar.position;
         SelectedPlayer.transform.rotation = defulcar.rotation;

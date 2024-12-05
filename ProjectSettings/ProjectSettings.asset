@@ -697,7 +697,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     1: BCG_RCC
     4: BCG_RCC;gameanalytics_admob_enabled
-    7: BCG_RCC;gameanalytics_admob_enabled
+    7: BCG_RCC;gameanalytics_admob_enabled;STARTER_ASSETS_PACKAGES_CHECKED
     13: BCG_RCC
     19: BCG_RCC
     21: BCG_RCC
@@ -793,7 +793,7 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   cloudProjectId: 
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []

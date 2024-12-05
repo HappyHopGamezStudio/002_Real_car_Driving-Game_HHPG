@@ -1,80 +1,62 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Cinemachine;
 
 namespace CnControls
 {
-    public class TouchPad: MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
+    public class TouchPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
     {
-        /// <summary>
-        /// Current event camera reference. Needed for the sake of Unity Remote input
-        /// </summary>
         public Camera CurrentEventCamera { get; set; }
 
-        /// <summary>
-        /// The name of the horizontal axis for this touchpad to update
-        /// </summary>
         public string HorizontalAxisName = "Horizontal";
-
-        /// <summary>
-        /// The name of the vertical axis for this touchpad to update
-        /// </summary>
         public string VerticalAxisName = "Vertical";
-
-        /// <summary>
-        /// Whether this touchpad should preserve inertia when the finger is lifted
-        /// </summary>
+        
         public bool PreserveInertia = true;
-
-		public float senstivity;
-
-        /// <summary>
-        /// The speed of decay of inertia
-        /// </summary>
+        public float sensitivity = 0.1f;   // Sensitivity for touch movement
         public float Friction = 3f;
 
-        private VirtualAxis _horizintalAxis;
+        public CinemachineFreeLook freeLookCamera;  // Reference to the Cinemachine FreeLook Camera
+
+        private VirtualAxis _horizontalAxis;
         private VirtualAxis _verticalAxis;
         private int _lastDragFrameNumber;
         private bool _isCurrentlyTweaking;
 
-        /// <summary>
-        /// Joystick movement direction
-        /// Specifies the axis along which it can move
-        /// </summary>
         [Tooltip("Constraints on the joystick movement axis")]
         public ControlMovementDirection ControlMoveAxis = ControlMovementDirection.Both;
 
         private void OnEnable()
         {
-            // When we enable, we get our virtual axis
-
-            _horizintalAxis = _horizintalAxis ?? new VirtualAxis(HorizontalAxisName);
+            _horizontalAxis = _horizontalAxis ?? new VirtualAxis(HorizontalAxisName);
             _verticalAxis = _verticalAxis ?? new VirtualAxis(VerticalAxisName);
 
-            // And register them in our input system
-            CnInputManager.RegisterVirtualAxis(_horizintalAxis);
+            CnInputManager.RegisterVirtualAxis(_horizontalAxis);
             CnInputManager.RegisterVirtualAxis(_verticalAxis);
         }
 
         private void OnDisable()
         {
-            // When we disable, we just unregister our axis
-            // It also happens before the game object is Destroyed
-            CnInputManager.UnregisterVirtualAxis(_horizintalAxis);
+            CnInputManager.UnregisterVirtualAxis(_horizontalAxis);
             CnInputManager.UnregisterVirtualAxis(_verticalAxis);
         }
 
         public virtual void OnDrag(PointerEventData eventData)
         {
-            // Some bitwise logic for constraining the touchpad along one of the axis
-            // If the "Both" option was selected, non of these two checks will yield "true"
+            // Process input based on movement direction constraints
             if ((ControlMoveAxis & ControlMovementDirection.Horizontal) != 0)
             {
-				_horizintalAxis.Value = eventData.delta.x/senstivity;
+                _horizontalAxis.Value = eventData.delta.x * sensitivity;
             }
             if ((ControlMoveAxis & ControlMovementDirection.Vertical) != 0)
             {
-				_verticalAxis.Value = eventData.delta.y/senstivity;
+                _verticalAxis.Value = eventData.delta.y * sensitivity;
+            }
+
+            // Apply rotation to the Cinemachine camera
+            if (freeLookCamera != null)
+            {
+                freeLookCamera.m_XAxis.Value += _horizontalAxis.Value;
+                freeLookCamera.m_YAxis.Value -= _verticalAxis.Value;  // Invert for natural up/down movement
             }
 
             _lastDragFrameNumber = Time.renderedFrameCount;
@@ -85,7 +67,7 @@ namespace CnControls
             _isCurrentlyTweaking = false;
             if (!PreserveInertia)
             {
-                _horizintalAxis.Value = 0f;
+                _horizontalAxis.Value = 0f;
                 _verticalAxis.Value = 0f;
             }
         }
@@ -100,13 +82,13 @@ namespace CnControls
         {
             if (_isCurrentlyTweaking && _lastDragFrameNumber < Time.renderedFrameCount - 2)
             {
-                _horizintalAxis.Value = 0f;
+                _horizontalAxis.Value = 0f;
                 _verticalAxis.Value = 0f;
             }
 
             if (PreserveInertia && !_isCurrentlyTweaking)
             {
-                _horizintalAxis.Value = Mathf.Lerp(_horizintalAxis.Value, 0f, Friction * Time.deltaTime);
+                _horizontalAxis.Value = Mathf.Lerp(_horizontalAxis.Value, 0f, Friction * Time.deltaTime);
                 _verticalAxis.Value = Mathf.Lerp(_verticalAxis.Value, 0f, Friction * Time.deltaTime);
             }
         }
