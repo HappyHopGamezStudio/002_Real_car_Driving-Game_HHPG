@@ -25,12 +25,22 @@ public class RCC_Light : MonoBehaviour {
 	private AudioSource indicatorSound;
 	public AudioClip indicatorClip{get{return RCC_Settings.Instance.indicatorClip;}}
 
+
+	void ChangeLight()
+	{
+		_light.renderMode = LightRenderMode.ForcePixel;
+		_light.cullingMask = -1; 
+	}
+	
+	
+	
+	
 	void Start () {
 		
 		carController = GetComponentInParent<RCC_CarControllerV3>();
 		_light = GetComponent<Light>();
-		_light.enabled = true;
-
+		_light.enabled = true; 
+		Invoke(nameof(ChangeLight),3f);
 		if(RCC_Settings.Instance.useLightProjectorForLightingEffect){
 			
 			projector = GetComponent<Projector>();
@@ -66,38 +76,47 @@ public class RCC_Light : MonoBehaviour {
 
 	void Update () {
 
-		if(RCC_Settings.Instance.useLightProjectorForLightingEffect)
-			Projectors();
+		if (carController.enabled)
+		{
+			if (RCC_Settings.Instance.useLightProjectorForLightingEffect)
+				Projectors();
 
-		switch(lightType){
+			switch (lightType)
+			{
 
-		case LightType.HeadLight:
-			if(!carController.lowBeamHeadLightsOn && !carController.highBeamHeadLightsOn)
-				Lighting(0f);
-			if(carController.lowBeamHeadLightsOn && !carController.highBeamHeadLightsOn){
-				Lighting(.6f, 50f, 90f);
-				transform.localEulerAngles = new Vector3(10f, 0f, 0f);
-			}else if(carController.highBeamHeadLightsOn){
-				Lighting(1f, 200f, 45f);
-				transform.localEulerAngles = new Vector3(0f, 0f, 0f);
+				case LightType.HeadLight:
+					if (!carController.lowBeamHeadLightsOn && !carController.highBeamHeadLightsOn)
+						Lighting(0f);
+					if (carController.lowBeamHeadLightsOn && !carController.highBeamHeadLightsOn)
+					{
+						Lighting(.6f, 50f, 90f);
+						transform.localEulerAngles = new Vector3(10f, 0f, 0f);
+					}
+					else if (carController.highBeamHeadLightsOn)
+					{
+						Lighting(1f, 200f, 45f);
+						transform.localEulerAngles = new Vector3(0f, 0f, 0f);
+					}
+
+					break;
+
+				case LightType.BrakeLight:
+					Lighting((!carController.lowBeamHeadLightsOn
+						? (carController._brakeInput >= .1f ? 5f : 0f)
+						: (carController._brakeInput >= .1f ? 5f : .3f)));
+					break;
+
+				case LightType.ReverseLight:
+					Lighting(carController.direction == -1 ? 3f : 0f);
+					break;
+
+				case LightType.Indicator:
+					indicatorsOn = carController.indicatorsOn;
+					Indicators();
+					break;
+
 			}
-			break;
-
-		case LightType.BrakeLight:
-			Lighting((!carController.lowBeamHeadLightsOn ? (carController._brakeInput >= .1f ? 1f : 0f)  : (carController._brakeInput >= .1f ? 1f : .3f)));
-			break;
-
-		case LightType.ReverseLight:
-			Lighting(carController.direction == -1 ? 1f : 0f);
-			break;
-
-		case LightType.Indicator:
-			indicatorsOn = carController.indicatorsOn;
-			Indicators();
-			break;
-
 		}
-		
 	}
 
 	void Lighting(float input){

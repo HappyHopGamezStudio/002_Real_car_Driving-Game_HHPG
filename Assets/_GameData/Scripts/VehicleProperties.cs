@@ -49,7 +49,8 @@ public class VehicleProperties : MonoBehaviour
     public GameObject AllAudioSource;
 
     public GameObject Fire;
-    
+    public Transform DefaultCarPostion;
+    private RCC_Light[] carLights;
    
     
     
@@ -68,10 +69,39 @@ public class VehicleProperties : MonoBehaviour
 		{
 			mainCamera = HHG_GameManager.Instance.mainCamera;
 		}
-	
+		/*if (DefaultCarPostion==null)
+		{
+			DefaultCarPostion = transform.Find("DefaultCarPostion").transform;
+		}*/
+		
+		carLights = GetComponentsInChildren<RCC_Light>();
+
+		// Check if the car has lights
+		if (carLights.Length > 0)
+		{
+			// Turn off all lights
+			TurnOffAllLights();
+		}
+		else
+		{
+			Debug.LogWarning("No lights found on this car!");
+		}
 		CarName = Names.ToString();
 	}
-	
+	void TurnOffAllLights()
+	{
+		foreach (var light in carLights)
+		{
+			light.enabled = false;
+		}
+	}
+	void TurnONAllLights()
+	{
+		foreach (var light in carLights)
+		{
+			light.enabled = true;
+		}
+	}
 	private void Start()
 	{
 		AllAudioSource = transform.Find("All Audio Sources").gameObject;
@@ -89,7 +119,8 @@ public class VehicleProperties : MonoBehaviour
 			FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
 			PrefsManager.SetInterInt(1);
 		}
-		TrafficCarAi = false;
+
+		TurnONAllLights();
 		currentHealth = PrefsManager.Gethealth(CarName);
 		StopCoroutine(CheckisGrounded());
 		if (CarController.chassis)
@@ -182,8 +213,8 @@ public class VehicleProperties : MonoBehaviour
 		transform.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
 		GetComponent<HHG_CarShadow>().enabled = false;
 		GetComponent<HHG_CarShadow>().ombrePlane.gameObject.SetActive(false);
-		TrafficCarAi = true;
-
+		
+		TurnOffAllLights();
 		if (AllAudioSource != null)
 		{
 			AllAudioSource.SetActive(false);
@@ -364,7 +395,7 @@ public class VehicleProperties : MonoBehaviour
 
 
 
-    public Color[] colers;
+    
 
     public void ApplyDamage(float damage)
     {
@@ -379,23 +410,23 @@ public class VehicleProperties : MonoBehaviour
 	    HHG_UiManager.instance.FillhealthBar.fillAmount = (float)currentHealth / maxHealth;
 	    if (currentHealth <= 100)
 	    {
-		    HHG_UiManager.instance.FillhealthBar.color  = colers[0];
+		    HHG_UiManager.instance.FillhealthBar.color  = HHG_LevelManager.instace.colers[0];
 		    HHG_UiManager.instance.Ripairebutton.SetActive(true);
 		    Fire.SetActive(false);
 	    }
 	    if (currentHealth <= 50)
 	    {
-		    HHG_UiManager.instance.FillhealthBar.color  = colers[1];
+		    HHG_UiManager.instance.FillhealthBar.color  =  HHG_LevelManager.instace.colers[1];
 		    Fire.SetActive(false);
 	    }
 	    if (currentHealth <= 40)
 	    {
-		    HHG_UiManager.instance.FillhealthBar.color  = colers[2];
+		    HHG_UiManager.instance.FillhealthBar.color  =  HHG_LevelManager.instace.colers[2];
 		    Fire.SetActive(false);
 	    }
 	    if (currentHealth <= 30)
 	    {
-		    HHG_UiManager.instance.FillhealthBar.color  = colers[3];
+		    HHG_UiManager.instance.FillhealthBar.color  =  HHG_LevelManager.instace.colers[3];
 		    Fire.SetActive(true);
 	    }
 	    if (currentHealth <= 0)
@@ -430,7 +461,7 @@ public class VehicleProperties : MonoBehaviour
 	    HHG_LevelManager.instace.coinBar.GetComponentInChildren<Text>().text = PrefsManager.GetCoinsValue().ToString();
 	    Fire.SetActive(false);
 	    CarController.engineRunning = true;
-	    HHG_UiManager.instance.FillhealthBar.color  = colers[0];
+	    HHG_UiManager.instance.FillhealthBar.color  =  HHG_LevelManager.instace.colers[0];
 	    HHG_UiManager.instance.FillhealthBar.fillAmount = 1;
 	    HHG_UiManager.instance.ShowGamePlay();
 	    PrefsManager.Sethealth(CarName,currentHealth);

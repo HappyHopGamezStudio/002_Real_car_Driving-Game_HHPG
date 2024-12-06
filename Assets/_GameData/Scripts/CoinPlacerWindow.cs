@@ -46,7 +46,7 @@ public class CoinPlacerWindow : EditorWindow
             {
                 RaycastHit hit;
                 Tools.current = Tool.View;
-                int layer = 1 << 8;
+                int layer = 1 << 0;
                 if (Physics.Raycast(Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x,
                     Camera.current.pixelHeight - e.mousePosition.y, 0)), out hit, Mathf.Infinity, layer))
                 {

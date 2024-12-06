@@ -3,16 +3,17 @@
 --- !u!121 &12100000
 Flare:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Digital Camera
   m_FlareTexture: {fileID: 2800000, guid: ae94510e33b466c48b00f32a973547d1, type: 3}
   m_TextureLayout: 0
   m_Elements:
-  - m_ImageIndex: 0
+  - m_ImageIndex: 17
     m_Position: 0
-    m_Size: 30
-    m_Color: {r: 0.3, g: 0.3, b: 0.3, a: 0}
+    m_Size: 20.77
+    m_Color: {r: 1, g: 1, b: 1, a: 0}
     m_UseLightColor: 1
     m_Rotate: 0
     m_Zoom: 1

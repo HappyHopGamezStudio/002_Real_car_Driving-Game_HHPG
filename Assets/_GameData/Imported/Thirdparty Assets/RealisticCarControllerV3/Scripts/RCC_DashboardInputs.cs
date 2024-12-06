@@ -8,12 +8,13 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 [AddComponentMenu("BoneCracker Games/Realistic Car Controller/UI/Dashboard Inputs")]
 public class RCC_DashboardInputs : MonoBehaviour {
 
 	public RCC_CarControllerV3 currentCarController;
-
+	public Image ImageRmp;
 	public GameObject RPMNeedle;
 	public GameObject KMHNeedle;
 	public GameObject turboGauge;
@@ -102,9 +103,28 @@ public class RCC_DashboardInputs : MonoBehaviour {
 		Headlights = currentCarController.lowBeamHeadLightsOn || currentCarController.highBeamHeadLightsOn;
 		indicators = currentCarController.indicatorsOn;
 
-		if(RPMNeedle){
-			RPMNeedleRotation = (currentCarController.engineRPM / 50f);
-			RPMNeedle.transform.eulerAngles = new Vector3(RPMNeedle.transform.eulerAngles.x ,RPMNeedle.transform.eulerAngles.y, -RPMNeedleRotation);
+		if(RPMNeedle)
+		{
+			if (KMH>=120)
+			{
+				ImageRmp.color=Color.red;
+				HHG_LevelManager.instace.rcc_camera.transform.GetChild(1).gameObject.SetActive(true);
+				RPMNeedleRotation = (currentCarController.engineRPM / 50f);
+				RPMNeedle.transform.eulerAngles = new Vector3(RPMNeedle.transform.eulerAngles.x ,RPMNeedle.transform.eulerAngles.y, -RPMNeedleRotation);
+				ImageRmp.fillAmount = (RPMNeedleRotation / 180f);
+			//	GT_LevelManager.instace.rcc_camera.thisCam.fieldOfView += 10f * Time.deltaTime;
+				
+			}
+			else
+			{
+				ImageRmp.color=Color.yellow;
+				HHG_LevelManager.instace.rcc_camera.transform.GetChild(1).gameObject.SetActive(false);
+				RPMNeedleRotation = (currentCarController.engineRPM / 50f);
+				RPMNeedle.transform.eulerAngles = new Vector3(RPMNeedle.transform.eulerAngles.x ,RPMNeedle.transform.eulerAngles.y, -RPMNeedleRotation);
+				ImageRmp.fillAmount = (RPMNeedleRotation / 180f);
+			//	GT_LevelManager.instace.rcc_camera.thisCam.fieldOfView = 60f* Time.deltaTime;
+				
+			}
 		}
 		if(KMHNeedle){
 			if(RCC_Settings.Instance.units == RCC_Settings.Units.KMH)

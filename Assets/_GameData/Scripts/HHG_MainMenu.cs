@@ -268,7 +268,7 @@ public class HHG_MainMenu : MonoBehaviour
 
     public void SettingVolume(Slider volumeSlider)
     {
-        PercentageText.text = volumeSlider.value + "%";
+        PercentageText.text = volumeSlider.value + "";
         PrefsManager.SetSound(volume_value.value);
         AudioListener.volume = volumeSlider.value / 100f;
     }

@@ -1161,25 +1161,88 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 
 	}
 	
-	void Braking (){
+	void Braking()
+	{
+		// Handbrake
+		if (handbrakeInput > 0.1f)
+		{
+			ApplyBrakeTorque(RearLeftWheelCollider.wheelCollider, (brakeTorque * 1.5f) * handbrakeInput);
+			ApplyBrakeTorque(RearRightWheelCollider.wheelCollider, (brakeTorque * 1.5f) * handbrakeInput);
 
-		//Handbrake
-		if(handbrakeInput > .1f){
-			
-			ApplyBrakeTorque(RearLeftWheelCollider, (brakeTorque * 1.5f) * handbrakeInput);
-			ApplyBrakeTorque(RearRightWheelCollider, (brakeTorque * 1.5f) * handbrakeInput);
-			
-		}else{
-			
-			// Braking.
-			ApplyBrakeTorque(FrontLeftWheelCollider, brakeTorque * (Mathf.Clamp(_brakeInput, 0, 1)));
-			ApplyBrakeTorque(FrontRightWheelCollider, brakeTorque * (Mathf.Clamp(_brakeInput, 0, 1)));
-			ApplyBrakeTorque(RearLeftWheelCollider, brakeTorque * Mathf.Clamp(_brakeInput, 0, 1) / 2f);
-			ApplyBrakeTorque(RearRightWheelCollider, brakeTorque * Mathf.Clamp(_brakeInput, 0, 1) / 2f);
-			
+			AdjustFriction(RearLeftWheelCollider.wheelCollider, 0.5f, 0.5f); // Low sideways friction
+			AdjustFriction(RearRightWheelCollider.wheelCollider, 0.5f, 0.5f);
+
+			Rigidbody rb = GetComponent<Rigidbody>();
+			if (rb != null)
+			{
+				Vector3 lateralForce = transform.right * handbrakeInput * rb.mass * 5f;
+				rb.AddForce(lateralForce, ForceMode.Force);
+			}
 		}
-		
+		else
+		{
+			ApplyBrakeTorque(FrontLeftWheelCollider.wheelCollider, brakeTorque * Mathf.Clamp(_brakeInput, 0, 1));
+			ApplyBrakeTorque(FrontRightWheelCollider.wheelCollider, brakeTorque * Mathf.Clamp(_brakeInput, 0, 1));
+			ApplyBrakeTorque(RearLeftWheelCollider.wheelCollider, brakeTorque * Mathf.Clamp(_brakeInput, 0, 1) / 2f);
+			ApplyBrakeTorque(RearRightWheelCollider.wheelCollider, brakeTorque * Mathf.Clamp(_brakeInput, 0, 1) / 2f);
+
+			ResetFriction(RearLeftWheelCollider.wheelCollider);
+			ResetFriction(RearRightWheelCollider.wheelCollider);
+		}
 	}
+
+
+// Function to adjust wheel friction for skidding
+void AdjustFriction(WheelCollider wheel, float forwardFriction, float sidewaysFriction)
+{
+    WheelFrictionCurve forward = wheel.forwardFriction;
+    forward.stiffness = forwardFriction;
+    wheel.forwardFriction = forward;
+
+    WheelFrictionCurve sideways = wheel.sidewaysFriction;
+    sideways.stiffness = sidewaysFriction;
+    wheel.sidewaysFriction = sideways;
+}
+
+// Function to reset wheel friction to default
+void ResetFriction(WheelCollider wheel)
+{
+    WheelFrictionCurve defaultFriction = wheel.forwardFriction;
+    defaultFriction.stiffness = 1.0f; // Reset to normal stiffness
+    wheel.forwardFriction = defaultFriction;
+
+    defaultFriction = wheel.sidewaysFriction;
+    defaultFriction.stiffness = 1.0f;
+    wheel.sidewaysFriction = defaultFriction;
+}
+
+// Function to apply brake torque
+void ApplyBrakeTorque(WheelCollider wheel, float brakeForce)
+{
+    wheel.brakeTorque = brakeForce;
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	void AntiRollBars (){
 

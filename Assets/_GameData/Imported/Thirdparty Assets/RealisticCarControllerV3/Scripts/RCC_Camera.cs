@@ -47,12 +47,13 @@ public class RCC_Camera : MonoBehaviour{
 
 	// Camera Modes.
 	public CameraMode cameraMode;
-	public enum CameraMode{TPS,CINEMATIC, FPS, WHEEL, FIXED,TOP}
+	public enum CameraMode{TPS,CINEMATIC, TPS2, WHEEL, FIXED,TOP}
 	public CameraMode lastCameraMode;
 
 	public bool useTopCameraMode = false;				// Shall we use top camera mode?
 	public bool useHoodCameraMode = true;				// Shall we use hood camera mode?
 	public bool useOrbitInTPSCameraMode = false;	// Shall we use orbit control in TPS camera mode?
+	public bool useOrbitInTPS2CameraMode = false;	// Shall we use orbit control in TPS camera mode?
 	public bool useOrbitInHoodCameraMode = false;	// Shall we use orbit control in hood camera mode?
 	public bool useWheelCameraMode = true;				// Shall we use wheel camera mode?
 	public bool useFixedCameraMode = false;				// Shall we use fixed camera mode?
@@ -83,7 +84,9 @@ public class RCC_Camera : MonoBehaviour{
 	public float TPSHeightDamping = 10f;	// Height movement damper.
 	public float TPSRotationDamping = 5f;	// Rotation movement damper.
 	public float TPSTiltMaximum = 15f;		// Maximum tilt angle related with rigidbody local velocity.
-	public float TPSTiltMultiplier = 2f;		// Tilt angle multiplier.
+	public float TPSTiltMultiplier = 2f;
+	public float TPS2TiltMaximum = 15f;		// Maximum tilt angle related with rigidbody local velocity.
+	public float TPS2TiltMultiplier = 2f;		// Tilt angle multiplier.
 	private float TPSTiltAngle = 0f;			// Current tilt angle.
 	public float TPSYawAngle = 0f;			// Yaw angle.
 	public float TPSPitchAngle = 7f;			// Pitch angle.
@@ -91,7 +94,9 @@ public class RCC_Camera : MonoBehaviour{
 	internal float targetFieldOfView = 60f;	// Camera will adapt its field of view to this target field of view. All field of views below this line will feed this value.
 
 	public float TPSMinimumFOV = 50f;			// Minimum field of view related with vehicle speed.
-	public float TPSMaximumFOV = 70f;			// Maximum field of view related with vehicle speed.
+	public float TPS2MinimumFOV = 60f;			// Minimum field of view related with vehicle speed.
+	public float TPSMaximumFOV = 60f;			// Maximum field of view related with vehicle speed.
+	public float TPS2MaximumFOV = 70f;			// Maximum field of view related with vehicle speed.
 	public float hoodCameraFOV = 60f;			// Hood field of view.
 	public float wheelCameraFOV = 60f;			// Wheel field of view.
 	public float minimumOrtSize = 10f;			// Minimum ortho size related with vehicle speed.
@@ -130,6 +135,31 @@ public class RCC_Camera : MonoBehaviour{
 	private float currentHeight = 0f;
 	private float wantedHeight = 0f;
 
+	
+	
+	public float shakeAmount = 1f;
+
+	private float shakeDuration = 1f;
+
+	private float shakePercentage;
+	
+	private float startAmount;
+
+	private float startDuration;
+
+	private bool isRunning;
+	
+	public ParticleSystem warpEffect;
+	private bool smooth;
+
+	private float smoothAmount = 10f;
+
+	private float hSliderValue;
+	public Transform mainCamera;
+	
+	
+	
+	
 	public delegate void onBCGCameraSpawned(GameObject BCGCamera);
 	public static event onBCGCameraSpawned OnBCGCameraSpawned;
 public static RCC_Camera Instance;
@@ -282,10 +312,10 @@ public static RCC_Camera Instance;
 		case CameraMode.CINEMATIC:
 			CINEMATIC();
 			break;
-		case CameraMode.FPS:
-			FPS ();
-			if (useOrbitInHoodCameraMode)
-				ORBIT ();
+		case CameraMode.TPS2:
+			TPS2();
+			if (useOrbitInTPS2CameraMode)
+				ORBIT2 ();
 			break;
 
 		case CameraMode.WHEEL:
@@ -329,7 +359,7 @@ public static RCC_Camera Instance;
 		cameraSwitchCount ++;
 
 		// We have 6 camera modes at total. If camera switch counter is greater than maximum, set it to 0.
-		if (cameraSwitchCount >= 2)
+		if (cameraSwitchCount >= 6)
 			cameraSwitchCount = 0;
 
 		switch(cameraSwitchCount){
@@ -338,39 +368,34 @@ public static RCC_Camera Instance;
 			cameraMode = CameraMode.TPS;
 			break;
 		case 1:
+			cameraMode = CameraMode.TPS2;
+			break;
+		case 2:
+			if(useWheelCameraMode && wheelCam){
+				cameraMode = CameraMode.WHEEL;
+			}else{
+				ChangeCamera();
+			}
+			break;
+		case 3:
 			if(useCinematicCameraMode && cinematicCam){
 				cameraMode = CameraMode.CINEMATIC;
 			}else{
 				ChangeCamera();
 			}
 			break;
-		/*case 1:
-			if(useHoodCameraMode && hoodCam){
-				cameraMode = CameraMode.FPS;
-			}else{
-				ChangeCamera();
-			}
-			break;*/
 
-		/*case 2:
-			if(useWheelCameraMode && wheelCam){
-				cameraMode = CameraMode.WHEEL;
-			}else{
-				ChangeCamera();
-			}
-			break;*/
-
-		/*case 3:
+		case 4:
 			if(useFixedCameraMode && fixedCam){
 				cameraMode = CameraMode.FIXED;
 			}else{
 				ChangeCamera();
 			}
-			break;*/
+			break;
 		
 		
 
-		/*case 5:
+		case 5:
 			if(useTopCameraMode)
 			{
 				cameraMode = CameraMode.TOP;
@@ -379,7 +404,7 @@ public static RCC_Camera Instance;
 			{
 				ChangeCamera();
 			}
-			break;*/
+			break;
 		}
 	}
 
@@ -401,6 +426,7 @@ public static RCC_Camera Instance;
 	{
 		if (useOcclusion && Occluding (playerCar.transform.position))
 			ChangeCamera (CameraMode.TPS);
+		ShakeCamera();
 	}
 
 	void TPS()
@@ -413,7 +439,7 @@ public static RCC_Camera Instance;
 		}
 
 		lastDirection = playerCar.direction;
-
+		//ShakeCamera();
 		// Calculate the current rotation angles for TPS mode.
 		wantedRotation = playerCar.transform.rotation * Quaternion.AngleAxis ((direction == 1 ? 0 : 180) + (useOrbitInTPSCameraMode ? orbitX : 0), Vector3.up);
 		wantedRotation = wantedRotation * Quaternion.AngleAxis ((useOrbitInTPSCameraMode ? orbitY : 0), Vector3.right);
@@ -477,7 +503,83 @@ public static RCC_Camera Instance;
 			OccludeRay (playerCar.transform.position);
 
 	}
+	void TPS2()
+	{
+		if (lastDirection != playerCar.direction)
+		{
+			direction = playerCar.direction;
+			orbitX = 0f;
+			orbitY = 0f;
+		}
 
+		lastDirection = playerCar.direction;
+		//ShakeCamera();
+		// Calculate the current rotation angles for TPS mode.
+		wantedRotation = playerCar.transform.rotation * Quaternion.AngleAxis ((direction == 1 ? 0 : 180) + (useOrbitInTPS2CameraMode ? orbitX : 0), Vector3.up);
+		wantedRotation = wantedRotation * Quaternion.AngleAxis ((useOrbitInTPS2CameraMode ? orbitY : 0), Vector3.right);
+
+		if(Input.GetKey(KeyCode.B))
+			wantedRotation = wantedRotation * Quaternion.AngleAxis ((180), Vector3.up);
+
+		// Wanted height.
+		wantedHeight = playerCar.transform.position.y + TPSHeight;
+
+		// Damp the height.
+		currentHeight = Mathf.Lerp (currentHeight, wantedHeight, TPSHeightDamping * Time.fixedDeltaTime);
+
+		// Damp the rotation around the y-axis.
+		if(Time.time > 1)
+			currentRotation = Quaternion.Lerp(currentRotation, wantedRotation, TPSRotationDamping * Time.deltaTime);
+		else
+			currentRotation = wantedRotation;
+
+		
+	
+		
+		// Rotates camera by Z axis for tilt effect.
+		TPSTiltAngle = Mathf.Lerp(0f, TPS2TiltMaximum * Mathf.Clamp(-playerVelocity.x, -1f, 1f), Mathf.Abs(playerVelocity.x) / 50f);
+		TPSTiltAngle *= TPS2TiltMultiplier;
+
+		// Set the position of the camera on the x-z plane to distance meters behind the target.
+		targetPosition = playerCar.transform.position;
+		targetPosition -= (currentRotation) * Vector3.forward * (TPSDistance/* * Mathf.Lerp(1f, .75f, (playerRigid.velocity.magnitude * 0.1f) / 100f)*/);
+		targetPosition += Vector3.up * (TPSHeight /** Mathf.Lerp(1f, .75f, (playerRigid.velocity.magnitude * 0.1f) / 100f)*/);
+
+		// SMOOTHED.
+//		transform.position = SmoothApproach(pastFollowerPosition, pastTargetPosition, targetPosition, Mathf.Clamp(10f, Mathf.Abs(playerSpeed / 2f), Mathf.Infinity));
+		// RAW.
+		transform.position = targetPosition;
+
+		thisCam.transform.localPosition = Vector3.Lerp(thisCam.transform.localPosition, new Vector3 (TPSTiltAngle / 10f, 0f, 0f), Time.deltaTime * 3f);
+
+		// Always look at the target.
+		transform.LookAt (playerCar.transform);
+		transform.eulerAngles = new Vector3(currentRotation.eulerAngles.x + (TPSPitchAngle * Mathf.Lerp(1f, .75f, (playerRigid.velocity.magnitude * 3.6f) / 100f)), transform.eulerAngles.y, -Mathf.Clamp(TPSTiltAngle, -TPS2TiltMaximum, TPS2TiltMaximum) + TPSYawAngle);
+
+		// Past positions used for proper smooting related with speed.
+		lastFollowerPosition = transform.position;
+		lastTargetPosition = targetPosition;
+
+		// Collision positions and rotations that affects pivot of the camera.
+		collisionPos = Vector3.Lerp(new Vector3(collisionPos.x, collisionPos.y, collisionPos.z), Vector3.zero, Time.unscaledDeltaTime * 5f);
+
+		if(Time.deltaTime != 0)
+			collisionRot = Quaternion.Lerp(collisionRot, Quaternion.identity, Time.deltaTime * 5f);
+
+		// Lerping position and rotation of the pivot to collision.
+		pivot.transform.localPosition = Vector3.Lerp(pivot.transform.localPosition, collisionPos, Time.deltaTime * 10f);
+		pivot.transform.localRotation = Quaternion.Lerp(pivot.transform.localRotation, collisionRot, Time.deltaTime * 10f);
+
+		// Lerping targetFieldOfView from TPS2MinimumFOV to TPSMaximumFOV related with vehicle speed.
+		targetFieldOfView = Mathf.Lerp(TPS2MinimumFOV, TPS2MaximumFOV, Mathf.Abs(playerSpeed) / 150f);
+
+		// Sinus FOV effect on hard crashes.
+		targetFieldOfView += (5f * Mathf.Cos (index));
+
+		if(useOcclusion)
+			OccludeRay (playerCar.transform.position);
+
+	}
 	void FIXED(){
 
 		if(fixedCam.transform.parent != null)
@@ -523,6 +625,24 @@ public static RCC_Camera Instance;
 	}
 
 	void ORBIT(){
+
+		// Clamping Y.
+		orbitY = Mathf.Clamp(orbitY, minOrbitY, maxOrbitY);
+
+		orbitRotation = Quaternion.Euler(orbitY, orbitX, 0f);
+
+		if(playerSpeed > 10f && Mathf.Abs(orbitX) > 1f)
+			orbitResetTimer += Time.deltaTime;
+
+		if (playerSpeed > 10f && orbitResetTimer >= 2f) {
+
+			orbitX = 0f;
+			orbitY = 0f;
+			orbitResetTimer = 0f;
+
+		}
+
+	}void ORBIT2(){
 
 		// Clamping Y.
 		orbitY = Mathf.Clamp(orbitY, minOrbitY, maxOrbitY);
@@ -589,7 +709,7 @@ public static RCC_Camera Instance;
 
 	}
 
-	private void ResetCamera(){
+	public void ResetCamera(){
 		
 		if(fixedCam)
 			fixedCam.canTrackNow = false;
@@ -620,12 +740,9 @@ public static RCC_Camera Instance;
 			targetFieldOfView = TPSMaximumFOV;
 			break;
 
-		case CameraMode.FPS:
-			transform.SetParent (hoodCam.transform, false);
-			transform.localPosition = Vector3.zero;
-			transform.localRotation = Quaternion.identity;
-			targetFieldOfView = hoodCameraFOV;
-			hoodCam.FixShake ();
+		case CameraMode.TPS2:
+			transform.SetParent(null);
+			targetFieldOfView = TPS2MaximumFOV;
 			break;
 
 		case CameraMode.WHEEL:
@@ -748,10 +865,61 @@ public static RCC_Camera Instance;
 
 	}
 
-	void OnDisable(){
+	#region SkakeWork
 
-		//RCC_CarControllerV3.OnRCCPlayerCollision -= RCC_CarControllerV3_OnRCCPlayerCollision;
-
+	private bool gameStarted;
+	private void ShakeCamera()
+	{
+		/*if (gameStarted)
+		{
+			shakeAmount = Mathf.Clamp(playerRigid.velocity.magnitude / 80f, 0f, 3f);
+		}
+		else
+		{
+			shakeAmount = Mathf.Clamp(playerCar.engineRPM / 10000f, 0f, 3f);
+		}
+		ParticleSystem.EmissionModule emission = warpEffect.emission;
+		hSliderValue = Mathf.Clamp(playerRigid.velocity.magnitude * 1.5f - 20f, 0f, 100f);
+		emission.rateOverTime = hSliderValue;
+		startAmount = shakeAmount;
+		startDuration = shakeDuration;
+		if (!isRunning)
+		{
+			StartCoroutine(Shake());
+		}*/
 	}
+
+	public void ShakeCamera(float amount, float duration)
+	{
+		shakeAmount += amount;
+		startAmount = shakeAmount;
+		shakeDuration += duration;
+		startDuration = shakeDuration;
+		if (!isRunning)
+		{
+			StartCoroutine(Shake());
+		}
+	}
+
+	private IEnumerator Shake()
+	{
+		isRunning = true;
+		while (shakeDuration > 0.01f)
+		{
+			Vector3 rotationAmount = Random.insideUnitSphere * shakeAmount;
+			rotationAmount.z = 0f;
+			shakePercentage = shakeDuration / startDuration;
+			shakeAmount = startAmount * shakePercentage;
+			shakeDuration = Mathf.Lerp(shakeDuration, 0f, Time.deltaTime);
+			mainCamera.localRotation = Quaternion.Lerp(mainCamera.localRotation, Quaternion.Euler(rotationAmount), Time.deltaTime * smoothAmount);
+			yield return null;
+		}
+		mainCamera.localRotation = Quaternion.identity;
+		shakeAmount = 1f;
+		shakeDuration = 1f;
+		isRunning = false;
+	}
+
+	#endregion
 
 }

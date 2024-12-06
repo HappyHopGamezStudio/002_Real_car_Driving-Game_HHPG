@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DogController : MonoBehaviour
 {
-    public Transform player;            // Reference to the player
+    public Transform player,mouth;            // Reference to the player
     public Transform ball;              // Reference to the ball
     public float rightSideOffset = 1f;  // Distance to the right side of the player
     public float followSpeed = 3f;      // Speed when the dog is walking beside the player
@@ -148,11 +148,15 @@ public class DogController : MonoBehaviour
             Vector3 returnPosition = player.position + player.right * rightSideOffset;
             transform.position = Vector3.MoveTowards(transform.position, returnPosition, runSpeed * Time.deltaTime);
             transform.LookAt(player.position);
+            ball.gameObject.SetActive(false);
+            mouth.gameObject.SetActive(true);
             yield return null;
         }
 
         dogAnimator.SetFloat("Speed", 0f); // Idle after fetch
         isFetchingBall = false;
+        ball.GetComponent<DestroyAfter>().Destroyme();
         DogButton.gameObject.SetActive(true);
+        mouth.gameObject.SetActive(false);
     }
 }

@@ -16,7 +16,7 @@ public class HHG_UiManager : MonoBehaviour
     public static HHG_UiManager instance;
     public int TotalLevels;
     public Image fuelBar;
-    public GameObject /*EffectForcoin*/blankimage;
+    public GameObject Fadeimage,blankimage;
     public Image []NosFiller;
     public GameObject []NosButton; 
     public Text []NosCountText;
@@ -50,11 +50,16 @@ public class HHG_UiManager : MonoBehaviour
         HHG_SoundManager.Instance.PlayAudio(HHG_SoundManager.Instance.BgSound);
         Time.timeScale = 1f;
         HHG_LevelManager.instace.SelectedPlayer.GetComponent<VehicleProperties>().UpdateHealthText();
-        FillhealthBar.color  = HHG_LevelManager.instace.SelectedPlayer.GetComponent<VehicleProperties>().colers[0];
+        FillhealthBar.color  = HHG_LevelManager.instace.colers[0];
         Ripairebutton.SetActive(false);
         uiPanel.SetActive(false);
+        Invoke(nameof(offFadeimage),4f);
     }
 
+   void offFadeimage()
+    {
+        Fadeimage.SetActive(false);
+    }
     public void OnspeedCaputer()
     {
         ToSlowPanel.SetActive(true);
@@ -228,16 +233,29 @@ public class HHG_UiManager : MonoBehaviour
 
     }
 
-    public void HideGamePlay()
-    {
-        controls.GetComponent<CanvasGroup>().alpha = 0;
-    }
+   public void HideGamePlay()
+   {
+       controls.SetActive(false);
+       TpsControle.SetActive(false);
+      HHG_GameManager.Instance.MapCanvasController.gameObject.SetActive(false);
+        
+   }
 
-    public void ShowGamePlay()
-    {
-        controls.GetComponent<CanvasGroup>().alpha = 1;
-
-    }
+   public void ShowGamePlay()
+   {
+       if (HHG_GameManager.Instance.TpsStatus==PlayerStatus.CarDriving)
+       {
+           controls.SetActive(true);
+           TpsControle.SetActive(false);
+       }
+       else
+       {
+           controls.SetActive(false);
+           TpsControle.SetActive(true);
+         
+       }
+       HHG_GameManager.Instance.MapCanvasController.gameObject.SetActive(true);
+   }
     public void HideObjectivePannel()
     {
        // AdmobAdsManager.Instance.LoadInterstitialAd();

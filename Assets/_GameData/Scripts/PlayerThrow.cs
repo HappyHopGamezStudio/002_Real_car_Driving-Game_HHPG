@@ -1,6 +1,7 @@
 using UnityEngine;
 using StarterAssets;
 using System.Collections;
+using System.Threading.Tasks;
 
 public class PlayerThrow : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class PlayerThrow : MonoBehaviour
     private Animator _animator;
     private StarterAssetsInputs _input;
     public DogController DogController;
-   
+    public GameObject mobile,uimobile;
     private void Start()
     {
         _animator = GetComponent<Animator>();
@@ -26,13 +27,31 @@ public class PlayerThrow : MonoBehaviour
             StartCoroutine(ThrowBallWithDelay()); // Start the throw coroutine
             // Start the throw coroutine
         }
+        if (_input.SitBike) // Check if the throw input was triggered
+        {
+            _input.SitBike = false; // Reset the input
+            SitOnBike();
+            // Start the throw coroutine
+        }
+       
     }
 
-    public void SitOnBike()
+    public async  void SitOnBike()
     {
-        _animator.SetBool("SitBike", true); // Start the "SitBike" animation
+        _animator.SetBool("SitBike", true); 
+      // Start the "SitBike" animation
+      
+        mobile.SetActive(true);
+        await Task.Delay(1000);
+        uimobile.SetActive(true);
     }
-
+    public void OffMobile()
+    {
+        _animator.SetBool("SitBike", false); 
+        mobile.SetActive(false);// Start the "fa" animation
+        
+        uimobile.SetActive(false);
+    }
     private void PlayThrowAnimation()
     {
         _animator.SetTrigger("Throw"); // Trigger the throw animation
@@ -59,6 +78,7 @@ public class PlayerThrow : MonoBehaviour
 
     void callFacteh()
     {
+       // ballPrefab.GetComponent<DestroyAfter>().IsStart = true;
         DogController.ThrowBall();
     }
 }

@@ -53,7 +53,7 @@ MonoBehaviour:
   RCCTag: Player
   tagAllChildrenGameobjects: 1
   cinematicCamera: {fileID: 3148196843214040518, guid: 7a1e5b28cb8eafe44a6916517c70c5f4, type: 3}
-  chassisJoint: {fileID: 116354, guid: a7e7b1406cded0e4cb52224eb5dc2d80, type: 3}
+  chassisJoint: {fileID: 1929612648379024, guid: a0e10baded3f4ac4f9beb6d91a356f47, type: 3}
   exhaustGas: {fileID: 104134, guid: 46992adcb9d56714eb84164c8a965492, type: 3}
   skidmarksManager: {fileID: 11447598, guid: a107dc7aa77e84f4d8cf9888def4fe64, type: 3}
   projector: {fileID: 102982, guid: 7f7b6e33e52b82e43a57b7cc85ed5cf9, type: 3}
