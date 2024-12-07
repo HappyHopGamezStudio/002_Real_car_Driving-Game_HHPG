@@ -724,12 +724,17 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 		
 		Vector3[] vertices = mesh.vertices;
 		
-		foreach (ContactPoint contact in collision.contacts){
-			if (enabled)
+		foreach (ContactPoint contact in collision.contacts)
+		{
+			if (HHG_GameManager.Instance.TpsStatus==PlayerStatus.CarDriving)
 			{
-				GetComponent<VehicleProperties>().ApplyDamage(cos/5);
-				//PrefsManager.Gethealth(CarName,GetComponent<VehicleProperties>().currentHealth);
+				if (GetComponent<VehicleProperties>().enabled)
+				{
+					GetComponent<VehicleProperties>().ApplyDamage(cos/5);
+					//PrefsManager.Gethealth(CarName,GetComponent<VehicleProperties>().currentHealth);
+				}
 			}
+			
 			
 			
 			Vector3 point = meshTransform.InverseTransformPoint(contact.point);

@@ -374,7 +374,7 @@ public static RCC_Camera Instance;
 			if(useWheelCameraMode && wheelCam){
 				cameraMode = CameraMode.WHEEL;
 			}else{
-				ChangeCamera();
+				//ChangeCamera();
 			}
 			break;
 		case 3:
@@ -389,7 +389,7 @@ public static RCC_Camera Instance;
 			if(useFixedCameraMode && fixedCam){
 				cameraMode = CameraMode.FIXED;
 			}else{
-				ChangeCamera();
+				//ChangeCamera();
 			}
 			break;
 		

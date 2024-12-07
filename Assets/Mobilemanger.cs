@@ -75,6 +75,16 @@ public class Mobilemanger : MonoBehaviour
         Profile.SetActive(false);
         mission.SetActive(false);
         Musicplayer.SetActive(false);
+        
+        if (IsManBar)
+        {
+            HHG_GameManager.Instance.TPSPlayer.GetComponent<PlayerThrow>().OffMobile();
+            HHG_UiManager.instance.ShowGamePlay();
+        }
+        IsManBar = true;
+        Isprofilebar = false;
+        missionBar = false;
+        musicBar = false;
     }
 
     public void OnMap()
@@ -82,5 +92,10 @@ public class Mobilemanger : MonoBehaviour
         mobile.SetActive(false);
         HHG_GameManager.Instance.OpenBigMap();
         HHG_UiManager.instance.HideGamePlay();
+    }
+    public void RateUsButtonEvent ()
+    {
+        HHG_SoundManager.Instance.PlayOneShotSounds (HHG_SoundManager.Instance.click);
+        Application.OpenURL ("https://play.google.com/store/apps/details?id=" + Application.identifier);
     }
 }

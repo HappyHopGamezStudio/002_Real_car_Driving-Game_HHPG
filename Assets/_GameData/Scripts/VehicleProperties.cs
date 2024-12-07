@@ -93,6 +93,7 @@ public class VehicleProperties : MonoBehaviour
 		foreach (var light in carLights)
 		{
 			light.enabled = false;
+			light.gameObject.SetActive(false);
 		}
 	}
 	void TurnONAllLights()
@@ -100,6 +101,7 @@ public class VehicleProperties : MonoBehaviour
 		foreach (var light in carLights)
 		{
 			light.enabled = true;
+			light.gameObject.SetActive(true);
 		}
 	}
 	private void Start()
@@ -209,8 +211,7 @@ public class VehicleProperties : MonoBehaviour
 			FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
 			PrefsManager.SetInterInt(1);
 		}
-		transform.GetComponent<Rigidbody>().velocity=Vector3.zero; 
-		transform.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
+		
 		GetComponent<HHG_CarShadow>().enabled = false;
 		GetComponent<HHG_CarShadow>().ombrePlane.gameObject.SetActive(false);
 		
@@ -228,7 +229,8 @@ public class VehicleProperties : MonoBehaviour
 		{
 			CarController.chassis.GetComponent<RCC_Chassis>().enabled = false;
 		}
-	
+		transform.GetComponent<Rigidbody>().velocity=Vector3.zero; 
+		transform.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
 		CarController.FrontLeftWheelCollider.enabled = false;
 		CarController.FrontRightWheelCollider.enabled = false;
 		CarController.RearLeftWheelCollider.enabled = false;
@@ -337,7 +339,7 @@ public class VehicleProperties : MonoBehaviour
 		    return;
 	    if (other.gameObject.CompareTag(GameConstant.Tag_Coin))
 	    {
-		    HHG_LevelManager.instace.CoinSound.Play();
+		    HHG_LevelManager.instace.CoinSound.PlayOneShot(HHG_LevelManager.instace.Coinsound);
 		    //  HHG_UiManager.instance.EffectForcoin.SetActive(true);
 		    Invoke("OffCoinsEffect", 3f);
 		    PrefsManager.SetJEMValue(PrefsManager.GetJEMValue() + 1);
@@ -449,8 +451,12 @@ public class VehicleProperties : MonoBehaviour
 
     public void onpanel()
     {
-	    HHG_UiManager.instance.repairPanel.SetActive(true);
-	    HHG_UiManager.instance.HideGamePlay();
+	    if (enabled)
+	    {
+		    HHG_UiManager.instance.repairPanel.SetActive(true);
+		    Debug.Log("here"+transform.name);
+		    HHG_UiManager.instance.HideGamePlay();
+	    }
     }
     public string CarName = "";
     public void RepairCar()

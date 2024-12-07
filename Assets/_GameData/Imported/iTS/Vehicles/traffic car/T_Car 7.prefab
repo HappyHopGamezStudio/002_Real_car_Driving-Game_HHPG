@@ -1575,6 +1575,7 @@ MonoBehaviour:
   Exuset: {fileID: 7434505051868441086}
   AllAudioSource: {fileID: 0}
   Fire: {fileID: 0}
+  DefaultCarPostion: {fileID: 0}
   TrafficCarAi: 1
   Grounded: 0
   groundCheckDistance: 1.1
@@ -1657,6 +1658,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ed070ab24bf43cd459d98079a74bee5a, type: 3}
   - {fileID: 8300000, guid: 7a0671bff41361b4cbff2dd27702ce12, type: 3}
   - {fileID: 8300000, guid: 6f3beb2632361cb4ca0e0b89a08d243e, type: 3}
+  - {fileID: 8300000, guid: ce364b42734fab84fa22018803c99472, type: 3}
+  - {fileID: 8300000, guid: d196368d1ad2a9b4c968dd48d9206244, type: 3}
+  - {fileID: 8300000, guid: cc6f63ef9d6c66f4e8cad1586edcc411, type: 3}
+  - {fileID: 8300000, guid: ce8c0066ae5c0d64caeed3bad8b26a33, type: 3}
+  - {fileID: 8300000, guid: 6c4dd25952c882c4fa8a670c6d918c77, type: 3}
+  - {fileID: 8300000, guid: 8ad9054b5a6fc564e8c2dcb45183fd7c, type: 3}
+  - {fileID: 8300000, guid: bf2256e74021fac47b2e63c7dc889a09, type: 3}
+  - {fileID: 8300000, guid: b2dea2fee490b0a418612b992f909ee0, type: 3}
   isCritical: 0
   normalhit: 0
 --- !u!1 &1578640891941383660

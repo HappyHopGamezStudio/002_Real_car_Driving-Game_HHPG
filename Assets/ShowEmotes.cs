@@ -31,19 +31,18 @@ public class ShowEmotes : MonoBehaviour
 						int Emoteindex = Random.Range(0, angerEmotePrefabs.Length);
 						InstantiateEmote(angerEmotePrefabs[Emoteindex], collision.transform); // Show the second anger emote
 						randomIndex = Random.Range(0, AngerySounds.Length);
-						GetComponent<AudioSource>().PlayOneShot(AngerySounds[randomIndex]);
+						HHG_LevelManager.instace.CoinSound.PlayOneShot(AngerySounds[randomIndex]);
 						forall = true;
 
 					}
 					else if (normalhit)
 					{
 						Debug.Log("here");
-					
-						forall = true;
 						InstantiateEmote(angerEmotePrefabs[angerIndex], collision.transform);
 						int randomIndex = Random.Range(0, AngerySounds.Length);
-						GetComponent<AudioSource>().PlayOneShot(AngerySounds[randomIndex]);
 						angerIndex = (angerIndex + 1) % angerEmotePrefabs.Length;
+						HHG_LevelManager.instace.CoinSound.PlayOneShot(AngerySounds[randomIndex]);
+						forall = true;
 					}
 				}
 			}

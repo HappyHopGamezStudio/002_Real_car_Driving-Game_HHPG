@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BrakeEmissionController : MonoBehaviour
@@ -8,9 +9,22 @@ public class BrakeEmissionController : MonoBehaviour
 
     private bool isBraking = false;
 
+    private void Awake()
+    {
+        if (carController==null)
+        {
+            carController = transform.GetComponent<RCC_CarControllerV3>();
+        }
+    }
+
     void Update()
     {
         if (carController.brakeInput > 0)
+        {
+            isBraking = true;
+            SetEmission(true);
+        }
+        else  if (carController.handbrakeInput > 0)
         {
             isBraking = true;
             SetEmission(true);
