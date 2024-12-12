@@ -102,10 +102,10 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _PearlUVScale: 100
-    - _RefIntensity: 0.89
+    - _RefIntensity: 0.43
     - _RefShininessIntensity: 1
     - _RefType: 0
-    - _RefVisibility: 1.42
+    - _RefVisibility: 2
     - _ShininessIntensity: 0.9
     - _ShininessScale: 1
     - _Shinniness: 0.03

@@ -19,6 +19,7 @@ public class HHG_PlayerSelection : MonoBehaviour
     public int[] Prices;
     int selectedPlayerValue = 0;
     public GameObject[] selectedDogArray;
+    public Button[] CarButtons;
 
     public GameObject nextBtn,
         backBtn,
@@ -41,8 +42,7 @@ public class HHG_PlayerSelection : MonoBehaviour
     public static HHG_PlayerSelection instance;
     public GameObject fakeLoading;
 
-    public Text[] BestDrift;
-    private const string PrefKey = "SavedValue";
+
 
     [Header("CarSoldCutSSceane")] public GameObject Timeline;
     public PlayableDirector Director;
@@ -60,23 +60,12 @@ public class HHG_PlayerSelection : MonoBehaviour
     void Start()
     {
         instance = this;
-        coinText.text = "" + PrefsManager.GetCoinsValue();
-        coinText2.text = "" + PrefsManager.GetCoinsValue();
         Time.timeScale = 1;
 
-        savedValue = PlayerPrefs.GetFloat(PrefKey, 0f);
-        foreach (var best in BestDrift)
-        {
-            best.text = Mathf.FloorToInt(savedValue).ToString();
-        }
+       
     }
 
-    private void Update()
-    {
-        coinText.text = "" + PrefsManager.GetCoinsValue();
-        coinText2.text = "" + PrefsManager.GetCoinsValue();
-        ls_cointext.text = "" + PrefsManager.GetCoinsValue();
-    }
+ 
 
     public void OnNextPressed()
     {
@@ -115,7 +104,24 @@ public class HHG_PlayerSelection : MonoBehaviour
         }
 
     }
-
+    public void OnButtonClick(int selectedPlayerValue)
+    {
+        HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
+        if (selectedPlayerValue >= 0 && selectedPlayerValue < selectedDogArray.Length)
+        {
+            for (int i = 0; i < CarButtons.Length; i++)
+            {
+                CarButtons[i].transform.GetChild(0).gameObject.SetActive(false);
+            }
+            CarButtons[selectedPlayerValue].transform.GetChild(0).gameObject.SetActive(true);
+            ShowPlayerNow(selectedPlayerValue);
+           
+        }
+        else
+        {
+            Debug.LogError("Player index out of bounds");
+        }
+    }
 
    public GameObject CurrentPlayer = null;
 
@@ -131,21 +137,28 @@ public class HHG_PlayerSelection : MonoBehaviour
             Play.SetActive(false);
             unlockPlayerButton.SetActive(true);
             TestDriveButton.SetActive(true);
-            foreach (var best in BestDrift)
+            for (int i = 0; i < CarButtons.Length; i++)
             {
-                best.text = Mathf.FloorToInt(savedValue).ToString();
+                if (PrefsManager.GetPlayerState(i) == 1)
+                {
+                    CarButtons[i].transform.GetChild(2).gameObject.SetActive(false);
+                }
             }
         }
         else
         {
             lockSprite.SetActive(false);
             PriceText.transform.parent.gameObject.SetActive(false);
+            
             Play.SetActive(true);
             unlockPlayerButton.SetActive(false);
             TestDriveButton.SetActive(false);
-            foreach (var best in BestDrift)
+            for (int i = 0; i < CarButtons.Length; i++)
             {
-                best.text = Mathf.FloorToInt(savedValue).ToString();
+                if (PrefsManager.GetPlayerState(i) == 1)
+                {
+                    CarButtons[i].transform.GetChild(2).gameObject.SetActive(false);
+                }
             }
         }
 
@@ -244,6 +257,13 @@ public class HHG_PlayerSelection : MonoBehaviour
         ShowPlayerNow(PrefsManager.GetLastJeepUnlock());
         MainNextBack.SetActive(true);
         selectedPlayerValue = PrefsManager.GetLastJeepUnlock();
+        for (int i = 0; i < CarButtons.Length; i++)
+        {
+            if (PrefsManager.GetPlayerState(i) == 1)
+            {
+                CarButtons[i].transform.GetChild(2).gameObject.SetActive(false);
+            }
+        }
     }
 
     public void BackToMainCanvas()
@@ -304,6 +324,7 @@ public class HHG_PlayerSelection : MonoBehaviour
             Play.SetActive(true);
             unlockPlayerButton.SetActive(false);
             TestDriveButton.SetActive(false);
+            CarButtons[ActivePlayervalue].transform.GetChild(2).GetComponent<Image>().gameObject.SetActive(false);
         }
         else
         {

@@ -5390,6 +5390,36 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4376751536443586659, guid: 55150a9aa40057449865e29c84035a93, type: 3}
+--- !u!1 &6796212572766390276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7523178418167935109}
+  m_Layer: 3
+  m_Name: DefaultCarPostion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7523178418167935109
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6796212572766390276}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9150278511262250260}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6825174978700645797
 GameObject:
   m_ObjectHideFlags: 0
@@ -10124,6 +10154,7 @@ Transform:
   - {fileID: 9150278510933243652}
   - {fileID: 7744273797081804392}
   - {fileID: 7744273797581770094}
+  - {fileID: 7523178418167935109}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10767,7 +10798,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82743c9543ceb864989f5008a18b2f0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Names: 24
+  Names: 45
   TpsPosition: {fileID: 9150278511051386525}
   ConeEffect: {fileID: 880610553505374530}
   Rb: {fileID: 0}
@@ -10777,11 +10808,17 @@ MonoBehaviour:
   Fire: {fileID: 0}
   DefaultCarPostion: {fileID: 0}
   TrafficCarAi: 1
+  IsCarOnintersial: 0
   Grounded: 0
   groundCheckDistance: 1.1
   LayerMask:
     serializedVersion: 2
     m_Bits: 1
+  slowMotionFactor: 0.1
+  hitForceThreshold: 50
+  continuousHitCount: 5
+  hitResetTime: 3
+  hitCounter: 0
   maxHealth: 100
   currentHealth: 100
   CarName: 
@@ -10842,7 +10879,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 449
+  newSize: {x: 2, y: 2, z: 2}
   setpos: 0.07
+  IsForTps: 0
 --- !u!114 &9062986846491466313
 MonoBehaviour:
   m_ObjectHideFlags: 0

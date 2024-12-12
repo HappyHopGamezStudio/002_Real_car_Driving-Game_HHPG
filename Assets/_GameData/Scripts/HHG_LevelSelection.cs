@@ -13,15 +13,26 @@ public class HHG_LevelSelection : MonoBehaviour {
 	public GameObject Modes, errorOnMode, Desertmode, snowmode,loading;
 	public Text alertobject;
 	// Use this for initialization
-	void Start () {
 
-		fade.SetActive(false);
 
-		//Levels[PrefsManager.GetLevelMode()].SetActive(true);
-		
-
+	void Offtext()
+	{
+		alertobject.gameObject.SetActive(false);
+		ison = false;
 	}
 
+	private bool ison = false;
+	public void MakeVaibrate()
+	{
+		if (!ison)
+		{
+			alertobject.gameObject.SetActive(true);
+			Handheld.Vibrate();
+			Invoke(nameof(Offtext),2f);
+			ison = true;
+		}
+		
+	}
 	private void OnEnable()
 	{
 		
@@ -56,27 +67,25 @@ public class HHG_LevelSelection : MonoBehaviour {
 	  
 	}
 
-	public GameObject fade;
+	
 	public void FreeMode()
 	{ 
 		HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
 	//AdmobAdsManager.Instance.ShowInt(LoadGameNow,false);
 	HHG_PlayerSelection.instance.dogSelectionCanvas.SetActive(false);
 	HHG_PlayerSelection.instance.levelSelectionCanvas.SetActive(false);
-	fade.SetActive(true);
-	CameraRotate.instance.SetGoPos();
-	gotoloading();
+	
+	CameraRotate.instance.SetMianPos();
+	playeloading();
 
 	}
 
-	public Animator Shater;
 
 
 
 	public void gotoloading()
 	{
-		Shater.enabled = true;
-		Invoke("playeloading",5f);
+		Invoke("playeloading",1f);
 	}
 
 
@@ -84,7 +93,7 @@ public class HHG_LevelSelection : MonoBehaviour {
 	public void playeloading()
 	{
 		loading.SetActive(true);
-		fade.SetActive(false);
+	
 		PrefsManager.SetGameMode("free");
 		loading.GetComponentInChildren<bl_SceneLoader>().LoadLevel("HHG_GamePlay");
 		if (PrefsManager.GetInterInt()!=5)

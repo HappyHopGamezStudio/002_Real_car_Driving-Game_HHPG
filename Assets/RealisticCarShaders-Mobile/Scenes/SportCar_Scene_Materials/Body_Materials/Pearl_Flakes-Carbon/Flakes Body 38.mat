@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Flakes Body 38
   m_Shader: {fileID: 4800000, guid: acfdd4aaa67bac047b3250e08833336f, type: 3}
-  m_ShaderKeywords: Booth_T Both_T
+  m_ShaderKeywords: Booth_T Cubemap_T
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -24,11 +24,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Cube:
-        m_Texture: {fileID: 8900000, guid: 5c72e010d6584ab45ad0a45a44c78b14, type: 3}
+        m_Texture: {fileID: 8900000, guid: 36e61f345861b9049b1e317a2fd8a893, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Decal:
-        m_Texture: {fileID: 2800000, guid: 85420316881326c4f9cf440698424b5c, type: 3}
+        m_Texture: {fileID: 2800000, guid: d35c06d578b5c8d4db26cfc2af7440ba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -102,7 +102,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _PearlUVScale: 28.1
-    - _RefIntensity: 0.52
+    - _RefIntensity: 0.42
     - _RefShininessIntensity: 1
     - _RefType: 0
     - _RefVisibility: 2
@@ -118,5 +118,5 @@ Material:
     - _Color: {r: 0, g: 0.5526235, b: 0.9528302, a: 1}
     - _DecalColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _PearlescentColor: {r: 0, g: 0.4433962, b: 0.010432905, a: 1}
+    - _PearlescentColor: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 1}
   m_BuildTextureStacks: []

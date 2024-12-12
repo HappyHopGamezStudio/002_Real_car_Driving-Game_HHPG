@@ -24,7 +24,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Cube:
-        m_Texture: {fileID: 8900000, guid: 5c72e010d6584ab45ad0a45a44c78b14, type: 3}
+        m_Texture: {fileID: 8900000, guid: 36e61f345861b9049b1e317a2fd8a893, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Decal:
@@ -102,12 +102,12 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _PearlUVScale: 28.1
-    - _RefIntensity: 1.14
+    - _RefIntensity: 1.17
     - _RefShininessIntensity: 1
     - _RefType: 0
-    - _RefVisibility: 1
-    - _ShininessIntensity: 0.9
-    - _ShininessScale: 1
+    - _RefVisibility: 2
+    - _ShininessIntensity: 4
+    - _ShininessScale: 50
     - _Shinniness: 0.03
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -115,8 +115,8 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0, g: 0.5526235, b: 0.9528302, a: 1}
+    - _Color: {r: 0, g: 0.669451, b: 0.8962264, a: 1}
     - _DecalColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _PearlescentColor: {r: 0, g: 0.4433962, b: 0.010432905, a: 1}
+    - _PearlescentColor: {r: 0, g: 0.56861687, b: 1, a: 1}
   m_BuildTextureStacks: []

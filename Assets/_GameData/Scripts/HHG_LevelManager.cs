@@ -27,14 +27,16 @@ public class HHG_LevelManager : MonoBehaviour
     // public PlayerCamera_New Tpscamera;
     public HHG_OpenWorldManager hhgOpenWorldManager;
     public GameObject TpsPlayer;
+    public GameObject Tpscamera;
     public DriftCanvasManager driftCanvasManagerNow;
 
     public Vector3 LastPosition;
     public Quaternion LastRotion;
 
-
+    public HUDNavigationCanvas HUDNavigationCanvas;
     public GameObject destroyedCarPrefab;
     public AudioClip Coinsound;
+    public AudioClip CheckPointSound;
     public AudioSource CoinSound;
     public Color[] colers;
 
@@ -57,13 +59,20 @@ public class HHG_LevelManager : MonoBehaviour
         else
         {
             Time.timeScale = 1;
-            FreeMode.SetActive(true);
-            coinBar.GetComponentInChildren<Text>().text = "" + PrefsManager.GetCoinsValue();
+            FreeMode.SetActive(true);   
             JemBar.GetComponentInChildren<Text>().text = "" + PrefsManager.GetJEMValue();
             coinBar.SetActive(true);
             JemBar.SetActive(true);
             SelectedPlayer = Players[PrefsManager.GetSelectedPlayerValue()];
-            SetTransform(hhgOpenWorldManager.TpsPosition, hhgOpenWorldManager.CarPostiom);
+         
+            TpsPlayer.transform.position = hhgOpenWorldManager.TpsPosition.position;
+            TpsPlayer.transform.rotation = hhgOpenWorldManager.TpsPosition.rotation;
+
+            Tpscamera.transform.position =hhgOpenWorldManager.TpsPosition.position;
+            Tpscamera.transform.rotation = hhgOpenWorldManager.TpsPosition.rotation;
+
+            SelectedPlayer.transform.position =hhgOpenWorldManager.carPostion.position;
+            SelectedPlayer.transform.rotation =hhgOpenWorldManager.carPostion.rotation;
         }
 
         SelectedPlayer.SetActive(true);
@@ -74,18 +83,29 @@ public class HHG_LevelManager : MonoBehaviour
         SelectedPlayer.GetComponent<VehicleProperties>().ConeEffect.SetActive(false);
     }
 
-    public void SetTransform(Transform playerposition, Transform defulcar)
+    public void SetTransform(Transform Carposition, Transform tpsPosition )
     {
-        TpsPlayer.transform.position = playerposition.position;
-        TpsPlayer.transform.rotation = playerposition.rotation;
+        if (HHG_GameManager.Instance.TpsStatus==PlayerStatus.CarDriving)
+        {
 
-        /*Tpscamera.transform.position = playerposition.position;
-        Tpscamera.transform.rotation = playerposition.rotation;*/
+            HHG_GameManager.Instance.CurrentCar.transform.position = Carposition.position;
+            HHG_GameManager.Instance.CurrentCar.transform.rotation = Carposition.rotation;
 
-        SelectedPlayer.transform.position = defulcar.position;
-        SelectedPlayer.transform.rotation = defulcar.rotation;
+        }
+        else  if (HHG_GameManager.Instance.TpsStatus==PlayerStatus.ThirdPerson)
+        {
+            
+            TpsPlayer.transform.position = tpsPosition.position;
+            TpsPlayer.transform.rotation = tpsPosition.rotation;
 
+            Tpscamera.transform.position = tpsPosition.position;
+            Tpscamera.transform.rotation = tpsPosition.rotation;
+
+            SelectedPlayer.transform.position = Carposition.position;
+            SelectedPlayer.transform.rotation = Carposition.rotation;
+        }
     }
+
 
     public IEnumerator Start()
     {
@@ -108,8 +128,8 @@ public class HHG_LevelManager : MonoBehaviour
         if (!isUp)
         {
             HHG_GameManager.Instance.CurrentCar.GetComponent<RCC_CarControllerV3>().ResetCarNow();
-            HHG_GameManager.Instance.CurrentCar.GetComponent<Rigidbody>().velocity=Vector3.zero; 
-            HHG_GameManager.Instance.CurrentCar.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
+            HHG_GameManager.Instance.CurrentCar.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            HHG_GameManager.Instance.CurrentCar.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             isUp = true;
             Invoke(nameof(ofool), 2f);
         }
@@ -121,18 +141,46 @@ public class HHG_LevelManager : MonoBehaviour
         isUp = false;
     }
 
-    public Material[] CarEffect;
+    public Material CarEffect;
     public float multiplaxer;
     private float offset;
-
+    [Header("ForMissionCall")] public bool isPanelOn = false;
+    public float timer = 60f;
+    public Mobilemanger Mobilemanger;
     void Update()
     {
-
-        offset += Time.deltaTime * multiplaxer;
-        foreach (var VARIABLE in CarEffect)
+        
+        if (!isPanelOn)
         {
-            VARIABLE.mainTextureOffset = new Vector2(0, offset);
+            offset += Time.deltaTime * multiplaxer;
+            CarEffect.mainTextureOffset = new Vector2(0, offset);
+            timer -= Time.deltaTime;
+            if (timer <= 0f)
+            {
+                TpsPlayer?.GetComponent<PlayerThrow>().SitOnBike();
+                Mobilemanger.CallMe();
+                timer = 60f;
+            }
         }
 
+        if (!isTrazitionok) return;
+        
+        if (isTrazitionok)
+        {
+            HHG_UiManager.instance.Left.GetComponent<RCC_UIController>().pressing = true;
+            HHG_UiManager.instance.handBrake.GetComponent<RCC_UIController>().pressing = true;
+        }
+    }
+    public bool isTrazitionok = false;
+    public void ResetTimer()
+    {
+        timer = 90f;
+    }
+
+    public void againTimer()
+    {
+        timer = 60f;
     }
 }
+
+

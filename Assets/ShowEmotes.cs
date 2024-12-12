@@ -68,7 +68,7 @@ public class ShowEmotes : MonoBehaviour
 	private void InstantiateEmote(GameObject emotePrefab, Transform targetCar)
 	{
 		// Instantiate the emote above the target car
-		Vector3 emotePosition = targetCar.position + Vector3.up * 2f; // Adjust the height as needed
+		Vector3 emotePosition = targetCar.position + Vector3.up * 1f; // Adjust the height as needed
 		GameObject emoteInstance = Instantiate(emotePrefab, emotePosition, Quaternion.identity);
 		emoteInstance.transform.SetParent(targetCar); // Attach to the car for proper positioning
 		// Destroy the emote after 3 seconds

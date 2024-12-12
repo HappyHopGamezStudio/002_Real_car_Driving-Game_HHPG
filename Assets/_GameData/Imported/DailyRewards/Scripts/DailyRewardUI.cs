@@ -87,12 +87,15 @@ namespace NiobiumStudios
             {
                 case DailyRewardState.UNCLAIMED_AVAILABLE:
                     hover.SetActive(true);
+                    imageReward.gameObject.SetActive(false);
                     break;
                 case DailyRewardState.UNCLAIMED_UNAVAILABLE:
+                imageReward.gameObject.SetActive(false);
                     hover.SetActive(false);
                     break;
                 case DailyRewardState.CLAIMED:
-                    hover.SetActive(true);
+                    hover.SetActive(false);
+                    imageReward.gameObject.SetActive(true);
                     break;
             }
         }

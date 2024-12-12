@@ -264,14 +264,18 @@ public class RCC_MobileButtons : MonoBehaviour {
 			
 			break;
 		case 1:
-			RCC_Settings.Instance.useAccelerometerForSteering = true;
-			RCC_Settings.Instance.useSteeringWheelForSteering = false;
-			Tild.SetActive(true);
-			break;
-		case 2:
 			RCC_Settings.Instance.useAccelerometerForSteering = false;
 			RCC_Settings.Instance.useSteeringWheelForSteering = true;
 			Setring.SetActive(true);
+			
+			
+			
+			
+			break;
+		case 2:
+			RCC_Settings.Instance.useAccelerometerForSteering = true;
+			RCC_Settings.Instance.useSteeringWheelForSteering = false;
+			Tild.SetActive(true);
 			break;
 
 		}

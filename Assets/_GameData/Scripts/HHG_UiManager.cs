@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Activation;
 using System.Threading.Tasks;
 using GameAnalyticsSDK;
 using HHG_Mediation;
@@ -27,8 +28,7 @@ public class HHG_UiManager : MonoBehaviour
     private bool isStart=false;
     public GameObject Low, High, Med;
     public GameObject musicbuttonON, musicebuttonOff, SounButtonON, SoundButtonOFF;
-    
-    
+    public Text displayText,LapText;
     [Header("health WORK")] 
     public Text HealthText;
     public GameObject repairPanel ,Ripairebutton;
@@ -42,7 +42,10 @@ public class HHG_UiManager : MonoBehaviour
     public Text rewradMoneyText;
     public Text[] SpeedCaputer;
     public GameObject ToSlowPanel;
-    
+    [Header("MissionWork")]
+    public GameObject LoadingForMission,CheckpointShot,handBrake,Left;
+    public GameObject missionComplet,MissionWased,Map;
+    public GameObject CheckPointBar, Racebar, LapBar,CarMobile,Getoutbutton;
     void Awake()
     {
 
@@ -236,16 +239,19 @@ public class HHG_UiManager : MonoBehaviour
    public void HideGamePlay()
    {
        controls.SetActive(false);
+       Map.SetActive(false);
        TpsControle.SetActive(false);
-      HHG_GameManager.Instance.MapCanvasController.gameObject.SetActive(false);
-        
+       HHG_LevelManager.instace.HUDNavigationCanvas.gameObject.SetActive(false);
+       HHG_LevelManager.instace.coinBar.SetActive(false);
    }
 
    public void ShowGamePlay()
    {
+       SetTimeScale(1);
        if (HHG_GameManager.Instance.TpsStatus==PlayerStatus.CarDriving)
        {
            controls.SetActive(true);
+           controls.GetComponent<CanvasGroup>().alpha=1;
            TpsControle.SetActive(false);
        }
        else
@@ -253,8 +259,11 @@ public class HHG_UiManager : MonoBehaviour
            controls.SetActive(false);
            TpsControle.SetActive(true);
          
+         
        }
-       HHG_GameManager.Instance.MapCanvasController.gameObject.SetActive(true);
+       Map.SetActive(true);
+       HHG_LevelManager.instace.HUDNavigationCanvas.gameObject.SetActive(true);
+       HHG_LevelManager.instace.coinBar.SetActive(true);
    }
     public void HideObjectivePannel()
     {
@@ -345,6 +354,9 @@ public class HHG_UiManager : MonoBehaviour
 
     public void LevelCompleteNow()
     {
+        HHG_LevelManager.instace.isTrazitionok = false;  
+        HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.gameObject.SetActive(false);
+        PrefsManager.SetCurrentMission(PrefsManager.GetCurrentMission() + 1);
         Complete.SetActive(true);
         // SetTimeScale(0);
         HideGamePlay();
@@ -387,29 +399,76 @@ public class HHG_UiManager : MonoBehaviour
 
     public void ShowComplete()
     {
-   //   AdmobAdsManager.Instance.ShowInt(LevelCompleteNow,true);
-      LevelCompleteNow();
+        missionComplet.SetActive(true);
         HHG_SoundManager.Instance?.PlayAudio(HHG_SoundManager.Instance.LevelComplete);
-
+        Invoke(nameof(nowComplet), 3f);
     }
 
+    void nowComplet()
+    {
+        missionComplet.SetActive(false);
+        LevelCompleteNow();
+    }
     public void ShowFail()
     {
+        Invoke(nameof(callComplet), 3f);
+        HHG_LevelManager.instace.isTrazitionok = true;      
+        HHG_LevelManager.instace.rcc_camera.cameraMode = RCC_Camera.CameraMode.WHEEL;
+        controls.GetComponent<CanvasGroup>().alpha=0;
+        Map.SetActive(false);
+        HHG_TimeController.Instance.StopTimer();
        
+       
+        Invoke(nameof(CallMessage), 3f);
         HHG_SoundManager.Instance.PlayAudio(HHG_SoundManager.Instance.levelFail);
-      //  Data.SendFailEvent(PrefsManager.GetCurrentLevel());
-          //AdmobAdsManager.Instance.ShowInt(ShowLevelFailNow,true);
-          ShowLevelFailNow();
+        MissionWased.SetActive(true);
+        
     }
 
+    void callComplet()
+    {
+       HideGamePlay();
+    }
+  void  CallMessage()
+    {
+        MissionWased.SetActive(false);
+        ShowLevelFailNow();
+       
+    }
     public void ShowLevelFailNow()
     {
         
         Fail.SetActive(true);
-        SetTimeScale(0);
+        SetTimeScale(1);
         HideGamePlay();
+        HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.gameObject.SetActive(false);
+        HHG_LevelManager.instace.isTrazitionok = false;  
       //  GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, PrefsManager.GetGameMode(), PrefsManager.GetCurrentLevel());
      //  Admob_LogHelper.MissionOrLevelFailEventLog(PrefsManager.GetGameMode(),PrefsManager.GetCurrentLevel());
+    }
+
+    public async void Continue()
+    {
+        AdBrakepanel.SetActive(true);
+        await Task.Delay(1000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+
+            PrefsManager.SetInterInt(1);
+        }
+
+        AdBrakepanel.SetActive(false);
+        Fail.SetActive(false);
+        Complete.SetActive(false);
+        HHG_LevelManager.instace.rcc_camera.cameraMode = RCC_Camera.CameraMode.TPS;
+        Left.GetComponent<RCC_UIController>().pressing = false;
+        handBrake.GetComponent<RCC_UIController>().pressing = false;
+        ShowGamePlay();
+        HHG_LevelManager.instace.isPanelOn = false;
+        HHG_LevelManager.instace.ResetTimer();
+        CarMobile.SetActive(true);
+        Getoutbutton.SetActive(true);
     }
 
     public void Next()

@@ -76,8 +76,8 @@ public class HHG_MainMenu : MonoBehaviour
 
         Time.timeScale = 1;
        
-        CoinText.text = PrefsManager.GetCoinsValue().ToString();
-        CoinOnSpin.text = PrefsManager.GetCoinsValue().ToString();
+       
+       
 
         isStart = true;
         currentNumberQuality = PrefsManager.GetGameQuality();
@@ -181,11 +181,6 @@ public class HHG_MainMenu : MonoBehaviour
 
 
 
-    private void Update()
-    {
-        CoinText.text = PrefsManager.GetCoinsValue().ToString();
-        CoinOnSpin.text = PrefsManager.GetCoinsValue().ToString();      
-    }
 
     /// <summary>
     /// /////////main menu 

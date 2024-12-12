@@ -276,7 +276,7 @@ public class TSTrafficSpawner : MonoBehaviour
     /// </summary>
     private float maxDistanceSQRMin = 0f;
 
-    private Transform trafficCarsParent;
+    public Transform trafficCarsParent;
 
     public static TSTrafficSpawner mainInstance;
 

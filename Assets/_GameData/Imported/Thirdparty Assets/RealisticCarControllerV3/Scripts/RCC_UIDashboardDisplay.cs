@@ -20,13 +20,6 @@ public class RCC_UIDashboardDisplay : MonoBehaviour {
 	public Text KMHLabel;
 	public Text GearLabel;
 
-	public Image ABS;
-	public Image ESP;
-	public Image Park;
-	public Image Headlights;
-	public Image leftIndicator;
-	public Image rightIndicator;
-	
 	void Start () {
 		
 		inputs = GetComponent<RCC_DashboardInputs>();
@@ -53,7 +46,7 @@ public class RCC_UIDashboardDisplay : MonoBehaviour {
 			
 			if(KMHLabel){
 				if(RCC_Settings.Instance.units == RCC_Settings.Units.KMH)
-					KMHLabel.text = inputs.KMH.ToString("0") + "\nKMH";
+					KMHLabel.text = inputs.KMH.ToString("000");
 				else
 					KMHLabel.text = (inputs.KMH * 0.62f).ToString("0") + "\nMPH";
 			}
@@ -64,40 +57,7 @@ public class RCC_UIDashboardDisplay : MonoBehaviour {
 				else
 					GearLabel.text = "N";
 			}
-
-			if(ABS)
-				ABS.color = inputs.ABS == true ? Color.red : Color.white;
-			if(ESP)
-				ESP.color = inputs.ESP == true ? Color.red : Color.white;
-			if(Park)
-				Park.color = inputs.Park == true ? Color.red : Color.white;
-			if(Headlights)
-				Headlights.color = inputs.Headlights == true ? Color.green : Color.white;
-
-			if(leftIndicator && rightIndicator){
-
-				switch(inputs.indicators){
-
-				case RCC_CarControllerV3.IndicatorsOn.Left:
-					leftIndicator.color = new Color(1f, .5f, 0f);
-					rightIndicator.color = new Color(.5f, .25f, 0f);
-					break;
-				case RCC_CarControllerV3.IndicatorsOn.Right:
-					leftIndicator.color = new Color(.5f, .25f, 0f);
-					rightIndicator.color = new Color(1f, .5f, 0f);
-					break;
-				case RCC_CarControllerV3.IndicatorsOn.All:
-					leftIndicator.color = new Color(1f, .5f, 0f);
-					rightIndicator.color = new Color(1f, .5f, 0f);
-					break;
-				case RCC_CarControllerV3.IndicatorsOn.Off:
-					leftIndicator.color = new Color(.5f, .25f, 0f);
-					rightIndicator.color = new Color(.5f, .25f, 0f);
-					break;
-				}
-
-			}
-
+			
 		}
 
 	}

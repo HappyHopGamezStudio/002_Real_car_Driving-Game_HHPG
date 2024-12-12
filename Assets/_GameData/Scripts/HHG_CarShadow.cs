@@ -1,7 +1,8 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
-public class HHG_CarShadow: MonoBehaviour
+public class HHG_CarShadow : MonoBehaviour
 {
     private Transform thisTransform;
     private float distance = 10f;
@@ -11,7 +12,8 @@ public class HHG_CarShadow: MonoBehaviour
     private Vector3 newPosition;
     private Color newColor;
     private RaycastHit hit;
-    
+    public Vector3 newSize = new Vector3(2f, 2f, 2f);
+
     private void Start()
     {
         newPosition = Vector3.zero;
@@ -20,9 +22,10 @@ public class HHG_CarShadow: MonoBehaviour
         newColor = material.color;
     }
 
-   
+
 
     public float setpos = 0.07f;
+
     private void Update()
     {
         if (Physics.Raycast(thisTransform.position + Vector3.up, -Vector3.up, out hit, 20f, layerMask))
@@ -33,6 +36,7 @@ public class HHG_CarShadow: MonoBehaviour
         {
             distance = 20f;
         }
+
         newPosition = thisTransform.position + Vector3.up;
         newPosition.y -= distance - setpos;
         ombrePlane.position = newPosition;
@@ -41,13 +45,28 @@ public class HHG_CarShadow: MonoBehaviour
         newColor.a = Mathf.Lerp(0.9f, 0.3f, hit.distance / 20f);
     }
 
+    public bool IsForTps = false;
+
     private void OnDisable()
     {
-        ombrePlane.gameObject.SetActive(false);
+        if (IsForTps)
+        {
+            if (ombrePlane != null)
+            {
+                ombrePlane.gameObject.SetActive(false);
+            }
+        }
     }
 
-    private void OnEnable()
+    private  void OnEnable()
     {
-        ombrePlane.gameObject.SetActive(true);
+        if (IsForTps)
+        {
+            if (ombrePlane != null)
+            {
+                ombrePlane.gameObject.SetActive(true);
+                ombrePlane.localScale = newSize;
+            }
+        }
     }
 }

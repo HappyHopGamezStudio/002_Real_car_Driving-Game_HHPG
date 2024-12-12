@@ -108,14 +108,10 @@ public class DriftPhysics : MonoBehaviour
 			}
 			if (isDriftScoring && !isWrongWay)
 			{
-				driftCanvasManager.DriftpointBar.gameObject.SetActive(true);
-				driftCanvasManager.DriftpointBar.GetComponent<Animator>().Play("OnBarPoints");
-				driftCanvasManager.DriftfactorBar.GetComponent<Animator>().Play("DriftFacter");
-				driftCanvasManager.DriftfactorBar.GetComponent<Animator>().Play("Driftfacoter");
-				driftCanvasManager.DriftpointBar123.GetComponent<Animator>().Play("ON");
 				driftPoint += Time.deltaTime * (float)driftFactor  *25;
 				driftCanvasManager.UpdatePoint(driftPoint);
 				DevidedNumber = (int)(driftPoint / TargetValuesDevided[driftFactor]);
+				//driftCanvasManager.FillBar.fillAmount = (float)(driftPoint *Time.deltaTime*0.1);
 				switch (driftFactor)
 				{
 				case 0:
@@ -127,6 +123,7 @@ public class DriftPhysics : MonoBehaviour
 						driftFactor++;
 						driftCanvasManager.Driftext.text = "DRIFT!";
 						driftCanvasManager.Driftext.color=Color.white;
+						driftCanvasManager.textPoint.color=Color.white;
 
 					}
 					break;
@@ -136,6 +133,8 @@ public class DriftPhysics : MonoBehaviour
 						driftFactor++;
 						driftCanvasManager.Driftext.text = "NICE DRIFT!";
 						driftCanvasManager.Driftext.color=Color.yellow;
+						driftCanvasManager.textPoint.GetComponent<Animator>().Play(0);
+						driftCanvasManager.textPoint.color=Color.cyan;
 					}
 					break;
 				case 3:
@@ -144,6 +143,8 @@ public class DriftPhysics : MonoBehaviour
 						driftFactor++;
 						driftCanvasManager.Driftext.text = "ASWOME DRIFT!";
 						driftCanvasManager.Driftext.color=Color.yellow;
+						driftCanvasManager.textPoint.GetComponent<Animator>().Play(0);
+						driftCanvasManager.textPoint.color=Color.white;
 						
 					}
 					break;
@@ -153,6 +154,8 @@ public class DriftPhysics : MonoBehaviour
 						driftFactor++;
 						driftCanvasManager.Driftext.text = "BEST DRIFT!";
 						driftCanvasManager.Driftext.color=Color.green;
+						driftCanvasManager.textPoint.GetComponent<Animator>().Play(0);
+						driftCanvasManager.textPoint.color= Color.red;
 					}
 					break;
 				case 5:
@@ -160,7 +163,9 @@ public class DriftPhysics : MonoBehaviour
 					{
 						driftFactor++;
 						driftCanvasManager.Driftext.text = "EXTEME DRIFT!";
-						driftCanvasManager.Driftext.color=Color.red;
+						driftCanvasManager.Driftext.color=Color.magenta;
+						driftCanvasManager.textPoint.GetComponent<Animator>().Play(0);
+						driftCanvasManager.textPoint.color=Color.yellow;
 					}
 					break;
 				case 6:
@@ -168,7 +173,9 @@ public class DriftPhysics : MonoBehaviour
 					{
 						driftFactor++;
 						driftCanvasManager.Driftext.text = "OUTSTANDING DRIFT!";
-						driftCanvasManager.Driftext.color=Color.red;
+						driftCanvasManager.Driftext.color=Color.cyan;
+						driftCanvasManager.textPoint.GetComponent<Animator>().Play(0);
+						driftCanvasManager.textPoint.color=Color.green;
 					}
 					break;
 				}
@@ -190,10 +197,6 @@ public class DriftPhysics : MonoBehaviour
 	public int Slectedplayer;
 	private void DriftEnd(bool isOK)
 	{
-		driftCanvasManager.DriftpointBar123.GetComponent<Animator>().Play("OffBar");
-		driftCanvasManager.DriftpointBar.GetComponent<Animator>().Play("OffBar");
-		driftCanvasManager.DriftfactorBar.GetComponent<Animator>().Play("OffDriftFacter");
-		driftCanvasManager.DriftpointBar.GetComponent<Animator>().Play("OffBare");
 		driftCanvasManager.UpdatePointEnd(isOK);
 		if (!isOK)
 		{
@@ -210,7 +213,7 @@ public class DriftPhysics : MonoBehaviour
 		driftFactor = 0;
 		driftCanvasManager.UpdateFactor(0,0);
 		speedDelayDrift = maxspeedDelayDrift;
-		
+		driftCanvasManager.canvasWheelAll.SetActive(false);
 		isDrifting = false;
 	}
 
@@ -231,10 +234,6 @@ public class DriftPhysics : MonoBehaviour
 				{
 					thisRigidbody.velocity = currentVel;
 					thisRigidbody.angularVelocity = currentVelAngle;
-					driftCanvasManager.DriftpointBar123.GetComponent<Animator>().Play("OffBar");
-					driftCanvasManager.DriftpointBar.GetComponent<Animator>().Play("OffBar");
-					driftCanvasManager.DriftfactorBar.GetComponent<Animator>().Play("OffDriftFacter");
-					driftCanvasManager.DriftpointBar.GetComponent<Animator>().Play("OffBare");
 
 				}
 			}
@@ -259,6 +258,8 @@ public class DriftPhysics : MonoBehaviour
 			{
 				isDrifting = true;
 				driftCanvasManager.canvasWheelAll.SetActive(true);
+				driftCanvasManager.Driftext.text = "DRIFT!";
+				driftCanvasManager.Driftext.color=Color.white;
 			}
 			sensDrift = 1;
 		}

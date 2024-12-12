@@ -8,34 +8,33 @@ public class speedcheck : MonoBehaviour
   public float POrtalActiveRange;
   public Transform Player;
 
-  
 
-  private float distanceToPlayer,mappedDistance;
+
+  private float distanceToPlayer, mappedDistance;
   private Vector3 newPosition;
+  private bool isActive = false;
 
   private void Update()
   {
+    distanceToPlayer = (transform.position - Player.position).sqrMagnitude;
+    if (distanceToPlayer >= POrtalActiveRange)
+    {
 
-    if (HHG_GameManager.Instance.TpsStatus == PlayerStatus.ThirdPerson)
-    {
-      Player = HHG_GameManager.Instance.TPSPlayer.transform;
-    }
-    else if (HHG_GameManager.Instance.TpsStatus == PlayerStatus.CarDriving)
-    {
-      Player = HHG_GameManager.Instance.CurrentCar.transform;
-    }
-        
+      transform.LookAt(transform.position - Player.forward);
+      distanceToPlayer = Vector3.Distance(transform.position, Player.position);
+      newPosition = transform.eulerAngles;
+      newPosition.y = Player.eulerAngles.y + 90f;
+      transform.eulerAngles = newPosition;
 
-    transform.LookAt(transform.position - Player.forward);
-    distanceToPlayer = Vector3.Distance(transform.position, Player.position);
-    newPosition = transform.eulerAngles;
-    newPosition.y = Player.eulerAngles.y + 90f; 
-    transform.eulerAngles = newPosition;
-    if (distanceToPlayer <= POrtalActiveRange)
-    {
+
       mappedDistance = Mathf.Clamp(POrtalActiveRange + distanceToPlayer, 0f, POrtalActiveRange);
       newPosition = transform.position;
       transform.position = newPosition;
+
+    }
+    else
+    {
+      return;
     }
   }
 }

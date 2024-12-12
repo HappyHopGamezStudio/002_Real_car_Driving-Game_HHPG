@@ -7,58 +7,69 @@ using UnityEngine.Playables;
 
 public class HHG_OpenWorldManager : MonoBehaviour
 {
-    public Transform CarPostiom;
+   
+    public Transform carPostion;
     public Transform TpsPosition;
-    
+
+    public _LevelProperties[] AllMission;
+
+    public _LevelProperties CurrentMissionProperties;
     public static HHG_OpenWorldManager Instance;
-    public bool isCutScene;
-    public GameObject Timeline;
-    public PlayableDirector Director;
-  
+   
+    public bool isSetPosition;
+    public int TotalMisson;
+   
     private void Awake()
     {
         Instance = this;
     }
 
 
-  
-    public void Start()
+    public string GetCurrentMissionStatmentk()
     {
-        if (isCutScene)
+        return AllMission[PrefsManager.GetCurrentMission()].GetComponent<_LevelProperties>().LevelStatment; 
+    }
+
+
+    
+
+    public bool missionon = false;
+
+    public void AcceptMissionformission()
+    {
+
+        foreach (var Mission in AllMission)
         {
-            Time.timeScale = 1f;
-            Timeline.SetActive(true);
-            Director.Play();
-            Invoke("HideTimeline", (float)Director.duration - 0.9f);
-            HHG_UiManager.instance.HideGamePlay();
+            Mission.gameObject.SetActive(false);
+        }
+
+        CurrentMissionProperties = AllMission[PrefsManager.GetCurrentMission()];
+        CurrentMissionProperties.gameObject.SetActive(true);
+        missionon = true;
+        HHG_LevelManager.instace.SetTransform(CurrentMissionProperties.PlayerPosition,CurrentMissionProperties.TpsPosition);
+        setcarok();
+    }
+
+    public void setcarok()
+    {
+        if (HHG_GameManager.Instance.CurrentCar!=null)
+        { 
+            HHG_GameManager.Instance.CurrentCar.GetComponent<Rigidbody>().velocity=Vector3.zero; 
+            HHG_GameManager.Instance.CurrentCar.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
+        }
+        else 
+        {
+            return;
         }
     }
 
-    public void HideTimeline()
-    {
-        Timeline.SetActive(false);
-       // HHG_LevelManager.instace.Tpscamera.GetComponent<Camera>().farClipPlane = getFar();
-        HHG_UiManager.instance.ShowGamePlay();
-       // LevelManager.instace.canvashud.gameObject.SetActive(true);
-    }
 
-    private int  getFar()
+
+    private void OnEnable()
     {
-        if (SystemInfo.systemMemorySize > 3500)
+        if (CurrentMissionProperties==null)
         {
-            return 250;
-        }
-        else if (SystemInfo.systemMemorySize > 2500)
-        {
-            return 200;
-        }
-        else if (SystemInfo.systemMemorySize > 1200)
-        {
-            return 150;
-        }
-        else
-        {
-            return 100;
+            return;
         }
     }
 }

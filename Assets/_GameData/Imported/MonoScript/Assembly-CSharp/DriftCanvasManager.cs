@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -6,7 +7,7 @@ public class DriftCanvasManager : MonoBehaviour
 {
 	[Header("CONFIG")]
 	public GameObject canvasWheelAll;
-	public Image imgWheel;
+	public Image imgWheel,FillBar;
 	public Text textFactor;
 	public Text textPoint,TextPointEndText;
 	
@@ -15,28 +16,24 @@ public class DriftCanvasManager : MonoBehaviour
 	public AudioSource audioCoin;
 	public AudioSource audio4x;
 	public GameObject FreeFlight;
-	private Animator animPointEnd;
+	public Animator animPointEnd;
 	private int StepDrawCoins;
 	private float lastCoins;
 	private float lastCoinsCount;
 	public static int COINS = 0;
 
 	public Text Driftext;
-
-	public Animator DriftpointBar123,DriftfactorBar;
-	[FormerlySerializedAs("textPointEnd")] public GameObject DriftpointBar;
+	
 	//public AudioClip[] sounds;
 	private void Awake()
 	{
 		canvasWheelAll.SetActive(false);
 		textPoint.text = string.Empty;
 		textFactor.text = string.Empty;
-		DriftpointBar.gameObject.SetActive(false);
 //		Effect.gameObject.SetActive(false);
 		COINS = PrefsManager.GetCoinsValue();
 		totalCoins.text = Utils.FormatSpaceNumber(PrefsManager.GetCoinsValue());
-		animPointEnd = DriftpointBar.GetComponent<Animator>();
-	//	imgWrongWay.SetActive(false);
+		//	imgWrongWay.SetActive(false);
 		StopRace();
 	}
 
@@ -103,10 +100,10 @@ public class DriftCanvasManager : MonoBehaviour
 				textFactor.text = string.Empty;
 				return;
 			}
-			textFactor.text = "x"+ factor + "."+ pointfactor  ;
+			textFactor.text = "x "+ factor + "."+ pointfactor  ;
 			if (factor > 1 && base.isActiveAndEnabled)
 			{
-				//textFactor.GetComponent<Animator>().Play(0);
+				textFactor.GetComponent<Animator>().Play(0);
 				if (factor == 4 && audio4x.isActiveAndEnabled)
 				{
 					audio4x.Play();
@@ -127,16 +124,12 @@ public class DriftCanvasManager : MonoBehaviour
 			else
 			{
 				animPointEnd.Play("PointBad");
-				DriftpointBar123.GetComponent<Animator>().Play("OffBar");
-				DriftpointBar.GetComponent<Animator>().Play("OffBar");
-				DriftfactorBar.GetComponent<Animator>().Play("OffDriftFacter");
-				DriftpointBar.GetComponent<Animator>().Play("OffBare");
-				
 			}
 		}
 	}
 
-	
+
+
 	public void UpdatePointFreeFlight(int point)
 	{
 		lastCoinsCount = 0f;

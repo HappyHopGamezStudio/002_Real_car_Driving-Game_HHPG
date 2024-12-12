@@ -175,7 +175,10 @@ public class HHG_Data : MonoBehaviour {
             GameAnalytics.NewAdEvent(GAAdAction.RewardReceived,GAAdType.RewardedVideo,"Admob","Get_500_Coins");
             FindObjectOfType<HHG_PlayerSelection>().OffNoCash();
         }
-
+        else if (AdType == 19)
+        {
+	      //  GameAnalytics.NewAdEvent(GAAdAction.RewardReceived,GAAdType.RewardedVideo,"Admob","Get_Car_OnVideo_By_mobile");
+        }
         //GameObject.Find ("Canvas").GetComponent<ShowAds_GP>().EnableRewarded();
     }
 

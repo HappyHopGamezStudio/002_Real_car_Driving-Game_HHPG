@@ -55,7 +55,10 @@ public class HHG_SoundManager : MonoBehaviour
 
         GetComponent<AudioSource>().Stop();
     }
-    
+    public void PusaeBgSound()
+    {
+        resource.GetComponent<AudioSource>().Pause();
+    }
     public void OffPlayTimmerSound()
 	{
 		

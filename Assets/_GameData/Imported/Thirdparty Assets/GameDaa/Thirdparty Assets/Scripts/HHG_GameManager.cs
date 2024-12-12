@@ -2,8 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GameAnalyticsSDK;
+using HHG_Mediation;
 using SickscoreGames.HUDNavigationSystem;
 using UnityEngine;
+using Random = ITS.Utils.Random;
+
 public enum PlayerStatus
 {
     ThirdPerson,CarDriving,BikeDriving
@@ -28,18 +32,26 @@ public class HHG_GameManager : MonoBehaviour
     [Header("Car Stuff")]
     public Transform VehicleCamera; 
   //  public Transform bikecamera; 
-    
 
+  public speedcheck[] SpeedCheck;
     public Transform TpsCamera; 
     public GameObject CurrentCar;
     public Transform TrafficSpawn;
-    public Transform Dust;
+   
 
     public HUDNavigationSystem hud;
 
     public MapCanvasController MapCanvasController;
     public GameObject BigMap;
-  
+    [Space(5)] [Header("RewardedPanel Stuff")]
+    public Transform DefaultCarPosition;                           
+    public Transform DefaultCarPositionInTps;
+    public GameObject DefaultRewardedCar,defultShadow;
+    public GameObject[]Cars;
+    
+    
+    
+    
     private void Awake()
     {
         Instance = this;
@@ -51,7 +63,10 @@ public class HHG_GameManager : MonoBehaviour
         hud.PlayerController = TPSPlayer.transform;
         MapCanvasController.playerTransform= TPSPlayer.transform;
         Dog.transform.position = TPSPlayer.transform.position;
-
+        foreach (var speed in SpeedCheck)
+        {
+            speed.Player=TPSPlayer.transform; 
+        }
     }
 
     public void OpenBigMap()
@@ -99,6 +114,13 @@ public class HHG_GameManager : MonoBehaviour
         hud.PlayerCamera = VehicleCamera.GetComponentInChildren<Camera>();
         hud.PlayerController = CurrentCar.transform;
         MapCanvasController.playerTransform = CurrentCar.transform;
+        CurrentCar.GetComponent<HHG_CarShadow>().enabled = true;
+        CurrentCar.GetComponent<HHG_CarShadow>().ombrePlane.localScale= CurrentCar.GetComponent<HHG_CarShadow>().newSize;
+        CurrentCar.GetComponent<HHG_CarShadow>().ombrePlane.gameObject.SetActive(true);
+        foreach (var speed in SpeedCheck)
+        {
+            speed.Player=CurrentCar.transform; 
+        }
     }
 
     public void SartEngein()
@@ -112,13 +134,11 @@ public class HHG_GameManager : MonoBehaviour
         if (TpsStatus==PlayerStatus.CarDriving)
         {
             TrafficSpawn.position = VehicleCamera.position;
-            Dust.position = VehicleCamera.position;
             TrafficSpawn.rotation = VehicleCamera.rotation;
         }
         else
         {
             TrafficSpawn.position = TpsCamera.position;
-            Dust.position = TpsCamera.position;
             TrafficSpawn.rotation = TpsCamera.rotation;
         }
         
@@ -145,6 +165,8 @@ public class HHG_GameManager : MonoBehaviour
     public async void GetOutVehicle()
     {
         Time.timeScale = 1;
+        CurrentCar.GetComponent<HHG_CarShadow>().ombrePlane = null;
+        CurrentCar.GetComponent<HHG_CarShadow>().enabled = false;
         CurrentCar.GetComponent<RCC_CarControllerV3>().KillOrStartEngine();
         HHG_UiManager.instance.blankimage.SetActive(true);
         Debug.Log("Here");
@@ -161,7 +183,9 @@ public class HHG_GameManager : MonoBehaviour
         TPSPlayer.transform.position =CurrentCar.GetComponent<VehicleProperties>().TpsPosition.position;
         TPSPlayer.transform.eulerAngles =new Vector3(0,CurrentCar.GetComponent<VehicleProperties>().TpsPosition.rotation.y,0);
         Dog.transform.position = TPSPlayer.transform.position;
+        
        
+        
        // LevelManager.Instance.VehicleCameraNew.GetComponent<RCC_Camera>().RemoveTarget();
       
         OnVehicleInteraction?.Invoke(PlayerStatus.ThirdPerson);
@@ -170,7 +194,10 @@ public class HHG_GameManager : MonoBehaviour
         hud.PlayerCamera = TpsCamera.GetComponent<Camera>();
         hud.PlayerController = TPSPlayer.transform;
         MapCanvasController.playerTransform = TPSPlayer.transform;
-       
+        foreach (var speed in SpeedCheck)
+        {
+            speed.Player=TPSPlayer.transform; 
+        }
      
     }
 
@@ -180,7 +207,7 @@ public class HHG_GameManager : MonoBehaviour
     public Camera mainCamera;  
     public void RepairCar()
     {
-       CurrentCar.GetComponent<VehicleProperties>().RepairCar();
+        CurrentCar.GetComponent<VehicleProperties>().RepairCar();
     }
     public void ResumwTime()
     {
@@ -192,8 +219,102 @@ public class HHG_GameManager : MonoBehaviour
         HHG_UiManager.instance.uiPanel.SetActive(false);
         
     }
-    
+    public void ResetScene()
+    {
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+            PrefsManager.SetInterInt(1);
+        }
+        Invoke(nameof(LoadInter),2);
+        HHG_UiManager.instance.ShowGamePlay(); 
+      //  HHG_UiManager.instance.WrackedPanel.SetActive(false);
+        Time.timeScale = 1f; 
+        Time.fixedDeltaTime = 0.02f; 
+        CurrentCar.GetComponent<VehicleProperties>().hitCounter = 0;
+    }
      
+     #region CarPanel
+
+    public void GetOutVehicleForInstantiate()
+    {
+        Time.timeScale = 1;
+        CurrentCar.GetComponent<RCC_CarControllerV3>().KillOrStartEngine();
+        HHG_UiManager.instance.blankimage.SetActive(true);
+        Debug.Log("Here");
+        Invoke("offimage",0.5f);
+        CurrentCar.GetComponent<VehicleProperties>().GetOutVehicle();
+        CurrentCar.GetComponent<VehicleProperties>().enabled = false;
+        CurrentCar.GetComponent<DriftPhysics>().enabled = false;
+        CurrentCar.GetComponent<HHG_CarShadow>().ombrePlane = null;
+        CurrentCar.GetComponent<HHG_CarShadow>().enabled = false;
+    }
+
+    public void ShowInter()
+    {
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+            PrefsManager.SetInterInt(1);
+        }
+        Invoke(nameof(LoadInter),2);
+    }
+
+    public void LoadInter()
+    {
+        if (PrefsManager.GetInterInt() != 5)
+        {
+            FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+        }
+    }
+
     
+
+    private int CarPanel;
+
+   
+
+    public void CarInstantiateNow(int lValue)
+    {
+        PrefsManager.SetCurrentCarOnVideo(lValue);
+        PrefsManager.SetCurrentCarShadow(lValue);
+        HHG_Data.AdType = 19;
+        if (FindObjectOfType<HHG_Admob>())
+        {
+            FindObjectOfType<HHG_Admob>().showRewardVideo(CarInstantiateDone);
+        }
+      //  CarInstantiateDone();
+        GameAnalytics.NewAdEvent(GAAdAction.RewardReceived, GAAdType.RewardedVideo, "Admob", "Get_Car_OnVideo_By_mobile");
+    }
+
+   async void CarInstantiateDone()
+    {
+        if (TpsStatus == PlayerStatus.ThirdPerson)
+        {
+            DefaultRewardedCar = Instantiate(Cars[PrefsManager.GetCurrentCarOnVideo()], DefaultCarPositionInTps.position, DefaultCarPositionInTps.rotation);
+           
+            DefaultRewardedCar.GetComponent<VehicleProperties>().enabled = true;
+            DefaultRewardedCar.GetComponent<VehicleProperties>().IsCarOnintersial = false;
+            DefaultRewardedCar.GetComponent<Rigidbody>().isKinematic = false;
+            DefaultRewardedCar.GetComponent<VehicleProperties>().ConeEffect.SetActive(false);
+            TPSPlayer.GetComponent<PlayerThrow>().OffMobile();
+            DefaultRewardedCar.GetComponent<HHG_CarShadow>().ombrePlane = defultShadow.transform;
+        }
+        else if (TpsStatus == PlayerStatus.CarDriving)
+        {
+            GetOutVehicleForInstantiate();
+            DefaultCarPosition = CurrentCar.GetComponent<VehicleProperties>().DefaultCarPostion;
+            DefaultRewardedCar = Instantiate(Cars[PrefsManager.GetCurrentCarOnVideo()], DefaultCarPosition.position, DefaultCarPosition.rotation);
+            CurrentCar = DefaultRewardedCar;
+            TPSPlayer.GetComponent<PlayerThrow>().OffMobile();
+            DefaultRewardedCar.GetComponent<VehicleProperties>().enabled = true;
+            DefaultRewardedCar.GetComponent<VehicleProperties>().IsCarOnintersial = false;
+            GetInVehicle();
+            CurrentCar.GetComponent<HHG_CarShadow>().ombrePlane = defultShadow.transform;
+        }
+        Time.timeScale = 1;
+    }
+
+    #endregion
 }
 

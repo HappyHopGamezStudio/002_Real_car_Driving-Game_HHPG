@@ -21,6 +21,7 @@ public class TpsTriger : MonoBehaviour
          HHG_GameControl.manager.getInVehicle.SetActive(true);
         // GameControl.manager.getInBike.SetActive(false);
          HHG_GameManager.Instance.CurrentCar = other.GetComponentInParent<RCC_CarControllerV3>().gameObject;
+         HHG_GameManager.Instance.CurrentCar.GetComponent<HHG_CarShadow>().ombrePlane = HHG_GameManager.Instance.defultShadow.transform;
         // GameManager.Instance.  mapPath =  GameManager.Instance. CurrentCar.GetComponent<VehicleProperties>().MapPath;
       }
    }
@@ -40,6 +41,7 @@ public class TpsTriger : MonoBehaviour
          HHG_GameControl.manager.getInVehicle.SetActive(true);
      //    GameControl.manager.getInBike.SetActive(false);
          HHG_GameManager.Instance.CurrentCar = other.GetComponentInParent<RCC_CarControllerV3>().gameObject;
+         HHG_GameManager.Instance.CurrentCar.GetComponent<HHG_CarShadow>().ombrePlane = HHG_GameManager.Instance.defultShadow.transform;
         // GameManager.Instance.  mapPath =  GameManager.Instance. CurrentCar.GetComponent<VehicleProperties>().MapPath;
       }
    }
@@ -50,14 +52,14 @@ public class TpsTriger : MonoBehaviour
       {
       //    GameControl.manager.getInBike.SetActive(false);
        //  GameManager.Instance.mapPath =  null;
-         HHG_GameManager.Instance.CurrentCar = null;
+       //  HHG_GameManager.Instance.CurrentCar = null;
          Debug.Log("Car HandleTrigger");
       }
       //this forcar
       if (other.gameObject.tag == "Carhandle")
       {
          HHG_GameControl.manager.getInVehicle.SetActive(false);
-         HHG_GameManager.Instance.CurrentCar = null;
+        // HHG_GameManager.Instance.CurrentCar = null;
       //   GameManager.Instance.mapPath =  null;
          Debug.Log("Car Handle");
       }

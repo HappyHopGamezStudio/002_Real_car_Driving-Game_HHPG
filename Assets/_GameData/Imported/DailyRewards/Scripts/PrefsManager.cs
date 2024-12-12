@@ -32,16 +32,42 @@ public class PrefsManager : MonoBehaviour
     static string TestDrivePlayer = "Testdrive";
     static string NosCount = "NosCount";
     static string LoadInt = "LoadInt";
-
+    public const string CurrentCarOnVideo = "CURRENT_CarOnVideo";
+    public const string CurrentMission = "CurrentMission";
     // Use this for initialization
+    public const string CurrentCarShadow = "CURRENT_CarShadow";
     
     
     
     
     
     
-    
-    
+        
+    public static void SetCurrentMission(int vale)
+    {
+        PlayerPrefs.SetInt(CurrentMission, vale);
+    }
+    public static int GetCurrentMission()
+    {
+        return PlayerPrefs.GetInt(CurrentMission, 0);
+    } 
+    public static void SetCurrentCarOnVideo(int currentPlayer)
+    {
+        PlayerPrefs.SetInt(CurrentCarOnVideo, currentPlayer);
+    }
+    public static int GetCurrentCarOnVideo()
+    {
+        return PlayerPrefs.GetInt(CurrentCarOnVideo, 0);
+    }
+    public static void SetCurrentCarShadow(int currentPlayer)
+    {
+        PlayerPrefs.SetInt(CurrentCarShadow, currentPlayer);
+    }
+    public static int GetCurrentCarShadow()
+    {
+        return PlayerPrefs.GetInt(CurrentCarShadow, 0);
+    }
+
     
     public static void Sethealth(string Name,float currentPlayer)
     {

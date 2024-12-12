@@ -11,31 +11,87 @@ using Random = UnityEngine.Random;
 
 public enum  CarNames
 {
-	Supra_01=0,
-	GT_02=1,
-	NFT_03=2, 
-	NFT_04=3, 
-	Doge_05=4,
-	RR_06=5,
-	Nisan_07=6,
-	Speed_08=7,
-	GV_09=8,
-	Mhri_10=9,
-	CrolaType_11=10,
-	GV_Sexy_12=11,
-	Green3i_13=12,
-	Open_eys_14=13,
-	Paerot_15=14,
-	Etron_16=15,
-	Bugati_Cirun_17=16,
-	Baba_car_18=17,
-	Taxi_Car=18,
-	White_Vagem=19,
-	Green_GVagan=20,
-	Green_Car=21,
-	Blue_Car=22,
-	Ambulance=23,
-	Prado_Car=24,
+	C01=01,
+	C02=02,
+	C03=03,
+	C04=04,
+	C05=05,
+	C06=06,
+	C07=07,
+	C08=08,
+	C09=09,
+	C10=10,
+	C11=11,
+	C12=12,
+	C13=13,
+	C14=14,
+	C15=15,
+	C16=16,
+	C17=17,
+	C18=18,
+	C19=19,
+	C20=20,
+	C21=21,
+	C22=22,
+	C23=23,
+	C24=24,
+	C25=25,
+	C26=26,
+	C27=27,
+	C28=28,
+	C29=29,
+	C30=30,
+	C31=31,
+	C32=32,
+	C33=33,
+	C34=34,
+	C35=35,
+	C36=36,
+	C37=37,
+	C38=38,
+	C39=39,
+	C40=40,
+	C41=41,
+	C42=42,
+	C43=43,
+	C44=44,
+	C45=45,
+	C46=46,
+	C47=47,
+	C48=48,
+	C49=49,
+	C50=50,
+	C51=51,
+	C52=52,
+	C53=53,
+	C54=54,
+	C55=55,
+	C56=56,
+	C57=57,
+	C58=58,
+	C59=59,
+	C60=60,
+	C61=61,
+	C62=62,
+	C63=63,
+	C64=64,
+	C65=65,
+	C66=66,
+	C67=67,
+	C68=68,
+	C69=69,
+	C70=70,
+	C71=71,
+	C72=72,
+	C73=73,
+	C74=74,
+	C75=75,
+	C76=76,
+	C77=77,
+	C78=78,
+	C79=79,
+	C80=80,
+	C81=81,
 }
 
 public class VehicleProperties : MonoBehaviour
@@ -69,10 +125,10 @@ public class VehicleProperties : MonoBehaviour
 		{
 			mainCamera = HHG_GameManager.Instance.mainCamera;
 		}
-		/*if (DefaultCarPostion==null)
+		if (DefaultCarPostion==null)
 		{
 			DefaultCarPostion = transform.Find("DefaultCarPostion").transform;
-		}*/
+		}
 		
 		carLights = GetComponentsInChildren<RCC_Light>();
 
@@ -87,6 +143,7 @@ public class VehicleProperties : MonoBehaviour
 			Debug.LogWarning("No lights found on this car!");
 		}
 		CarName = Names.ToString();
+		currentHealth = PrefsManager.Gethealth(CarName);
 	}
 	void TurnOffAllLights()
 	{
@@ -113,17 +170,14 @@ public class VehicleProperties : MonoBehaviour
 	
 
 	public bool TrafficCarAi=false;
+	public bool IsCarOnintersial=false;
 	public async void GetInCarForDrive()
 	{
 		
-		if (FindObjectOfType<HHG_AdsCall>())
-		{
-			FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
-			PrefsManager.SetInterInt(1);
-		}
+		
 
 		TurnONAllLights();
-		currentHealth = PrefsManager.Gethealth(CarName);
+	
 		StopCoroutine(CheckisGrounded());
 		if (CarController.chassis)
 		{
@@ -181,40 +235,46 @@ public class VehicleProperties : MonoBehaviour
 		CarController.RearLeftWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
 		CarController.RearRightWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
 		Exuset.SetActive(true);
+
 		
 		
-		GetComponent<HHG_CarShadow>().enabled = true; 
-		GetComponent<HHG_CarShadow>().ombrePlane.gameObject.SetActive(true);
 		
 		UpdateHealthText();
+		if (IsCarOnintersial)
+		{
+			if (FindObjectOfType<HHG_AdsCall>())
+			{
+				FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+				PrefsManager.SetInterInt(1);
+			}
+			await Task.Delay(2000);
+			
+			if (FindObjectOfType<HHG_AdsCall>())
+			{
+				if (PrefsManager.GetInterInt()!=5)
+				{
+					FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+				}
+			}
+		}
+		
+		
 		
 		await Task.Delay(2000);
 		if (AllAudioSource != null)
 		{
 			AllAudioSource.SetActive(true);
 		}
-		if (FindObjectOfType<HHG_AdsCall>())
-		{
-			if (PrefsManager.GetInterInt()!=5)
-			{
-				FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
-			}
-		}
+		
 	}
 
 
 
 	public async void GetOutVehicle()
 	{
-		if (FindObjectOfType<HHG_AdsCall>())
-		{
-			FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
-			PrefsManager.SetInterInt(1);
-		}
-		
-		GetComponent<HHG_CarShadow>().enabled = false;
-		GetComponent<HHG_CarShadow>().ombrePlane.gameObject.SetActive(false);
-		
+
+
+
 		TurnOffAllLights();
 		if (AllAudioSource != null)
 		{
@@ -225,12 +285,14 @@ public class VehicleProperties : MonoBehaviour
 			AllAudioSource = transform.Find("All Audio Sources").gameObject;
 			AllAudioSource?.SetActive(false);
 		}
+
 		if (CarController.chassis)
 		{
 			CarController.chassis.GetComponent<RCC_Chassis>().enabled = false;
 		}
-		transform.GetComponent<Rigidbody>().velocity=Vector3.zero; 
-		transform.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
+
+		transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
+		transform.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 		CarController.FrontLeftWheelCollider.enabled = false;
 		CarController.FrontRightWheelCollider.enabled = false;
 		CarController.RearLeftWheelCollider.enabled = false;
@@ -243,10 +305,10 @@ public class VehicleProperties : MonoBehaviour
 		Exuset.SetActive(false);
 		CarController.enabled = false;
 		GetComponent<RCC_CameraConfig>().enabled = false;
-		
-		PrefsManager.Sethealth(CarName,currentHealth);
-		
-		
+
+		PrefsManager.Sethealth(CarName, currentHealth);
+
+
 		if (GetComponent<TSSimpleCar>())
 		{
 			if (CarController.chassis)
@@ -256,14 +318,15 @@ public class VehicleProperties : MonoBehaviour
 					CarController.chassis.GetComponent<RCC_Chassis>().ColliderParent?.SetActive(false);
 				}
 			}
+
 			GetComponent<TSSimpleCar>().enabled = true;
 			GetComponent<TSAntiRollBar>().enabled = true;
 			GetComponent<TSAntiRollBar>().enabled = true;
 			GetComponent<TSTrafficAI>().enabled = true;
 			GetComponent<ChangeWheelTrafficToPlayer>().ChangeToAI();
-			
+
 			UpdateHealthText();
-			
+
 			enabled = false;
 		}
 		else if (!TrafficCarAi)
@@ -288,14 +351,29 @@ public class VehicleProperties : MonoBehaviour
 				StartCoroutine(CheckisGrounded());
 			}
 		}
-		await Task.Delay(2000);
-		if (FindObjectOfType<HHG_AdsCall>())
+
+		if (IsCarOnintersial)
 		{
-			if (PrefsManager.GetInterInt()!=5)
+			if (FindObjectOfType<HHG_AdsCall>())
 			{
-				FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+				FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+				PrefsManager.SetInterInt(1);
+			}
+
+			await Task.Delay(2000);
+
+			if (FindObjectOfType<HHG_AdsCall>())
+			{
+				if (PrefsManager.GetInterInt() != 5)
+				{
+					FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+				}
 			}
 		}
+
+		
+
+
 	}
 
 
@@ -328,7 +406,10 @@ public class VehicleProperties : MonoBehaviour
             Grounded = false;
         }
 
-
+        if (Time.time - lastHitTime > hitResetTime)
+        {
+	        hitCounter = 0;
+        }
 
     }
 
@@ -386,7 +467,59 @@ public class VehicleProperties : MonoBehaviour
 	   // HHG_UiManager.instance.EffectForcoin.SetActive(false);
     }
 
+    #region Hitpanel
+   
+    public float slowMotionFactor = 0.1f; 
+    public float hitForceThreshold = 50f; 
+    public int continuousHitCount = 5; 
+    public float hitResetTime = 3f; 
 
+    public int hitCounter = 0; // Tracks number of hits
+    private float lastHitTime; // Tracks time of the last hit
+
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+	    if (collision.gameObject.CompareTag("TrafficCar"))
+	    {
+		    float impactForce = collision.relativeVelocity.magnitude;
+        
+		    if (impactForce > hitForceThreshold)
+		    {
+			    hitCounter++;
+			    lastHitTime = Time.time; 
+            
+			    if (hitCounter >= continuousHitCount || Time.time - lastHitTime <= hitResetTime)
+			    {
+				    TriggerSlowMotion();
+			    }
+		    }
+	    }
+      
+    }
+
+
+
+    private void TriggerSlowMotion()
+    {
+        HHG_UiManager.instance.HideGamePlay();
+        Invoke(nameof(Showpanel),0.3f);
+        Time.timeScale = slowMotionFactor; 
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+    }
+
+
+    void Showpanel()
+    {
+	    HHG_UiManager.instance.ShowGamePlay(); 
+	   // HHG_UiManager.instance.WrackedPanel.SetActive(false);
+	    Time.timeScale = 1f; 
+	    Time.fixedDeltaTime = 0.02f; 
+	    hitCounter = 0;
+    }
+
+    #endregion
 
     #region HeallthWork
     
@@ -442,11 +575,11 @@ public class VehicleProperties : MonoBehaviour
 
     private void DestroyCar()
     {
-	    transform.GetComponent<Rigidbody>().velocity=Vector3.zero; 
-	    transform.GetComponent<Rigidbody>().angularVelocity=Vector3.zero;
-
+	    transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
+	    transform.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+	    HHG_UiManager.instance.HideGamePlay();
 	    CarController.engineRunning = false;
-	    Invoke("onpanel",3f);
+	    Invoke("onpanel", 1.8f);
     }
 
     public void onpanel()
@@ -455,7 +588,6 @@ public class VehicleProperties : MonoBehaviour
 	    {
 		    HHG_UiManager.instance.repairPanel.SetActive(true);
 		    Debug.Log("here"+transform.name);
-		    HHG_UiManager.instance.HideGamePlay();
 	    }
     }
     public string CarName = "";
@@ -471,7 +603,6 @@ public class VehicleProperties : MonoBehaviour
 	    HHG_UiManager.instance.FillhealthBar.fillAmount = 1;
 	    HHG_UiManager.instance.ShowGamePlay();
 	    PrefsManager.Sethealth(CarName,currentHealth);
-	  //  PlayerPrefs.SetFloat("CarHealth", currentHealth); 
 	    UpdateHealthText();
 	    HHG_UiManager.instance.repairPanel.SetActive(false);
 	    HHG_UiManager.instance.Ripairebutton.SetActive(false);
@@ -523,10 +654,14 @@ public class VehicleProperties : MonoBehaviour
         // Show the captured image in the UI
        HHG_UiManager.instance.capturedImage.sprite = Sprite.Create(screenShot, new Rect(0, 0, screenShot.width, screenShot.height), new Vector2(0.5f, 0.5f));
        HHG_UiManager.instance.uiPanel.SetActive(true);
+       Invoke(nameof(aoutoSpeedCaputheroff),4f);
     }
     
 
     #endregion
 
-    
+    void aoutoSpeedCaputheroff()
+    {
+	    HHG_GameManager.Instance.ResumwTime();
+    }
 }

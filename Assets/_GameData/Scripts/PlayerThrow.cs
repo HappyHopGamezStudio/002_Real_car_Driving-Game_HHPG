@@ -38,20 +38,45 @@ public class PlayerThrow : MonoBehaviour
 
     public async  void SitOnBike()
     {
-        _animator.SetBool("SitBike", true); 
-      // Start the "SitBike" animation
-      
-        mobile.SetActive(true);
-        await Task.Delay(1000);
-        uimobile.SetActive(true);
+        if (HHG_GameManager.Instance.TpsStatus == PlayerStatus.ThirdPerson)
+        {
+            _animator.SetBool("SitBike", true);
+            mobile.SetActive(true);
+            await Task.Delay(1000);
+            uimobile.SetActive(true);
+        }
+        else
+        {
+            uimobile.SetActive(true);
+            if  (HHG_GameManager.Instance.CurrentCar != null)
+            {
+                HHG_GameManager.Instance.CurrentCar. transform.GetComponent<Rigidbody>().velocity=Vector3.zero; 
+                HHG_GameManager.Instance.CurrentCar. transform.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
+            }
+        }
+HHG_UiManager.instance.HideGamePlay();
     }
     public void OffMobile()
     {
-        _animator.SetBool("SitBike", false); 
-        mobile.SetActive(false);// Start the "fa" animation
-        
-        uimobile.SetActive(false);
+        Time.timeScale = 1;
+        if (HHG_GameManager.Instance.TpsStatus==PlayerStatus.ThirdPerson)
+        {
+            _animator.SetBool("SitBike", false); 
+            mobile.SetActive(false);
+            uimobile.SetActive(false);  
+        }
+        else
+        {
+            uimobile.SetActive(false);
+        }
+        HHG_UiManager.instance.ShowGamePlay();
     }
+    
+    
+
+    
+    
+    
     private void PlayThrowAnimation()
     {
         _animator.SetTrigger("Throw"); // Trigger the throw animation

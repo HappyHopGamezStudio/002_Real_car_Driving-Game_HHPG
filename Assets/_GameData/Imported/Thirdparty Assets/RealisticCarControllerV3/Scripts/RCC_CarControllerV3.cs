@@ -730,7 +730,7 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 			{
 				if (GetComponent<VehicleProperties>().enabled)
 				{
-					GetComponent<VehicleProperties>().ApplyDamage(cos/5);
+					GetComponent<VehicleProperties>().ApplyDamage(cos/1.1f);
 					//PrefsManager.Gethealth(CarName,GetComponent<VehicleProperties>().currentHealth);
 				}
 			}

@@ -3,10 +3,13 @@ using GoogleMobileAds.Api;
 using GoogleMobileAds.Common;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using BuildInfoUtility;
+using Firebase.Extensions;
 using GameAnalyticsSDK;
-using UnityEngine;
-using UnityEngine.Advertisements;
 using ToastPlugin;
+using UnityEngine;  
+using Application = UnityEngine.Application;
 
 namespace HHG_Mediation
 {
@@ -31,12 +34,13 @@ namespace HHG_Mediation
         public string Unity_RewardedVideo = "Rewarded_Android";
 
     }
+
     public class HHG_Admob : HHG_AdsCall
     {
+        public static HHG_Admob Inctance;
         public admobADIDs AndroidAdmob_ID = new admobADIDs();
         public admobADIDs TestAdmob_ID = new admobADIDs();
-        [HideInInspector]
-        public admobADIDs ADMOB_ID = new admobADIDs();
+        [HideInInspector] public admobADIDs ADMOB_ID = new admobADIDs();
 
         public AdPosition banner1_Position;
         public AdPosition banner2_Position;
@@ -46,62 +50,76 @@ namespace HHG_Mediation
         public static bool isMediumBannerLoaded = false;
         bool isAdmobInitialized = false;
 
+        public string ADSSwitch;
+        public bool ServerAds = true;
+        public string AdFrequencyTime = "AdFrequencyTime";
+        public float AdFrequency = 20f;
+        public float CurrentTime = 0;
+        public GameObject UpdatePanel;
+        public string UpdateVersionCode = "UpdateVersionCode";
+        public float RemoteVersionCode = 0;
+        public bool IsRewardedCloseAd = true;
+        public static float SpecialOfferTime = 90f;
+        public string SpecialOfferTimerKey = "SpecialOfferTimerKey";
 
         #region Small Banner ADs Variable
-        [HideInInspector]
-        public BannerView SmallBanner_L_Medium_Ecpm;
-        [HideInInspector]
-        public BannerView SmallBanner_R_Medium_Ecpm;
+
+        [HideInInspector] public BannerView SmallBanner_L_Medium_Ecpm;
+        [HideInInspector] public BannerView SmallBanner_R_Medium_Ecpm;
 
         public static bool Logs;
 
         #endregion
 
         #region Intersitial ADs Variable
-        [HideInInspector]
-        public InterstitialAd Interstitial_High_Ecpm;
+
+        [HideInInspector] public InterstitialAd Interstitial_High_Ecpm;
 
         public delegate void InterstitialUnity();
+
         public static event InterstitialUnity Int_Unity;
 
         public static bool Interstitial_HighEcpm = true, UnityAds = false;
+
         #endregion
 
         #region RewardVideo ADs Variable
+
         private static RewardUserDelegate NotifyReward;
 
-        [HideInInspector]
-        public RewardedAd rewardBasedVideo;
+        [HideInInspector] public RewardedAd rewardBasedVideo;
 
         public delegate void RewardVideoUnity();
+
         public static event RewardVideoUnity RewardVideo_Unity;
         public static bool RewardVideo_High_Ecpm = true, UnityRewarded = false;
+
         #endregion
 
         #region Medium Banner ADs Variable
 
-        [HideInInspector]
-        public BannerView MediumBannerMediumEcpm;
+        [HideInInspector] public BannerView MediumBannerMediumEcpm;
 
         #endregion
 
         #region Rewared Interstitial ADs Variable
 
-        [HideInInspector]
-        public RewardedInterstitialAd rewardedInterstitialAd;
-        [HideInInspector]
-        public bool rewardedInterstitialHighECPMLoaded;
+        [HideInInspector] public RewardedInterstitialAd rewardedInterstitialAd;
+        [HideInInspector] public bool rewardedInterstitialHighECPMLoaded;
 
         #endregion
 
         #region AppOpen ADs Variable
+
         private AppOpenAd ad;
         private bool isShowingAd = false;
         private DateTime loadTime;
+
         #endregion
 
         private void Awake()
         {
+            Inctance = this;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             DontDestroyOnLoad(this.gameObject);
             Logs = disbaleLogMode;
@@ -123,27 +141,36 @@ namespace HHG_Mediation
 #endif
             }
         }
+
         private void Start()
         {
             InitAdmob();
             InitializeAds();
+            InitializeFirebase();
+
 
             #region AppOpen
+
             LoadAd();
+
             #endregion
         }
+
         public void InitializeAds()
         {
-           // Advertisement.Initialize(ADMOB_ID.UnityId, testingMode, this);
+            // Advertisement.Initialize(ADMOB_ID.UnityId, testingMode, this);
         }
+
         public void OnInitializationComplete()
         {
             HHG_Logger.HHG_LogEvent("unity_advertisement_initialized_done");
         }
-        public void OnInitializationFailed( string message)
+
+        public void OnInitializationFailed(string message)
         {
             Debug.Log($"unity_advertisement_initialization_failed: {ToString()} - {message}");
         }
+
         private void InitAdmob()
         {
             HHG_Logger.HHG_LogSender(HHG_AdmobEvents.HHG_Initializing);
@@ -167,9 +194,10 @@ namespace HHG_Mediation
                 }
             });
 #if UNITY_IOS
-        MobileAds.SetiOSAppPauseOnBackground(true);    
+        MobileAds.SetiOSAppPauseOnBackground(true);
 #endif
         }
+
         void MediationAdapterConsent(string AdapterClassname)
         {
             if (AdapterClassname.Contains("ExampleClass"))
@@ -181,6 +209,7 @@ namespace HHG_Mediation
                 loadRewardInt();
                 loadRewardVideoAD();
             }
+
             if (AdapterClassname.Contains("MobileAds"))
             {
                 isAdmobInitialized = true;
@@ -189,7 +218,7 @@ namespace HHG_Mediation
                 loadBigBannerAD();
                 loadRewardInt();
                 loadRewardVideoAD();
-                
+
             }
         }
 
@@ -215,16 +244,16 @@ namespace HHG_Mediation
             {
                 if (error != null)
                 {
-                // Handle the error.
-                return;
+                    // Handle the error.
+                    return;
                 }
 
-            // App open ad is loaded
-            ad = appOpenAd;
+                // App open ad is loaded
+                ad = appOpenAd;
                 Debug.Log("App open ad loaded");
 
-            // COMPLETE: Keep track of time when the ad is loaded.
-            loadTime = DateTime.UtcNow;
+                // COMPLETE: Keep track of time when the ad is loaded.
+                loadTime = DateTime.UtcNow;
             }));
         }
 
@@ -242,12 +271,10 @@ namespace HHG_Mediation
 
             ad.Show();
         }
+
         private void RegisterEventHandlers(AppOpenAd ad)
         {
-            ad.OnAdPaid += (AdValue adValue) =>
-            {
-
-            };
+            ad.OnAdPaid += (AdValue adValue) => { };
 
             ad.OnAdImpressionRecorded += () =>
             {
@@ -256,21 +283,15 @@ namespace HHG_Mediation
                 Debug.Log("Recorded ad impression");
             };
 
-            ad.OnAdClicked += () =>
-            {
+            ad.OnAdClicked += () => { };
 
-            };
-
-            ad.OnAdFullScreenContentOpened += () =>
-            {
-
-            };
+            ad.OnAdFullScreenContentOpened += () => { };
 
             ad.OnAdFullScreenContentClosed += () =>
             {
                 Debug.Log("Closed app open ad");
-            // Set the ad to null to indicate that AppOpenAdManager no longer has another ad to show.
-            ad = null;
+                // Set the ad to null to indicate that AppOpenAdManager no longer has another ad to show.
+                ad = null;
                 isShowingAd = false;
                 LoadAd();
             };
@@ -278,8 +299,8 @@ namespace HHG_Mediation
             ad.OnAdFullScreenContentFailed += (AdError error) =>
             {
 
-            // Set the ad to null to indicate that AppOpenAdManager no longer has another ad to show.
-            ad = null;
+                // Set the ad to null to indicate that AppOpenAdManager no longer has another ad to show.
+                ad = null;
                 LoadAd();
             };
         }
@@ -296,6 +317,7 @@ namespace HHG_Mediation
         #endregion
 
         #region IntersititialCodeBlock
+
         public override bool checkInterstitialAD()
         {
             if (this.Interstitial_High_Ecpm != null)
@@ -306,10 +328,18 @@ namespace HHG_Mediation
 
         public override void showInterstitialAD()
         {
-            if (!PreferenceManager.GetAdsStatus() || !isAdmobInitialized)
+            if (!PreferenceManager.GetAdsStatus() || !isAdmobInitialized || !ServerAds)
             {
                 return;
             }
+
+            if (CurrentTime < AdFrequency && AdFrequency != 0)
+            {
+                Debug.Log("Frequency Ad Return");
+                return;
+            }
+
+            CurrentTime = 0;
 
             if (Interstitial_HighEcpm)
             {
@@ -317,11 +347,11 @@ namespace HHG_Mediation
                 {
                     if (this.Interstitial_High_Ecpm.CanShowAd())
                     {
-                        if(HHG_appOpenHandler.Instance)
+                        if (HHG_appOpenHandler.Instance)
                             HHG_appOpenHandler.Instance.AdShowing = true;
 
                         HHG_Logger.HHG_LogSender(HHG_AdmobEvents.HHG_Interstitial_WillDisplay_High_Ecpm);
-                        GameAnalytics.NewAdEvent(GAAdAction.Show,GAAdType.Interstitial,"Admob","Admob_Interstitial");
+                        GameAnalytics.NewAdEvent(GAAdAction.Show, GAAdType.Interstitial, "Admob", "Admob_Interstitial");
 
                         this.Interstitial_High_Ecpm.Show();
 
@@ -334,17 +364,21 @@ namespace HHG_Mediation
                     HHG_appOpenHandler.Instance.AdShowing = true;
 
                 HHG_Logger.HHG_LogEvent("unity_interstitial_loaded");
-                GameAnalytics.NewAdEvent(GAAdAction.Show,GAAdType.Interstitial,"Unity","Unity_Interstitial");
+                GameAnalytics.NewAdEvent(GAAdAction.Show, GAAdType.Interstitial, "Unity", "Unity_Interstitial");
                 //  Advertisement.Show(ADMOB_ID.Unity_Interstitial_ID, this);
             }
         }
+
         public override void loadInterstitialAD()
         {
-            if (!isAdmobInitialized || checkInterstitialAD() || interstitial_Status == AdsLoadingStatus.Loading || !PreferenceManager.GetAdsStatus())
+            if (!isAdmobInitialized || checkInterstitialAD() || interstitial_Status == AdsLoadingStatus.Loading ||
+                !PreferenceManager.GetAdsStatus())
             {
                 return;
             }
-            if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork | Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+
+            if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork |
+                Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
             {
                 if (Interstitial_HighEcpm)
                 {
@@ -364,7 +398,8 @@ namespace HHG_Mediation
 
                         if (ad == null)
                         {
-                            HHG_Logger.HHG_LogEvent("Unexpected error: Interstitial load event fired with null ad and null error.");
+                            HHG_Logger.HHG_LogEvent(
+                                "Unexpected error: Interstitial load event fired with null ad and null error.");
                             interstitial_Status = AdsLoadingStatus.NotLoaded;
                             return;
                         }
@@ -378,7 +413,7 @@ namespace HHG_Mediation
                 else if (UnityAds)
                 {
                     HHG_Logger.HHG_LogEvent("Load_Unity_Int");
-                   // Advertisement.Load(ADMOB_ID.Unity_Interstitial_ID, this);
+                    // Advertisement.Load(ADMOB_ID.Unity_Interstitial_ID, this);
                 }
             }
         }
@@ -386,6 +421,7 @@ namespace HHG_Mediation
         #endregion
 
         #region IntersititialEventCallBacks
+
         //HighEcpmEvents
         private void BindIntersititialHighEcpmEvents()
         {
@@ -452,7 +488,7 @@ namespace HHG_Mediation
             this.Interstitial_High_Ecpm.OnAdFullScreenContentFailed += (AdError error) =>
             {
                 HHG_Logger.HHG_LogEvent("Interstitial ad failed to open full screen content with error : "
-                    + error);
+                                        + error);
 
                 MobileAdsEventExecutor.ExecuteInUpdate(() =>
                 {
@@ -473,17 +509,22 @@ namespace HHG_Mediation
         #endregion
 
         #region BannerCodeBlock
+
         public override bool checkSmallFirstBannerAD()
         {
             return isSmallBannerLoadedFirst;
         }
+
         public override void loadBanner1()
         {
-            if (!PreferenceManager.GetAdsStatus() || checkSmallFirstBannerAD() || smallBanner_Status == AdsLoadingStatus.Loading)
+            if (!PreferenceManager.GetAdsStatus() || checkSmallFirstBannerAD() ||
+                smallBanner_Status == AdsLoadingStatus.Loading)
             {
                 return;
             }
-            if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork | Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+
+            if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork |
+                Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
             {
                 this.SmallBanner_L_Medium_Ecpm = new BannerView(ADMOB_ID.banner1, AdSize.Banner, banner1_Position);
                 HHG_Logging.Log("FirstSmallBanner_M_Ecpm");
@@ -493,6 +534,7 @@ namespace HHG_Mediation
                 this.SmallBanner_L_Medium_Ecpm.Hide();
             }
         }
+
         public override void hideBanner1()
         {
             if (this.SmallBanner_L_Medium_Ecpm != null)
@@ -501,17 +543,19 @@ namespace HHG_Mediation
                 HHG_Logging.Log("Admob:smallBanner:Hide_M_Ecpm");
             }
         }
+
         public void ShowBanner()
         {
             showBanner1();
         }
+
         public override void showBanner1()
         {
             hideBanner1();
 
             try
             {
-                if (!PreferenceManager.GetAdsStatus() || !isAdmobInitialized)
+                if (!PreferenceManager.GetAdsStatus() || !isAdmobInitialized || !ServerAds)
                 {
                     return;
                 }
@@ -540,12 +584,13 @@ namespace HHG_Mediation
                 HHG_Logging.Log("Small Banner Error: " + error);
             }
         }
+
         private void BindSmallBannerFirstMediumEcpm()
         {
             this.SmallBanner_L_Medium_Ecpm.OnBannerAdLoaded += () =>
             {
                 HHG_Logging.Log("Banner view loaded an ad with response : "
-                    + this.SmallBanner_L_Medium_Ecpm.GetResponseInfo());
+                                + this.SmallBanner_L_Medium_Ecpm.GetResponseInfo());
 
                 MobileAdsEventExecutor.ExecuteInUpdate(() =>
                 {
@@ -568,6 +613,7 @@ namespace HHG_Mediation
             };
 
         }
+
         /// <summary>
         /// 2nd BannerCode
         /// </summary>
@@ -577,7 +623,7 @@ namespace HHG_Mediation
             this.SmallBanner_R_Medium_Ecpm.OnBannerAdLoaded += () =>
             {
                 HHG_Logging.Log("Banner view loaded an ad with response : "
-                    + this.SmallBanner_R_Medium_Ecpm.GetResponseInfo());
+                                + this.SmallBanner_R_Medium_Ecpm.GetResponseInfo());
 
 
                 MobileAdsEventExecutor.ExecuteInUpdate(() =>
@@ -609,17 +655,22 @@ namespace HHG_Mediation
             };
 
         }
+
         public override bool checkSmallSecondBannedAD()
         {
             return isSmallBannerLoadedSecond;
         }
+
         public override void loadBanner2()
         {
-            if (!PreferenceManager.GetAdsStatus() || checkSmallSecondBannedAD() || small2ndBanner_Status == AdsLoadingStatus.Loading)
+            if (!PreferenceManager.GetAdsStatus() || checkSmallSecondBannedAD() ||
+                small2ndBanner_Status == AdsLoadingStatus.Loading)
             {
                 return;
             }
-            if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork | Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+
+            if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork |
+                Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
             {
 
                 this.SmallBanner_R_Medium_Ecpm = new BannerView(ADMOB_ID.banner2, AdSize.Banner, banner2_Position);
@@ -633,6 +684,12 @@ namespace HHG_Mediation
 
             }
         }
+
+        private void Update()
+        {
+            CurrentTime += Time.deltaTime;
+        }
+
         public override void hideBanner2()
         {
             if (this.SmallBanner_R_Medium_Ecpm != null)
@@ -641,12 +698,13 @@ namespace HHG_Mediation
                 HHG_Logging.Log("Admob:smallBanner:Hide_M_Ecpm");
             }
         }
+
         public override void showBanner2()
         {
             hideBanner2();
             try
             {
-                if (!PreferenceManager.GetAdsStatus() || !isAdmobInitialized)
+                if (!PreferenceManager.GetAdsStatus() || !isAdmobInitialized || !ServerAds)
                 {
                     return;
                 }
@@ -677,6 +735,7 @@ namespace HHG_Mediation
         #endregion
 
         #region MediumBannerCodeBlocks
+
         public override bool checkBigBannerAD()
         {
             return isMediumBannerLoaded;
@@ -688,11 +747,19 @@ namespace HHG_Mediation
             {
                 return;
             }
-            if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork | Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+
+            if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork |
+                Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
             {
+                if (MediumBannerMediumEcpm != null)
+                {
+                    MediumBannerMediumEcpm.Destroy();
+                    MediumBannerMediumEcpm = null;
+                }
 
                 HHG_Logger.HHG_LogSender(HHG_AdmobEvents.HHG_MediumBanner_Load_MediumEcpm);
-                this.MediumBannerMediumEcpm = new BannerView(ADMOB_ID.bigBannerID, AdSize.MediumRectangle, AdPosition.BottomLeft);
+                this.MediumBannerMediumEcpm =
+                    new BannerView(ADMOB_ID.bigBannerID, AdSize.MediumRectangle, AdPosition.BottomLeft);
                 BindMediumBannerEvents_M_Ecpm();
                 var request = new AdRequest();
                 this.MediumBannerMediumEcpm.LoadAd(request);
@@ -701,11 +768,12 @@ namespace HHG_Mediation
             }
 
         }
+
         public override void showBigBannerAD(AdPosition pos)
         {
             try
             {
-                if (!PreferenceManager.GetAdsStatus() || !isAdmobInitialized)
+                if (!PreferenceManager.GetAdsStatus() || !isAdmobInitialized || !ServerAds)
                 {
                     return;
                 }
@@ -727,6 +795,7 @@ namespace HHG_Mediation
                 HHG_Logging.Log("Medium Banner Error: " + e);
             }
         }
+
         public override void hideBigBanner()
         {
 
@@ -748,7 +817,7 @@ namespace HHG_Mediation
             this.MediumBannerMediumEcpm.OnBannerAdLoaded += () =>
             {
                 HHG_Logging.Log("Banner view loaded an ad with response : "
-                    + this.MediumBannerMediumEcpm.GetResponseInfo());
+                                + this.MediumBannerMediumEcpm.GetResponseInfo());
 
                 MobileAdsEventExecutor.ExecuteInUpdate(() =>
                 {
@@ -786,10 +855,7 @@ namespace HHG_Mediation
                 HHG_Logging.Log("Banner view recorded an impression.");
             };
 
-            this.MediumBannerMediumEcpm.OnAdClicked += () =>
-            {
-                HHG_Logging.Log("Banner view was clicked.");
-            };
+            this.MediumBannerMediumEcpm.OnAdClicked += () => { HHG_Logging.Log("Banner view was clicked."); };
 
             this.MediumBannerMediumEcpm.OnAdFullScreenContentOpened += () =>
             {
@@ -797,9 +863,7 @@ namespace HHG_Mediation
 
                 MobileAdsEventExecutor.ExecuteInUpdate(() =>
                 {
-
                     HHG_Logger.HHG_LogSender(HHG_AdmobEvents.HHG_MediumBanner_Displayed_MediumEcpm);
-
                 });
             };
 
@@ -807,10 +871,7 @@ namespace HHG_Mediation
             {
                 HHG_Logging.Log("Banner view full screen content closed.");
 
-                MobileAdsEventExecutor.ExecuteInUpdate(() =>
-                {
-
-                });
+                MobileAdsEventExecutor.ExecuteInUpdate(() => { });
             };
         }
 
@@ -818,13 +879,16 @@ namespace HHG_Mediation
         #endregion
 
         #region RewardedVideoCodeBlock
+
         public override void loadRewardVideoAD()
         {
             if (!isAdmobInitialized || checkRewardAD() || rewardADs_Status == AdsLoadingStatus.Loading)
             {
                 return;
             }
-            if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork | Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+
+            if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork |
+                Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
             {
                 if (RewardVideo_High_Ecpm)
                 {
@@ -837,6 +901,7 @@ namespace HHG_Mediation
                         if (error != null)
                         {
                             HHG_Logging.Log("Rewarded ad failed to load an ad with error : " + error);
+
                             return;
                         }
 
@@ -857,6 +922,7 @@ namespace HHG_Mediation
                 }
             }
         }
+
         public override bool checkRewardAD()
         {
             if (this.rewardBasedVideo != null)
@@ -864,6 +930,7 @@ namespace HHG_Mediation
             else
                 return false;
         }
+
         public override void showRewardVideo(RewardUserDelegate _delegate)
         {
             if (RewardVideo_High_Ecpm)
@@ -880,18 +947,18 @@ namespace HHG_Mediation
                             HHG_appOpenHandler.Instance.AdShowing = true;
 
                         HHG_Logger.HHG_LogSender(HHG_AdmobEvents.HHG_RewardedVideo_WillDisplay_High_Ecpm);
-                        GameAnalytics.NewAdEvent(GAAdAction.Show, GAAdType.Interstitial, "Admob", "Rewarded_Vedio");
+                        GameAnalytics.NewAdEvent(GAAdAction.Show, GAAdType.RewardedVideo, "Admob", "Admob_Rewarded");
                         this.rewardBasedVideo.Show((Reward reward) =>
                         {
                             HHG_Logging.Log(String.Format("Rewarded ad granted a reward: {0} {1}",
-                                                    reward.Amount,
-                                                    reward.Type));
+                                reward.Amount,
+                                reward.Type));
                         });
                     }
                 }
                 else
                 {
-                    ToastHelper.ShowToast("Ads Not AvailAble");
+                    ToastHelper.ShowToast(" Ads Not Available ");
                 }
             }
             else if (UnityRewarded)
@@ -904,20 +971,18 @@ namespace HHG_Mediation
             }
             else
             {
-                ToastHelper.ShowToast("Ads Not AvailAble");
+                ToastHelper.ShowToast(" Ads Not Available ");
             }
         }
 
         #endregion
 
         #region RewardedVideoEvents
+
         //***** Rewarded Events *****//
         private void BindRewardedEvents_H_Ecpm()
         {
-            rewardBasedVideo.OnAdPaid += (AdValue adValue) =>
-            {
-
-            };
+            rewardBasedVideo.OnAdPaid += (AdValue adValue) => { };
 
             rewardBasedVideo.OnAdImpressionRecorded += () =>
             {
@@ -936,10 +1001,7 @@ namespace HHG_Mediation
                 });
             };
 
-            rewardBasedVideo.OnAdClicked += () =>
-            {
-                HHG_Logging.Log("Rewarded ad was clicked.");
-            };
+            rewardBasedVideo.OnAdClicked += () => { HHG_Logging.Log("Rewarded ad was clicked."); };
 
             rewardBasedVideo.OnAdFullScreenContentOpened += () =>
             {
@@ -1002,6 +1064,7 @@ namespace HHG_Mediation
         #endregion
 
         #region RewardedInterstial
+
         public override void loadRewardInt()
         {
             if (!isAdmobInitialized || checkRewardIntAD() || rewardInterstitial_Status == AdsLoadingStatus.Loading)
@@ -1009,30 +1072,33 @@ namespace HHG_Mediation
                 return;
             }
 
-            if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork || Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+            if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork ||
+                Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
             {
                 HHG_Logger.HHG_LogSender(HHG_AdmobEvents.HHG_LoadRewardedInterstitialAd_H_ECPM);
                 var request = new AdRequest();
                 rewardInterstitial_Status = AdsLoadingStatus.Loading;
 
-                RewardedInterstitialAd.Load(ADMOB_ID.rewardInterstitial, request, (RewardedInterstitialAd ad, LoadAdError error) =>
-                {
-                    if (error != null)
+                RewardedInterstitialAd.Load(ADMOB_ID.rewardInterstitial, request,
+                    (RewardedInterstitialAd ad, LoadAdError error) =>
                     {
-                        HHG_Logging.Log("Rewarded interstitial ad failed to load an ad with error : " + error);
-                        return;
-                    }
+                        if (error != null)
+                        {
+                            HHG_Logging.Log("Rewarded interstitial ad failed to load an ad with error : " + error);
+                            return;
+                        }
 
-                    if (ad == null)
-                    {
-                        HHG_Logging.Log("Unexpected error: Rewarded interstitial load event fired with null ad and null error.");
-                        return;
-                    }
+                        if (ad == null)
+                        {
+                            HHG_Logging.Log(
+                                "Unexpected error: Rewarded interstitial load event fired with null ad and null error.");
+                            return;
+                        }
 
-                    HHG_Logging.Log("Rewarded interstitial ad loaded with response : " + ad.GetResponseInfo());
-                    rewardedInterstitialAd = ad;
-                    RegisterEventHandlers(ad);
-                });
+                        HHG_Logging.Log("Rewarded interstitial ad loaded with response : " + ad.GetResponseInfo());
+                        rewardedInterstitialAd = ad;
+                        RegisterEventHandlers(ad);
+                    });
             }
         }
 
@@ -1048,14 +1114,14 @@ namespace HHG_Mediation
 
                     if (HHG_appOpenHandler.Instance)
                         HHG_appOpenHandler.Instance.AdShowing = true;
-
+                    GameAnalytics.NewAdEvent(GAAdAction.Show, GAAdType.RewardedVideo, "Admob", "Admob_Rewarded_inter");
                     this.rewardedInterstitialAd.Show(userEarnedRewardCallback);
-                    GameAnalytics.NewAdEvent(GAAdAction.Show, GAAdType.Interstitial, "Admob", "Rewarded_Inter");
+
                 }
             }
             else
             {
-                ToastHelper.ShowToast("Ads Not AvailAble");
+                ToastHelper.ShowToast(" Ads Not Available ");
             }
         }
 
@@ -1087,18 +1153,9 @@ namespace HHG_Mediation
         {
             rewardedInterstitialHighECPMLoaded = true;
 
-            ad.OnAdPaid += (AdValue adValue) =>
-            {
-
-            };
-            ad.OnAdImpressionRecorded += () =>
-            {
-                HHG_Logging.Log("Rewarded interstitial ad recorded an impression.");
-            };
-            ad.OnAdClicked += () =>
-            {
-                HHG_Logging.Log("Rewarded interstitial ad was clicked.");
-            };
+            ad.OnAdPaid += (AdValue adValue) => { };
+            ad.OnAdImpressionRecorded += () => { HHG_Logging.Log("Rewarded interstitial ad recorded an impression."); };
+            ad.OnAdClicked += () => { HHG_Logging.Log("Rewarded interstitial ad was clicked."); };
             ad.OnAdFullScreenContentOpened += () =>
             {
                 HHG_Logging.Log("Rewarded interstitial ad has presented.");
@@ -1141,6 +1198,7 @@ namespace HHG_Mediation
         #endregion
 
         #region UnityCallBack
+
         public void OnUnityAdsAdLoaded(string adUnitId)
         {
             Debug.Log("Enter1");
@@ -1161,7 +1219,7 @@ namespace HHG_Mediation
             }
         }
 
-        public void OnUnityAdsFailedToLoad(string adUnitId,  string message)
+        public void OnUnityAdsFailedToLoad(string adUnitId, string message)
         {
             Debug.Log($"Error loading Ad Unit: {adUnitId} - {ToString()} - {message}");
             if (adUnitId == ADMOB_ID.Unity_Interstitial_ID)
@@ -1180,7 +1238,7 @@ namespace HHG_Mediation
             // Optionally execute code if the Ad Unit fails to load, such as attempting to try again.
         }
 
-        public void OnUnityAdsShowFailure(string adUnitId,string message)
+        public void OnUnityAdsShowFailure(string adUnitId, string message)
         {
             Debug.Log($"Error showing Ad Unit {adUnitId}: {ToString()} - {message}");
             if (adUnitId == ADMOB_ID.Unity_Interstitial_ID)
@@ -1202,8 +1260,14 @@ namespace HHG_Mediation
             // Optionally execute code if the Ad Unit fails to show, such as loading another ad.
         }
 
-        public void OnUnityAdsShowStart(string adUnitId) { }
-        public void OnUnityAdsShowClick(string adUnitId) { }
+        public void OnUnityAdsShowStart(string adUnitId)
+        {
+        }
+
+        public void OnUnityAdsShowClick(string adUnitId)
+        {
+        }
+
         public void OnUnityAdsShowComplete(string adUnitId)
         {
 
@@ -1217,8 +1281,7 @@ namespace HHG_Mediation
                 UnityAds = false;
                 Debug.Log("Ad_completed");
             }
-            else
-            if (adUnitId.Equals(ADMOB_ID.Unity_RewardedVideo) )
+            else if (adUnitId.Equals(ADMOB_ID.Unity_RewardedVideo))
             {
                 Debug.Log("Unity Ads Rewarded Ad Completed");
                 // Grant a reward.
@@ -1235,5 +1298,132 @@ namespace HHG_Mediation
             }
         }
         #endregion
+        
+
+        #region fireBaseCode
+
+        public static bool isFirebaseInitialized = false;
+
+        void InitializeFirebase()
+        {
+            // [START set_defaults]
+            System.Collections.Generic.Dictionary<string, object> defaults =
+                new System.Collections.Generic.Dictionary<string, object>();
+
+            // These are the values that are used if we haven't fetched data from the
+            // server
+            // yet, or if we ask for values that the server doesn't have:
+
+
+            Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.SetDefaultsAsync(defaults)
+                .ContinueWithOnMainThread(task =>
+                {
+                    // [END set_defaults]
+                    HHG_Logging.Log("RemoteConfig configured and ready!");
+                    isFirebaseInitialized = true;
+                    FetchDataAsync();
+                });
+        }
+
+        public void DisplayData()
+        {
+            HHG_Logging.Log("Current Data:");
+
+            ServerAds = Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue(ADSSwitch).BooleanValue;
+
+            AdFrequency = Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue(AdFrequencyTime)
+                .LongValue;
+            //  SpecialOfferTime = Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue(SpecialOfferTimerKey).LongValue;
+
+            // if (testingMode == true)
+            //     {
+            //         ServerAds = true;
+            //         AdFrequency = 0;
+            //     }
+            //     else
+            //     {
+            //         ServerAds = Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue(ADSSwitch).BooleanValue;
+            //       //  SpecialOfferTime = Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue(SpecialOfferTimerKey).LongValue;
+            //         AdFrequency = Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue(AdFrequencyTime).LongValue;
+            //     }
+
+
+            RemoteVersionCode = Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.GetValue(UpdateVersionCode)
+                .LongValue;
+            //  Logger.ShowLog("Special offer Time is "+SpecialOfferTime);
+            if (BuidRuntimeInfo.Instance != null)
+            {
+                if (RemoteVersionCode > BuidRuntimeInfo.Instance.BuildId)
+                {
+                    UpdatePanel.SetActive(true);
+                    Time.timeScale = 0;
+                }
+            }
+
+            InitAdmob();
+        }
+
+        public Task FetchDataAsync()
+        {
+            HHG_Logging.Log("Fetching data...");
+            System.Threading.Tasks.Task fetchTask =
+                Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.FetchAsync(
+                    TimeSpan.Zero);
+            return fetchTask.ContinueWithOnMainThread(FetchComplete);
+        }
+
+        void FetchComplete(Task fetchTask)
+        {
+            if (fetchTask.IsCanceled)
+            {
+                HHG_Logging.Log("Fetch canceled.");
+            }
+            else if (fetchTask.IsFaulted)
+            {
+                HHG_Logging.Log("Fetch encountered an error.");
+            }
+            else if (fetchTask.IsCompleted)
+            {
+                HHG_Logging.Log("Fetch completed successfully!");
+            }
+
+            var info = Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.Info;
+            switch (info.LastFetchStatus)
+            {
+                case Firebase.RemoteConfig.LastFetchStatus.Success:
+                    Firebase.RemoteConfig.FirebaseRemoteConfig.DefaultInstance.ActivateAsync()
+                        .ContinueWithOnMainThread(task =>
+                        {
+                            HHG_Logging.Log(
+                                String.Format("Remote data loaded and ready (last fetch time {0}).", info.FetchTime));
+                            DisplayData();
+                        });
+
+                    break;
+                case Firebase.RemoteConfig.LastFetchStatus.Failure:
+                    InitAdmob();
+                    switch (info.LastFetchFailureReason)
+                    {
+
+                        case Firebase.RemoteConfig.FetchFailureReason.Error:
+                            HHG_Logging.Log("Fetch failed for unknown reason");
+
+                            break;
+                        case Firebase.RemoteConfig.FetchFailureReason.Throttled:
+                            HHG_Logging.Log("Fetch throttled until " + info.ThrottledEndTime);
+                            break;
+                    }
+
+                    break;
+                case Firebase.RemoteConfig.LastFetchStatus.Pending:
+                    HHG_Logging.Log("Latest Fetch call still pending.");
+                    InitAdmob();
+                    break;
+
+            }
+        }
+
+        #endregion
     }
+
 }

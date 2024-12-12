@@ -5,11 +5,12 @@ using System;
 
 public class HHG_TimeController : MonoBehaviour
 {
-
-
-    public Text timecounterText, TimeUptext, timeOnLevelComplete;
-    public int[] timeToCompleteLevels;
-    private float timeToCompleteLevel;
+  public Text timecounterText;
+  public Text []TimeHowsave;
+  private float elapsedTime;
+  private bool isTiming;
+  // public int[] timeToCompleteLevels;
+    public float timeToCompleteLevel;
     public static bool isTimeOver;
     public bool isTimerOn = false;
     public static bool isGamePaused;
@@ -20,32 +21,47 @@ public class HHG_TimeController : MonoBehaviour
     public static bool isAttackMode;
 
     int remainder;
-    public GameObject getTimeButton;
+    int Remainder;
+    public GameObject TimerObject;
+    public static HHG_TimeController Instance;
+    public bool StartTimer = true;
     void Awake()
     {
-        //		MoPubAds.hideBanner ();
+        Instance = this;
+        if (PrefsManager.GetGameMode() == "free")
+        {
+            TimerObject.SetActive(false);
+            StartTimer = false;
+            timeToCompleteLevel = timeForFreeCoin;
+        }
+        else  if (PrefsManager.GetLevelMode() == 0)
+        {
+            StartTimer = true;
+            timeToCompleteLevel = timeForFreeCoin;
+        }
+        
     }
+
 
     public delegate void TimeOver();
     public static event TimeOver OnTimeOver;
 
     void Start()
     {
-        remainder = PrefsManager.GetCurrentLevel() - 1;
+        elapsedTime = 0f;
+        isTiming = true;
         isAttackMode = false;
-        //		GetComponent<AudioSource> ().loop = true;
-
-        timeToCompleteLevel = timeToCompleteLevels[remainder];
         checkIt = false;
-
         if (PrefsManager.GetGameMode() == "free")
         {
-            timeToCompleteLevel = timeForFreeCoin;
+            TimerObject.SetActive(false);
+            StartTimer = false;
+          //  timeToCompleteLevel = timeForFreeCoin;
         }
-
-        isTimeOver = false;
-        isGamePaused = false;
-        //		levelnum.text = "" + (GlobalScripts.CurrLevelIndex+1);
+        else  if (PrefsManager.GetLevelMode() == 0)
+        {
+            isTimeOver = false;
+        }
     }
 
     public void starton_failtime()
@@ -62,105 +78,128 @@ public class HHG_TimeController : MonoBehaviour
     private float totalTime;
     int Minutes = 0;
     int Seconds = 0;
-    int DivisionValue = 60;
+    int DivisionValue = 60; 
     void Update()
     {
-
-         Minutes = (int)Math.Abs(timeToCompleteLevel / DivisionValue);
-        Seconds = (int)timeToCompleteLevel % DivisionValue;
-
+        if (!StartTimer)
+        {
+            return;
+        }
         if (timeToCompleteLevel >= 0 && !isGamePaused)
         {
             timeToCompleteLevel -= Time.deltaTime;
             totalTime += Time.deltaTime;
-
         }
-        if (timeToCompleteLevel <= timeToCompleteLevels[remainder] - 10)
+       // if (timeToCompleteLevel <= timeToCompleteLevels[remainder] - 10)
         {
             isAttackMode = true;
             //Debug.Log ("Eemy can attack");
         }
-        if (timeToCompleteLevel <= 15 && !isplayerwarning && PrefsManager.GetGameMode()!="free" && !isrewardAlready)
+        if (timeToCompleteLevel <= 10 && !isplayerwarning && PrefsManager.GetGameMode() != "free" && !isrewardAlready)
         {
             timecounterText.color = Color.red;
-          //  timecounterText.GetComponent<Animator>().enabled = true;
-            //if(audio!=null)
-            //audio.enabled = true;
-           // getTimeButton.SetActive(true);
-
-           // if (!UIManagerObject.instance.isAnyPanel)
-            {
-                
-              //  SoundManager.Instance.PlayTimmerSound();
-              //  isplayerwarning = true;
-            }
-           // else
-            {
-                //isGamePaused = true;
-            }
-          
-            //audio.Play();
         }
 
         //		Debug.Log ("time"+TimeController.isTimeOver+"-"+timeToCompleteLevel);
         if (timeToCompleteLevel < 0.0F && !isTimeOver)
         {
-
-
-            //			GameObject.FindWithTag("GameController").GetComponent<MissionController>().onfailcondition();
-            TimeUptext.gameObject.SetActive(true);
-            TimeUptext.text = "Time's Up You Are Late ";
-            //if (audio != null) 
-            {
-                //	audio.enabled = false;
-                //audio.Stop();
-                //Destroy(audio);
-
-            }
             if (PrefsManager.GetGameMode() == "free")
             {
-                HHG_UiManager.instance.ShowFail();
-
+               // UiManagerObject_EG.instance.MissionWasted();.
+               HHG_UiManager.instance?.ShowFail();
+                StartTimer = false;
+                TimerObject.SetActive(false);
             }
             else
             {
-                HHG_UiManager.instance.ShowFail();
+                Debug.Log("here my bady");
+                HHG_UiManager.instance?.ShowFail();
             }
-
+            Debug.Log("Called Failed");
             HHG_SoundManager.Instance.OffPlayTimmerSound();
-
-
             isTimeOver = true;
-          
         }
-        timecounterText.text = "0" + Minutes.ToString() + ":";
-
-        if (Seconds < 10)
+        timecounterText.text = FormatTime(timeToCompleteLevel);
+        
+        
+        
+        
+        if (isTiming)
         {
-
-            timecounterText.text = timecounterText.text + "0" + Seconds.ToString();
-
+            // Increment the elapsed time
+            elapsedTimeMine += Time.deltaTime;
         }
-        else
+       
+        
+        
+        if (isTracking)
         {
-            timecounterText.text = timecounterText.text + Seconds.ToString();
+            elapsedTimeMine += Time.deltaTime; // Increment elapsed time
         }
-        //if (!UIManagerObject.instance.isCompleteLevel)
-        {
-            showseconds = (int)totalTime % DivisionValue;
-            showmint = (int)totalTime / DivisionValue;
-            if (showseconds < 10)
-                valueShow = "0" + showseconds;
-            else
-                valueShow = showseconds + "";
 
-            if (showmint > 0) ;
-            //  timeOnLevelComplete.text = "0" + (int)Math.Abs(totalTime / 60) + " : " + valueShow;
-            // else
-            // timeOnLevelComplete.text = (int)Math.Abs(totalTime / 60) + " : " + valueShow;
-
-        }
+        // Format and display the time
+        timeTexttrack.text = FormatTimeTrack(elapsedTimeMine);
+        FOrfail.text = FormatTimeTrack(elapsedTimeMine);
+        
+        
     }
+    
+    
+    
+    
+    
+    public Text timeTexttrack,FOrfail; 
+    public bool isTracking = false; 
+
+    private float elapsedTimeMine = 0f;
+
+
+
+    // Function to format time in min:sec:msec
+    private string FormatTimeTrack(float time)
+    {
+        int minutes = Mathf.FloorToInt(time / 60F);
+        int seconds = Mathf.FloorToInt(time % 60F);
+        int milliseconds = Mathf.FloorToInt((time * 1000F) % 1000F);
+        return string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
+    }
+
+    // Function to reset elapsed time
+    public void ResetTime()
+    {
+        elapsedTime = 0f;
+    }
+    void ShowElapsedTime()
+    {
+        // Format elapsed time as minutes and seconds, then display on text
+        int minutes = Mathf.FloorToInt(elapsedTime / 60F);
+        int seconds = Mathf.FloorToInt(elapsedTime % 60F);
+        foreach (var time in TimeHowsave)
+        {
+            time.text = $"{minutes:00}:{seconds:00}";
+        }
+       
+    }
+    public void UpdateTimer(float time)
+    {
+        isTimeOver = false;
+        timecounterText.color = Color.white;
+        timeToCompleteLevel = time;
+        StartTimer = true;
+        TimerObject.SetActive(true);
+        isTracking = true;
+    }
+    public void StopTimer()
+    {
+        isTimeOver = false;
+        StartTimer = false;
+        TimerObject.SetActive(false);
+        isTiming = false;
+        ShowElapsedTime();
+        isTracking = false;
+        ResetTime();
+    }
+
 
 
     private int showseconds = 0;
@@ -180,6 +219,19 @@ public class HHG_TimeController : MonoBehaviour
 
     }
 
+    private int intTime, minuts, seconds;
+    //  private float fraction;
+    private string timeText;
+    string FormatTime(float time)
+    {
+        intTime = (int)time;
+        minuts = intTime / 60;
+        seconds = intTime % 60;
+        // fraction = time * 1000;
+        // fraction = (fraction % 1000);
+        timeText = String.Format("{0:00}:{1:00}", minuts, seconds);
+        return timeText;
+    }
     private bool isrewardAlready = false;
     private Color newcolor;
     public void TimeReward()
@@ -188,13 +240,13 @@ public class HHG_TimeController : MonoBehaviour
         HHG_SoundManager.Instance.OffPlayTimmerSound();
         isplayerwarning = false;
         isrewardAlready = true;
-      
+
         timecounterText.GetComponent<Animator>().enabled = false;
-       
+
         newcolor.a = 1f;
         newcolor = Color.black;
         timecounterText.color = newcolor;
-        getTimeButton.SetActive(false);
+        TimerObject.SetActive(false);
 
 
     }
@@ -207,13 +259,11 @@ public class HHG_TimeController : MonoBehaviour
         isrewardAlready = true;
 
         timecounterText.GetComponent<Animator>().enabled = false;
-       // UIManagerObject.instance.HideTimeUp();
+        // UIManagerObject.instance.HideTimeUp();
         newcolor.a = 1f;
         newcolor = Color.black;
         timecounterText.color = newcolor;
-        getTimeButton.SetActive(false);
-
-
+        TimerObject.SetActive(false);
+        
     }
-
 }
