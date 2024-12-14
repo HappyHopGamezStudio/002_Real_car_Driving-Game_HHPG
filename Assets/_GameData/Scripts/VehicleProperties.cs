@@ -183,6 +183,8 @@ public class VehicleProperties : MonoBehaviour
 		{
 			CarController.chassis.GetComponent<RCC_Chassis>().enabled = true;
 		}
+		GetComponent<Rigidbody>().drag = 0f;
+		GetComponent<Rigidbody>().angularDrag = 0f;
 		CarController.enabled = true;
 		transform.name = "!!!!!!!!!!!!!!MYCAR!!!!!!!!!!!!!!!!";
 		GetComponent<RCC_CameraConfig>()?.SetCameraSettingsNow();
@@ -291,8 +293,8 @@ public class VehicleProperties : MonoBehaviour
 			CarController.chassis.GetComponent<RCC_Chassis>().enabled = false;
 		}
 
-		transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
-		transform.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+		GetComponent<Rigidbody>().drag = 50f;
+		GetComponent<Rigidbody>().angularDrag = 50f;
 		CarController.FrontLeftWheelCollider.enabled = false;
 		CarController.FrontRightWheelCollider.enabled = false;
 		CarController.RearLeftWheelCollider.enabled = false;
@@ -510,7 +512,7 @@ public class VehicleProperties : MonoBehaviour
     private void TriggerSlowMotion()
     {
         HHG_UiManager.instance.HideGamePlay();
-        Invoke(nameof(Showpanel),0.3f);
+        Invoke(nameof(Showpanel),0.2f);
         Time.timeScale = slowMotionFactor; 
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
@@ -555,22 +557,22 @@ public class VehicleProperties : MonoBehaviour
 		    HHG_UiManager.instance.Ripairebutton.SetActive(true);
 		    Fire.SetActive(false);
 	    }
-	    if (currentHealth <= 50)
+	    else if (currentHealth <= 50)
 	    {
 		    HHG_UiManager.instance.FillhealthBar.color  =  HHG_LevelManager.instace.colers[1];
 		    Fire.SetActive(false);
 	    }
-	    if (currentHealth <= 40)
+	    else if (currentHealth <= 40)
 	    {
 		    HHG_UiManager.instance.FillhealthBar.color  =  HHG_LevelManager.instace.colers[2];
 		    Fire.SetActive(false);
 	    }
-	    if (currentHealth <= 30)
+	    else if (currentHealth <= 30)
 	    {
-		    HHG_UiManager.instance.FillhealthBar.color  =  HHG_LevelManager.instace.colers[3];
 		    Fire.SetActive(true);
+		    HHG_UiManager.instance.FillhealthBar.color  =  HHG_LevelManager.instace.colers[3];
 	    }
-	    if (currentHealth <= 0)
+	    else if (currentHealth <= 0)
 	    {
 		    currentHealth = 0;
 		    Fire.SetActive(true);

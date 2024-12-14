@@ -238,6 +238,7 @@ public class HHG_UiManager : MonoBehaviour
 
    public void HideGamePlay()
    {
+       HHG_GameControl.manager?.ResetJoystick();
        controls.SetActive(false);
        Map.SetActive(false);
        TpsControle.SetActive(false);
@@ -264,6 +265,7 @@ public class HHG_UiManager : MonoBehaviour
        Map.SetActive(true);
        HHG_LevelManager.instace.HUDNavigationCanvas.gameObject.SetActive(true);
        HHG_LevelManager.instace.coinBar.SetActive(true);
+       HHG_GameControl.manager?.RestoreJoystick();
    }
     public void HideObjectivePannel()
     {
@@ -274,6 +276,26 @@ public class HHG_UiManager : MonoBehaviour
        
     }
 
+    public async void ShowMyAd()
+    {
+        AdBrakepanel.SetActive(true);
+        await Task.Delay(1000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+			
+            PrefsManager.SetInterInt(1);
+        }
+        AdBrakepanel.SetActive(false);
+        await Task.Delay(2000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            if (PrefsManager.GetInterInt()!=5)
+            {
+                FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+            }
+        }
+    }
     public void ShowPause()
     {
         
@@ -448,7 +470,7 @@ public class HHG_UiManager : MonoBehaviour
      //  Admob_LogHelper.MissionOrLevelFailEventLog(PrefsManager.GetGameMode(),PrefsManager.GetCurrentLevel());
     }
 
-    public void RestartMission()
+    public async void RestartMission()
     {
         Fail.SetActive(false);
         Complete.SetActive(false);
@@ -470,7 +492,14 @@ public class HHG_UiManager : MonoBehaviour
             HHG_GameManager.Instance.CurrentCar.GetComponent<CarSpriteController>().spriteRenderer.gameObject.SetActive(false);
             HHG_GameManager.Instance.CurrentCar.GetComponent<CarSpriteController>().enabled = false;
         }
-      
+        await Task.Delay(2000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            if (PrefsManager.GetInterInt()!=5)
+            {
+                FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+            }
+        }
     }
     public async void Continue()
     {
@@ -508,6 +537,14 @@ public class HHG_UiManager : MonoBehaviour
         foreach (var speed in HHG_GameManager.Instance.SpeedCheck)
         {
             speed.gameObject.SetActive(true);
+        }
+        await Task.Delay(2000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            if (PrefsManager.GetInterInt()!=5)
+            {
+                FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+            }
         }
     }
 

@@ -106,7 +106,7 @@ public class HHG_MainMenu : MonoBehaviour
     /// </summary>
     /// 
     public void ShowPrivacyDialog() {
-      //  Debug.Log("Privacy Policy is "+PrefsManager.GetPrivacyPolicy());
+      //   Logger.ShowLog("Privacy Policy is "+PrefsManager.GetPrivacyPolicy());
         //if (PrefsManager.GetPrivacyPolicy() == 0)
         //{
         //    PrivacyDialog.SetActive(true);
@@ -119,7 +119,7 @@ public class HHG_MainMenu : MonoBehaviour
 	public void Event_Privacy()
 	{
 		HHG_SoundManager.Instance.PlayAudio(HHG_SoundManager.Instance.menuSound);
-		//Debug.Log("Privacy Policy is " + PrefsManager.GetPrivacyPolicy());
+		// Logger.ShowLog("Privacy Policy is " + PrefsManager.GetPrivacyPolicy());
 		//if (PrefsManager.GetPrivacyPolicy() == 0)
 		//{
 		//	PrivacyDialog.SetActive(true);
@@ -420,7 +420,7 @@ public class HHG_MainMenu : MonoBehaviour
 
     public void Claim(int Day)
     {
-        Debug.Log("Day=" + Day);
+         Logger.ShowLog("Day=" + Day);
         if (Day == 1)
         {
 

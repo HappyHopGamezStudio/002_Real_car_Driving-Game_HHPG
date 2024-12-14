@@ -154,8 +154,7 @@ public class Mobilemanger : MonoBehaviour
     public void PlaySong()
     {
         HHG_SoundManager.Instance.PlayAudio(songs[currentSongIndex]);
-       // audioSource.clip = songs[currentSongIndex];
-        //audioSource.Play();
+        HHG_SoundManager.Instance.PlayBgSound();
         UpdateUI();
         textAnimator.enabled = true;
         textAnimator.Play(0);
@@ -166,6 +165,7 @@ public class Mobilemanger : MonoBehaviour
     {
         
         HHG_SoundManager.Instance.PusaeBgSound();
+      
         textAnimator.enabled = false;
     }
 

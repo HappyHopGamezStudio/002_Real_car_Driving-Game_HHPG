@@ -17,7 +17,7 @@ namespace ToastPlugin {
         /// <param name="isLong">does the message appear for a short of long amount of time (time is default from android)</param>
         public static void ShowToast(string toastMsg, bool isLong = false) {
 			#if UNITY_EDITOR
-			Debug.Log(toastMsg);
+	        Logger.ShowLog(toastMsg);
 			#elif UNITY_ANDROID
             var toastPlugin = new AndroidJavaClass("missing.toastplugin.ToastHelper");
             if (toastPlugin != null)

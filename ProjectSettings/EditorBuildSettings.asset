@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_GameData/Scene/SplasheVedio.unity
-    guid: d30b8684d02417247a05677a60ddd38c
-  - enabled: 1
     path: Assets/_GameData/Scene/HHG_Splash.unity
     guid: ec244b9d71af18f4ca2451fcaf260e9e
   - enabled: 1

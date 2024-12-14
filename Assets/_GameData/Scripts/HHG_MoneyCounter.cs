@@ -94,7 +94,7 @@ public class HHG_MoneyCounter : MonoBehaviour
 
         // Clear the coin list and stop the game time
         addCointList.Clear();
-        Time.timeScale = 0;
+        Time.timeScale = 1;
         Debug.Log("TimeScale: " + Time.timeScale);
     }
 

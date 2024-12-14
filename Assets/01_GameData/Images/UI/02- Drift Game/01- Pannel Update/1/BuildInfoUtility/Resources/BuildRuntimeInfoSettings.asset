@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12a42d641f2a4f919552064512baad4d, type: 3}
   m_Name: BuildRuntimeInfoSettings
   m_EditorClassIdentifier: 
-  Version: 1.4
-  BuildId: 5
+  Version: 1.5
+  BuildId: 6

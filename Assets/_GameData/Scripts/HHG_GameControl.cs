@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using StarterAssets;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -44,20 +45,44 @@ public class HHG_GameControl: MonoBehaviour
 #endif
 
     }
-   
-    void Update()
+    public RectTransform joystickHandle;
+
+    private static Vector3 initialHandlePosition;
+
+    // Declare static delegates and events
+    public delegate void JoystickAction();
+    public static event JoystickAction OnJoystickReset;
+    public static event JoystickAction OnJoystickRestore;
+
+    private void Start()
     {
-        drivingTimer = Mathf.MoveTowards(drivingTimer,0.0f,Time.deltaTime);
+        // Store the initial position of the joystick
+        if (joystickHandle != null)
+            initialHandlePosition = joystickHandle.anchoredPosition;
+
+        // Subscribe internal methods to events
+        OnJoystickReset += ResetJoystick;
+        OnJoystickRestore += RestoreJoystick;
     }
-    public void CameraSwitch()
+
+
+    public void ResetJoystick()
     {
-      //  vehicleCamera.Switch++;
-       // if (vehicleCamera.Switch > vehicleCamera.cameraSwitchView.Count) { vehicleCamera.Switch = 0; }
+     
+        
+        HHG_GameManager.Instance.TPSPlayer.GetComponent<ThirdPersonController>().MoveSpeed  =  0f;
+        if (joystickHandle != null)
+            joystickHandle.anchoredPosition = initialHandlePosition;
+     
+        Debug.Log("Joystick Reset to 0");
     }
-    
-    public void KICK()
+
+    public void RestoreJoystick()
     {
-     //   LevelManager_EG.instace.TPSPlayer.GetComponent<Animator>().Play("kick");
-       // FindObjectOfType<BallController>().isKicked = true;
+        HHG_GameManager.Instance.TPSPlayer.GetComponent<ThirdPersonController>().MoveSpeed  = 4f;
+        if (joystickHandle != null)
+            joystickHandle.anchoredPosition = initialHandlePosition;
+
+        Debug.Log("Joystick Restored to Normal");
     }
 }

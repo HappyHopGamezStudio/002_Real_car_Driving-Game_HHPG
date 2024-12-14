@@ -39,7 +39,7 @@ namespace GameAnalyticsSDK.Editor
             }
             else
             {
-                Debug.LogWarning ("A GameAnalytics object already exists in this scene - you should never have more than one per scene!");
+                Logger.ShowLog ("A GameAnalytics object already exists in this scene - you should never have more than one per scene!");
             }
         }
 
@@ -74,7 +74,7 @@ namespace GameAnalyticsSDK.Editor
                 try {
                     enabled = ReplaceInFile (GameAnalytics.WhereIs(_file, "Script"), searchText, replaceText);
                 } catch {
-                    Debug.Log("Failed to toggle "+_file);
+                    Logger.ShowLog("Failed to toggle "+_file);
                     fail = true;
                 }
             }
@@ -84,14 +84,14 @@ namespace GameAnalyticsSDK.Editor
             if (fail)
             {
                 PlayMakerPresenceCheck.ResetPrefs();
-                Debug.Log("Failed to toggle PlayMaker Scripts.");
+                Logger.ShowLog("Failed to toggle PlayMaker Scripts.");
             }else if (enabled)
             {
-                Debug.Log("Enabled PlayMaker Scripts.");
+                Logger.ShowLog("Enabled PlayMaker Scripts.");
             }else
             {
                 PlayMakerPresenceCheck.ResetPrefs();
-                Debug.Log("Disabled PlayMaker Scripts.");
+                Logger.ShowLog("Disabled PlayMaker Scripts.");
             }
         }
 

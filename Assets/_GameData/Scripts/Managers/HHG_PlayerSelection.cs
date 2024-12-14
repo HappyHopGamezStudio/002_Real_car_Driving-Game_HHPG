@@ -62,7 +62,7 @@ public class HHG_PlayerSelection : MonoBehaviour
         instance = this;
         Time.timeScale = 1;
 
-       
+        CarButtons[selectedPlayerValue].transform.GetChild(0).gameObject.SetActive(true);
     }
 
  
@@ -250,7 +250,7 @@ public class HHG_PlayerSelection : MonoBehaviour
     {
         //  AdmobAdsManager.Instance.LoadInterstitialAd();
         HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
-        fakeLoading.SetActive(true);
+     //   fakeLoading.SetActive(true);
         CameraRotate.instance.SetMianPos();
         dogSelectionCanvas.SetActive(true);
         menuCanvas.SetActive(false);
@@ -272,7 +272,7 @@ public class HHG_PlayerSelection : MonoBehaviour
         HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
         ShowPlayerNow(PrefsManager.GetLastJeepUnlock());
         CameraRotate.instance.SetMianPos();
-        fakeLoading.SetActive(true);
+      //  fakeLoading.SetActive(true);
         dogSelectionCanvas.SetActive(false);
         menuCanvas.SetActive(true);
         Debug.Log("Enable Here");

@@ -171,7 +171,7 @@ public class PrefsManager : MonoBehaviour
             PlayerPrefs.SetInt("player" + i, 1);
         }
         SetLastJeepUnlock(totalVehicle - 1);
-        Debug.Log("Call Unlock All vehicle");
+       Logger.ShowLog("Call Unlock All vehicle");
 
     }
 

@@ -116,7 +116,7 @@ public class Screenshot : EditorWindow
 			if(path == "")
 			{
 				path = EditorUtility.SaveFolderPanel("Path to Save Images",path,Application.dataPath);
-				Debug.Log("Path Set");
+				 Logger.ShowLog("Path Set");
 				TakeHiResShot();
 			}
 			else
@@ -133,7 +133,7 @@ public class Screenshot : EditorWindow
 			if(lastScreenshot != "")
 			{
 				Application.OpenURL("file://" + lastScreenshot);
-				Debug.Log("Opening File " + lastScreenshot);
+				 Logger.ShowLog("Opening File " + lastScreenshot);
 			}
 		}
 
@@ -175,7 +175,7 @@ public class Screenshot : EditorWindow
 			string filename = ScreenShotName(resWidthN, resHeightN);
 			
 			System.IO.File.WriteAllBytes(filename, bytes);
-			Debug.Log(string.Format("Took screenshot to: {0}", filename));
+			 Logger.ShowLog(string.Format("Took screenshot to: {0}", filename));
 			Application.OpenURL(filename);
 			takeHiResShot = false;
 		}
@@ -207,7 +207,7 @@ public class Screenshot : EditorWindow
 
 
 	public void TakeHiResShot() {
-		Debug.Log("Taking Screenshot");
+		 Logger.ShowLog("Taking Screenshot");
 		takeHiResShot = true;
 	}
 

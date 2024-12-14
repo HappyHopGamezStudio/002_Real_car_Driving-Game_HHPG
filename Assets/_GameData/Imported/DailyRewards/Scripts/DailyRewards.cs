@@ -98,7 +98,7 @@ namespace NiobiumStudios
                     }
                     availableReward = lastReward + 1;
 
-                    Debug.Log("Player can claim prize " + availableReward);
+                    Logger.ShowLog("Player can claim prize " + availableReward);
                     return;
                 }
 
@@ -107,7 +107,7 @@ namespace NiobiumStudios
                     // The player loses the following day reward and resets the prize
                     availableReward = 1;
                     lastReward = 0;
-                    Debug.Log("Prize reset ");
+                    Logger.ShowLog("Prize reset ");
                 }
             }
             else
@@ -137,7 +137,7 @@ namespace NiobiumStudios
             }
             else if (availableReward == 0)
             {
-                Debug.LogError("Error! The player is trying to claim the same reward twice.");
+                Logger.ShowLog("Error! The player is trying to claim the same reward twice.");
             }
 
             CheckRewards();

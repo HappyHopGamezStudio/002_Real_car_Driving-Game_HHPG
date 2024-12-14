@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GameAnalyticsSDK;
 using HHG_Mediation;
+using RGSK;
 using SickscoreGames.HUDNavigationSystem;
 using UnityEngine;
 using Random = ITS.Utils.Random;
@@ -42,6 +43,7 @@ public class HHG_GameManager : MonoBehaviour
     public HUDNavigationSystem hud;
 
     public MapCanvasController MapCanvasController;
+    public RacerPointer RacerPointerArrow;
     public GameObject BigMap;
     [Space(5)] [Header("RewardedPanel Stuff")]
     public Transform DefaultCarPosition;                           
@@ -62,6 +64,7 @@ public class HHG_GameManager : MonoBehaviour
         hud.PlayerCamera = TpsCamera.GetComponent<Camera>();
         hud.PlayerController = TPSPlayer.transform;
         MapCanvasController.playerTransform= TPSPlayer.transform;
+        RacerPointerArrow.target= TPSPlayer.transform;
         Dog.transform.position = TPSPlayer.transform.position;
         foreach (var speed in SpeedCheck)
         {
@@ -73,11 +76,13 @@ public class HHG_GameManager : MonoBehaviour
     {
         BigMap.SetActive(true);
         HHG_UiManager.instance.HideGamePlay();
+        Time.timeScale = 0;
     }
 
     public void OffBigMap()
     {
         BigMap.SetActive(false);
+        Time.timeScale = 1;
         HHG_UiManager.instance.ShowGamePlay();
         TPSPlayer.GetComponent<Animator>().SetBool("SitBike", false); 
         TPSPlayer.GetComponent<PlayerThrow>().mobile.SetActive(false);// Start the "fa" animation
@@ -114,6 +119,7 @@ public class HHG_GameManager : MonoBehaviour
         hud.PlayerCamera = VehicleCamera.GetComponentInChildren<Camera>();
         hud.PlayerController = CurrentCar.transform;
         MapCanvasController.playerTransform = CurrentCar.transform;
+        RacerPointerArrow.target= CurrentCar.transform;
         CurrentCar.GetComponent<HHG_CarShadow>().enabled = true;
         CurrentCar.GetComponent<HHG_CarShadow>().ombrePlane.localScale= CurrentCar.GetComponent<HHG_CarShadow>().newSize;
         CurrentCar.GetComponent<HHG_CarShadow>().ombrePlane.gameObject.SetActive(true);
@@ -187,7 +193,7 @@ public class HHG_GameManager : MonoBehaviour
         TPSPlayer.transform.position =CurrentCar.GetComponent<VehicleProperties>().TpsPosition.position;
         TPSPlayer.transform.eulerAngles =new Vector3(0,CurrentCar.GetComponent<VehicleProperties>().TpsPosition.rotation.y,0);
         Dog.transform.position = TPSPlayer.transform.position;
-        
+        RacerPointerArrow.target= TPSPlayer.transform;
         if (CurrentCar.GetComponent<VehicleProperties>().TrafficCarAi)
         {
             HHG_LevelManager.instace.isPanelOn = false;

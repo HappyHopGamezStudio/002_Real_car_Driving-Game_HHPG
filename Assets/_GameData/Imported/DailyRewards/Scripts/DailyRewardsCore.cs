@@ -51,13 +51,13 @@ namespace NiobiumStudios
                     if (connectrionRetries < maxRetries)
                     {
                         connectrionRetries++;
-                        Debug.LogError("Error Loading World Clock. Retrying connection " + connectrionRetries);
+                         Logger.ShowLog("Error Loading World Clock. Retrying connection " + connectrionRetries);
                         yield return StartCoroutine(InitializeDate());
                     }
                     else
                     {
                         isErrorConnect = true;
-                        Debug.LogError("Error Loading World Clock:" + www.error);
+                         Logger.ShowLog("Error Loading World Clock:" + www.error);
 
                         errorMessage = www.error;
                     }

@@ -53,14 +53,16 @@ public class HHG_OpenWorldManager : MonoBehaviour
 
     public void setcarok()
     {
-        if (HHG_GameManager.Instance.CurrentCar!=null)
-        { 
+        
+        if (HHG_GameManager.Instance.TpsStatus==PlayerStatus.CarDriving)
+        {
             HHG_GameManager.Instance.CurrentCar.GetComponent<Rigidbody>().velocity=Vector3.zero; 
             HHG_GameManager.Instance.CurrentCar.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
         }
         else 
         {
-            return;
+           HHG_LevelManager.instace.SelectedPlayer.GetComponent<Rigidbody>().drag = 50f;
+           HHG_LevelManager.instace.SelectedPlayer.GetComponent<Rigidbody>().angularDrag = 50f;
         }
     }
 

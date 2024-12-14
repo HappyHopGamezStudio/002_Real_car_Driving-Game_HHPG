@@ -97,9 +97,7 @@ public class HHG_LevelManager : MonoBehaviour
             
             TpsPlayer.transform.position = tpsPosition.position;
             TpsPlayer.transform.rotation = tpsPosition.rotation;
-
-            Tpscamera.transform.position = tpsPosition.position;
-            Tpscamera.transform.rotation = tpsPosition.rotation;
+            HHG_GameManager.Instance. Dog.transform.position = tpsPosition.transform.position;
 
             SelectedPlayer.transform.position = Carposition.position;
             SelectedPlayer.transform.rotation = Carposition.rotation;

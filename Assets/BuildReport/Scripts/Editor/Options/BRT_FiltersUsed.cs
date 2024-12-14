@@ -287,7 +287,7 @@ public class FiltersUsed
 			return ret;
 		}
 
-		Debug.LogError("Build Report Tool: Could not find proper File Filter Group to use.");
+		 Logger.ShowLog("Build Report Tool: Could not find proper File Filter Group to use.");
 		return null;
 	}
 }

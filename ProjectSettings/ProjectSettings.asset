@@ -16,14 +16,14 @@ PlayerSettings:
   productName: Real Car Simulator Car Games
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 0.989
   m_SplashScreenAnimation: 2
   m_SplashScreenLogoStyle: 1
   m_SplashScreenDrawMode: 1
-  m_SplashScreenBackgroundAnimationZoom: 1
+  m_SplashScreenBackgroundAnimationZoom: 0
   m_SplashScreenLogoAnimationZoom: 1
   m_SplashScreenBackgroundLandscapeAspect: 1
   m_SplashScreenBackgroundPortraitAspect: 1
@@ -139,7 +139,6 @@ PlayerSettings:
   bundleVersion: 1.5
   preloadedAssets:
   - {fileID: 11400000, guid: 36676cc22e4626740b8872187e1a0432, type: 2}
-  - {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -275,7 +274,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 3c33189dab39d1d4a982404efbda4209, type: 3}
+      m_Icon: {fileID: 2800000, guid: 0404bca52c1d04f44a8810786b3df035, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
@@ -677,7 +676,7 @@ PlayerSettings:
   ps4IncludedModules: []
   ps4attribVROutputEnabled: 0
   monoEnv: 
-  splashScreenBackgroundSourceLandscape: {fileID: 21300000, guid: 985ba0499f1229b488ab114ccbaf837a, type: 3}
+  splashScreenBackgroundSourceLandscape: {fileID: 21300000, guid: 89736773765b629479edf913f8315dc8, type: 3}
   splashScreenBackgroundSourcePortrait: {fileID: 0}
   blurSplashScreenBackground: 1
   spritePackerPolicy: 
