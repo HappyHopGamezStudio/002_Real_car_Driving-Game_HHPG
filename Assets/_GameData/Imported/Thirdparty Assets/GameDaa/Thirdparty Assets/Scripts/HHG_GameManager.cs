@@ -48,8 +48,8 @@ public class HHG_GameManager : MonoBehaviour
     public Transform DefaultCarPositionInTps;
     public GameObject DefaultRewardedCar,defultShadow;
     public GameObject[]Cars;
-    
-    
+
+    public bool isgo = false;
     
     
     private void Awake()
@@ -117,6 +117,10 @@ public class HHG_GameManager : MonoBehaviour
         CurrentCar.GetComponent<HHG_CarShadow>().enabled = true;
         CurrentCar.GetComponent<HHG_CarShadow>().ombrePlane.localScale= CurrentCar.GetComponent<HHG_CarShadow>().newSize;
         CurrentCar.GetComponent<HHG_CarShadow>().ombrePlane.gameObject.SetActive(true);
+        if (CurrentCar.GetComponent<VehicleProperties>().TrafficCarAi)
+        {
+            HHG_LevelManager.instace.isPanelOn = true;
+        }
         foreach (var speed in SpeedCheck)
         {
             speed.Player=CurrentCar.transform; 
@@ -184,7 +188,10 @@ public class HHG_GameManager : MonoBehaviour
         TPSPlayer.transform.eulerAngles =new Vector3(0,CurrentCar.GetComponent<VehicleProperties>().TpsPosition.rotation.y,0);
         Dog.transform.position = TPSPlayer.transform.position;
         
-       
+        if (CurrentCar.GetComponent<VehicleProperties>().TrafficCarAi)
+        {
+            HHG_LevelManager.instace.isPanelOn = false;
+        }
         
        // LevelManager.Instance.VehicleCameraNew.GetComponent<RCC_Camera>().RemoveTarget();
       

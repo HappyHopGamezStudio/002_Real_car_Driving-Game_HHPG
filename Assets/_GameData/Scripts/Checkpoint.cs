@@ -10,7 +10,7 @@ public class Checkpoint : MonoBehaviour
 	private void OnTriggerEnter(Collider other)
 	{
 
-		if (other.gameObject.tag == "Player")
+		if (other.gameObject.tag == "Player" )
 		{
 			if (CheckpointActivated != null)
 			{
@@ -23,6 +23,7 @@ public class Checkpoint : MonoBehaviour
 				//UiManagerObject_FL.instance.ShowComplete();
 			}
 		}
+		
 	}
 
 

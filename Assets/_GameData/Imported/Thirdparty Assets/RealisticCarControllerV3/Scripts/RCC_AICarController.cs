@@ -18,7 +18,7 @@ public class RCC_AICarController : MonoBehaviour {
 	private Rigidbody rigid;
 	
 	// Waypoint Container.
-	private RCC_AIWaypointsContainer waypointsContainer;
+	public RCC_AIWaypointsContainer waypointsContainer;
 	public int currentWaypoint = 0;
 
 	// AI Type
@@ -63,7 +63,7 @@ public class RCC_AICarController : MonoBehaviour {
 		carController = GetComponent<RCC_CarControllerV3>();
 		rigid = GetComponent<Rigidbody>();
 		carController.AIController = true;
-		waypointsContainer = FindObjectOfType(typeof(RCC_AIWaypointsContainer)) as RCC_AIWaypointsContainer;
+		//waypointsContainer = FindObjectOfType(typeof(RCC_AIWaypointsContainer)) as RCC_AIWaypointsContainer;
 
 		navigatorObject = new GameObject("Navigator");
 		navigatorObject.transform.parent = transform;

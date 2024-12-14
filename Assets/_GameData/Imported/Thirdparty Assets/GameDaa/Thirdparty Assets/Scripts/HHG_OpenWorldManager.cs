@@ -16,7 +16,7 @@ public class HHG_OpenWorldManager : MonoBehaviour
     public _LevelProperties CurrentMissionProperties;
     public static HHG_OpenWorldManager Instance;
    
-    public bool isSetPosition;
+    public bool IsComplte;
     public int TotalMisson;
    
     private void Awake()
@@ -37,7 +37,6 @@ public class HHG_OpenWorldManager : MonoBehaviour
 
     public void AcceptMissionformission()
     {
-
         foreach (var Mission in AllMission)
         {
             Mission.gameObject.SetActive(false);
@@ -46,8 +45,10 @@ public class HHG_OpenWorldManager : MonoBehaviour
         CurrentMissionProperties = AllMission[PrefsManager.GetCurrentMission()];
         CurrentMissionProperties.gameObject.SetActive(true);
         missionon = true;
-        HHG_LevelManager.instace.SetTransform(CurrentMissionProperties.PlayerPosition,CurrentMissionProperties.TpsPosition);
+        HHG_LevelManager.instace.SetTransform(CurrentMissionProperties.PlayerPosition,
+            CurrentMissionProperties.TpsPosition);
         setcarok();
+
     }
 
     public void setcarok()

@@ -149,11 +149,12 @@ public class HHG_LevelManager : MonoBehaviour
     public Mobilemanger Mobilemanger;
     void Update()
     {
+        offset += Time.deltaTime * multiplaxer;
+        CarEffect.mainTextureOffset = new Vector2(0, offset);
         
         if (!isPanelOn)
         {
-            offset += Time.deltaTime * multiplaxer;
-            CarEffect.mainTextureOffset = new Vector2(0, offset);
+           
             timer -= Time.deltaTime;
             if (timer <= 0f)
             {

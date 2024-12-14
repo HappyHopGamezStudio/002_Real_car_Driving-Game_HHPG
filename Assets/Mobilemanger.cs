@@ -180,9 +180,11 @@ public class Mobilemanger : MonoBehaviour
 
     public void AcceptCall()
     {
+        
         HHG_LevelManager.instace.TpsPlayer.GetComponent<PlayerThrow>().OffMobile();
         HHG_UiManager.instance.HideGamePlay();
         HHG_UiManager.instance.LoadingForMission.SetActive(true);
+        OnMMainBar();
     }
     public void Rejectcall()
     {

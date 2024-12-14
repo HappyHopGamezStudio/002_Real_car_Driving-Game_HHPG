@@ -43,9 +43,9 @@ public class HHG_UiManager : MonoBehaviour
     public Text[] SpeedCaputer;
     public GameObject ToSlowPanel;
     [Header("MissionWork")]
-    public GameObject LoadingForMission,CheckpointShot,handBrake,Left;
+    public GameObject LoadingForMission,CheckpointShot,handBrake,Left,LeftForwadrace;
     public GameObject missionComplet,MissionWased,Map;
-    public GameObject CheckPointBar, Racebar, LapBar,CarMobile,Getoutbutton;
+    public GameObject CheckPointBar, Racebar, LapBar,CarMobile,Getoutbutton,LapAlert;
     void Awake()
     {
 
@@ -442,11 +442,36 @@ public class HHG_UiManager : MonoBehaviour
         SetTimeScale(1);
         HideGamePlay();
         HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.gameObject.SetActive(false);
-        HHG_LevelManager.instace.isTrazitionok = false;  
-      //  GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, PrefsManager.GetGameMode(), PrefsManager.GetCurrentLevel());
+        HHG_LevelManager.instace.isTrazitionok = false;
+       
+        //  GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, PrefsManager.GetGameMode(), PrefsManager.GetCurrentLevel());
      //  Admob_LogHelper.MissionOrLevelFailEventLog(PrefsManager.GetGameMode(),PrefsManager.GetCurrentLevel());
     }
 
+    public void RestartMission()
+    {
+        Fail.SetActive(false);
+        Complete.SetActive(false);
+        HideGamePlay();
+        LoadingForMission.SetActive(true);
+        HHG_LevelManager.instace.rcc_camera.cameraMode = RCC_Camera.CameraMode.TPS;
+        Left.GetComponent<RCC_UIController>().pressing = false;
+        handBrake.GetComponent<RCC_UIController>().pressing = false;
+        HHG_LevelManager.instace.isPanelOn = true;
+        HHG_LevelManager.instace.ResetTimer();
+        if (HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties)
+        {
+            CheckPointBar.SetActive(false);
+            Racebar.SetActive(false);
+            LapBar.SetActive(false);
+        }    
+        if (HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.IsRace)
+        {
+            HHG_GameManager.Instance.CurrentCar.GetComponent<CarSpriteController>().spriteRenderer.gameObject.SetActive(false);
+            HHG_GameManager.Instance.CurrentCar.GetComponent<CarSpriteController>().enabled = false;
+        }
+      
+    }
     public async void Continue()
     {
         AdBrakepanel.SetActive(true);
@@ -469,6 +494,21 @@ public class HHG_UiManager : MonoBehaviour
         HHG_LevelManager.instace.ResetTimer();
         CarMobile.SetActive(true);
         Getoutbutton.SetActive(true);
+        if (HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties)
+        {
+           CheckPointBar.SetActive(false);
+           Racebar.SetActive(false);
+           LapBar.SetActive(false);
+        }    
+        if (HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.IsRace)
+        {
+            HHG_GameManager.Instance.CurrentCar.GetComponent<CarSpriteController>().spriteRenderer.gameObject.SetActive(false);
+            HHG_GameManager.Instance.CurrentCar.GetComponent<CarSpriteController>().enabled = false;
+        }
+        foreach (var speed in HHG_GameManager.Instance.SpeedCheck)
+        {
+            speed.gameObject.SetActive(true);
+        }
     }
 
     public void Next()

@@ -34,7 +34,7 @@ public class HHG_AddRigidbody : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         //   Debug.Log(collision.gameObject.tag);
-        if ((collision.gameObject.tag == "Player" || collision.gameObject.tag == "Vehicle" || collision.gameObject.tag == "AiCar") && !base.gameObject.GetComponent<Rigidbody>())
+        if ((collision.gameObject.tag == "Player" || collision.gameObject.tag == "Vehicle" || collision.gameObject.tag == "AICar") && !base.gameObject.GetComponent<Rigidbody>())
         {
             base.gameObject.AddComponent(typeof(Rigidbody));
             base.gameObject.GetComponent<Rigidbody>().mass = 50f;

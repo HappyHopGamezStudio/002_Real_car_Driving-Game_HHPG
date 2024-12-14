@@ -100,6 +100,8 @@ public class RCC_AIEditor : Editor {
 		EditorGUILayout.Separator();
 
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("_AIType"), new GUIContent("AI Type", "AI Type."), false);
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("waypointsContainer"), new GUIContent("waypointsContainer", "waypointsContainer"), false);
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("currentWaypoint"), new GUIContent("currentWaypoint", "currentWaypoint"), false);
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("obstacleLayers"), new GUIContent("Obstacle Layers", "Obstacle Layers For Avoid Dynamic Objects."), false);
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("wideRayLength"), new GUIContent("Wide Ray Distance", "Wide Rays For Avoid Dynamic Objects."), false);
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("tightRayLength"), new GUIContent("Tight Ray Distance", "Tight Rays For Avoid Dynamic Objects."), false);

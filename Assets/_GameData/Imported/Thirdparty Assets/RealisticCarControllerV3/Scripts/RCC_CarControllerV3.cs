@@ -423,9 +423,11 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 
 	}
 
-	void OnEnable(){
+	void OnEnable()
+	{
 
-		if(!AIController){
+		if(!AIController)
+		{
 			if(RCC_Settings.Instance.controllerType == RCC_Settings.ControllerType.Mobile){
 				GameObject.FindObjectOfType<RCC_MobileButtons>().GetVehicles();
 			}
@@ -435,9 +437,9 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 		}
 
 		changingGear = false;
+
 		PlayerCameraNew = HHG_LevelManager.instace.rcc_camera.GetComponent<RCC_Camera>();
 		NosEffect = PlayerCameraNew.transform.GetChild(0).gameObject;
-		
 		
 	}
 

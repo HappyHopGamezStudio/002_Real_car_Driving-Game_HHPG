@@ -18,7 +18,7 @@ public class Mytarget : MonoBehaviour
     {
         if (newSource==null)
         {
-            if (HHG_GameManager.Instance.CurrentCar==null)
+            if (HHG_GameManager.Instance.TpsStatus==PlayerStatus.ThirdPerson)
             {
                 newSource = HHG_LevelManager.instace.SelectedPlayer.transform;
                 AddSource(); 

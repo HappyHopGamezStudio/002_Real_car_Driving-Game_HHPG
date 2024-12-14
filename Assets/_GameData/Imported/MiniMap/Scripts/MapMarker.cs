@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 using System.Collections;
@@ -9,8 +10,8 @@ public class MapMarker : MonoBehaviour
 
 	void OnDisable()
 	{
-		isActive = false;
-        hide();
+		isActive = true;
+        show();
 	}
 
     #region Public
@@ -45,14 +46,23 @@ public class MapMarker : MonoBehaviour
 
     #region Unity methods
 
+    private MapCanvasController controller;
+
+    private void Awake()
+    {
+        controller = HHG_GameManager.Instance.MapCanvasController;
+    }
+
     void Start () {
         if (!markerSprite)
         {
             Debug.LogError(" Please, specify the marker sprite.");
         }
+
+       
         GameObject markerImageObject = new GameObject("Marker");
         markerImageObject.AddComponent<Image>();
-        MapCanvasController controller = MapCanvasController.Instance;
+         controller = MapCanvasController.Instance;
         if (!controller)
         {
             Destroy(gameObject);

@@ -6,6 +6,7 @@
 //
 //----------------------------------------------
 
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -14,7 +15,7 @@ using System.Collections;
 public class RCC_MobileButtons : MonoBehaviour {
 
 	public RCC_CarControllerV3[] carControllers;
-
+	public static RCC_MobileButtons Manger;
 	public RCC_UIController gasButton;
 	public RCC_UIController brakeButton;
 	public RCC_UIController leftButton;
@@ -36,6 +37,11 @@ public class RCC_MobileButtons : MonoBehaviour {
 
 	private Vector3 orgBrakeButtonPos;
     private Image NosImage;
+
+    private void Awake()
+    {
+	    Manger = this;
+    }
 
     void Start(){
 

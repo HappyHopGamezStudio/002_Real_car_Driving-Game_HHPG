@@ -230,10 +230,7 @@ public class VehicleProperties : MonoBehaviour
 		CarController.RearRightWheelCollider.enabled = true;
 		
 		
-		CarController.FrontLeftWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
-		CarController.FrontRightWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
-		CarController.RearLeftWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
-		CarController.RearRightWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
+		
 		Exuset.SetActive(true);
 
 		
@@ -265,7 +262,10 @@ public class VehicleProperties : MonoBehaviour
 		{
 			AllAudioSource.SetActive(true);
 		}
-		
+		CarController.FrontLeftWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
+        		CarController.FrontRightWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
+        		CarController.RearLeftWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
+        		CarController.RearRightWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
 	}
 
 
@@ -418,7 +418,13 @@ public class VehicleProperties : MonoBehaviour
     {
 	    if (TrafficCarAi)
 		    return;
-	    if (other.gameObject.CompareTag(GameConstant.Tag_Coin))
+	    
+	    if (other.gameObject.CompareTag("positionChanger"))
+	    {
+		    HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.raceDirectionPoint =  HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.Scepos;
+	    }
+	    
+	    else if (other.gameObject.CompareTag(GameConstant.Tag_Coin))
 	    {
 		    HHG_LevelManager.instace.CoinSound.PlayOneShot(HHG_LevelManager.instace.Coinsound);
 		    //  HHG_UiManager.instance.EffectForcoin.SetActive(true);
@@ -430,7 +436,7 @@ public class VehicleProperties : MonoBehaviour
 		    other.gameObject.SetActive(true);
 	    }
 
-	    if (other.CompareTag(GameConstant.Tag_ScrrenShot) && !isTimeStopped)
+	    else  if (other.CompareTag(GameConstant.Tag_ScrrenShot) && !isTimeStopped)
 	    {
 		    if (HHG_LevelManager.instace.Canvas.GetComponent<RCC_DashboardInputs>().KMH >=
 		        other.GetComponent<speedcheck>().meterspeed)
@@ -481,7 +487,7 @@ public class VehicleProperties : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-	    if (collision.gameObject.CompareTag("TrafficCar"))
+	    if (collision.gameObject.CompareTag("TrafficCar") || collision.gameObject.CompareTag("AICar"))
 	    {
 		    float impactForce = collision.relativeVelocity.magnitude;
         
@@ -595,7 +601,7 @@ public class VehicleProperties : MonoBehaviour
     { 
 	    currentHealth = maxHealth;
 	    CarController.repairNow = true;
-	    PrefsManager.SetJEMValue(PrefsManager.GetJEMValue() - 1000);
+	    PrefsManager.SetCoinsValue(PrefsManager.GetCoinsValue() - 1000);
 	    HHG_LevelManager.instace.coinBar.GetComponentInChildren<Text>().text = PrefsManager.GetCoinsValue().ToString();
 	    Fire.SetActive(false);
 	    CarController.engineRunning = true;
@@ -623,7 +629,7 @@ public class VehicleProperties : MonoBehaviour
   
     void StopTimeAndCapture()
     {
-     
+	    Invoke(nameof(aoutoSpeedCaputheroff),8f);
         HHG_LevelManager.instace.rcc_camera.gameObject.SetActive(false);
         originalFOV = mainCamera.fieldOfView;
         HHG_UiManager.instance.HideGamePlay();
@@ -654,7 +660,7 @@ public class VehicleProperties : MonoBehaviour
         // Show the captured image in the UI
        HHG_UiManager.instance.capturedImage.sprite = Sprite.Create(screenShot, new Rect(0, 0, screenShot.width, screenShot.height), new Vector2(0.5f, 0.5f));
        HHG_UiManager.instance.uiPanel.SetActive(true);
-       Invoke(nameof(aoutoSpeedCaputheroff),4f);
+      
     }
     
 

@@ -36,7 +36,7 @@ public class PlayerThrow : MonoBehaviour
        
     }
 
-    public async  void SitOnBike()
+    public async void SitOnBike()
     {
         if (HHG_GameManager.Instance.TpsStatus == PlayerStatus.ThirdPerson)
         {
@@ -48,14 +48,19 @@ public class PlayerThrow : MonoBehaviour
         else
         {
             uimobile.SetActive(true);
-            if  (HHG_GameManager.Instance.CurrentCar != null)
+            if (HHG_GameManager.Instance.CurrentCar != null)
             {
-                HHG_GameManager.Instance.CurrentCar. transform.GetComponent<Rigidbody>().velocity=Vector3.zero; 
-                HHG_GameManager.Instance.CurrentCar. transform.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
+                HHG_GameManager.Instance.CurrentCar.transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                HHG_GameManager.Instance.CurrentCar.transform.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             }
         }
-HHG_UiManager.instance.HideGamePlay();
+        if (PrefsManager.GetCurrentMission() >= HHG_LevelManager.instace.hhgOpenWorldManager.TotalMisson)
+        { 
+            PrefsManager.SetCurrentMission(0);
+        }
+        HHG_UiManager.instance.HideGamePlay();
     }
+
     public void OffMobile()
     {
         Time.timeScale = 1;
