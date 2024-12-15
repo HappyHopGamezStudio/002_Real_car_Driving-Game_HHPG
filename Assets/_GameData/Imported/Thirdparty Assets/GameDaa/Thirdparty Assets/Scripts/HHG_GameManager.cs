@@ -44,7 +44,8 @@ public class HHG_GameManager : MonoBehaviour
 
     public MapCanvasController MapCanvasController;
     public RacerPointer RacerPointerArrow;
-    public GameObject BigMap;
+    public GameObject BigMap,rcccanvas,TpsCanvas;
+    public Camera BigMapCamera;
     [Space(5)] [Header("RewardedPanel Stuff")]
     public Transform DefaultCarPosition;                           
     public Transform DefaultCarPositionInTps;
@@ -72,17 +73,36 @@ public class HHG_GameManager : MonoBehaviour
         }
     }
 
-    public void OpenBigMap()
+    public async void OpenBigMap()
     {
+        HHG_UiManager.instance.AdBrakepanel.SetActive(true);
+        await Task.Delay(1000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+			
+            PrefsManager.SetInterInt(1);
+        }
+        HHG_UiManager.instance.AdBrakepanel.SetActive(false);
         BigMap.SetActive(true);
+        BigMapCamera.enabled = true;
         HHG_UiManager.instance.HideGamePlay();
-        Time.timeScale = 0;
+      //  Time.timeScale = 0;
+        await Task.Delay(2000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            if (PrefsManager.GetInterInt()!=5)
+            {
+                FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+            }
+        }
     }
 
     public void OffBigMap()
     {
         BigMap.SetActive(false);
-        Time.timeScale = 1;
+        BigMapCamera.enabled = false;
+     //   Time.timeScale = 1;
         HHG_UiManager.instance.ShowGamePlay();
         TPSPlayer.GetComponent<Animator>().SetBool("SitBike", false); 
         TPSPlayer.GetComponent<PlayerThrow>().mobile.SetActive(false);// Start the "fa" animation
@@ -175,7 +195,6 @@ public class HHG_GameManager : MonoBehaviour
     public async void GetOutVehicle()
     {
         Time.timeScale = 1;
-        CurrentCar.GetComponent<HHG_CarShadow>().ombrePlane = null;
         CurrentCar.GetComponent<HHG_CarShadow>().enabled = false;
         CurrentCar.GetComponent<RCC_CarControllerV3>().KillOrStartEngine();
         HHG_UiManager.instance.blankimage.SetActive(true);

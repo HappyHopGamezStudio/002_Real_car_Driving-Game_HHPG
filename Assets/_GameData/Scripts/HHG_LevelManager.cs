@@ -68,8 +68,7 @@ public class HHG_LevelManager : MonoBehaviour
             TpsPlayer.transform.position = hhgOpenWorldManager.TpsPosition.position;
             TpsPlayer.transform.rotation = hhgOpenWorldManager.TpsPosition.rotation;
 
-            Tpscamera.transform.position =hhgOpenWorldManager.TpsPosition.position;
-            Tpscamera.transform.rotation = hhgOpenWorldManager.TpsPosition.rotation;
+            
 
             SelectedPlayer.transform.position =hhgOpenWorldManager.carPostion.position;
             SelectedPlayer.transform.rotation =hhgOpenWorldManager.carPostion.rotation;
@@ -81,6 +80,7 @@ public class HHG_LevelManager : MonoBehaviour
         SelectedPlayer.GetComponent<Rigidbody>().isKinematic = false;
         SelectedPlayer.GetComponent<HHG_CarShadow>().enabled = true;
         SelectedPlayer.GetComponent<VehicleProperties>().ConeEffect.SetActive(false);
+        SelectedPlayer.GetComponent<VehicleProperties>().IsCarOnintersial = false;
     }
 
     public void SetTransform(Transform Carposition, Transform tpsPosition )
@@ -91,16 +91,21 @@ public class HHG_LevelManager : MonoBehaviour
             HHG_GameManager.Instance.CurrentCar.transform.position = Carposition.position;
             HHG_GameManager.Instance.CurrentCar.transform.rotation = Carposition.rotation;
 
-        }
-        else  if (HHG_GameManager.Instance.TpsStatus==PlayerStatus.ThirdPerson)
+        } 
+        if (HHG_GameManager.Instance.TpsStatus==PlayerStatus.ThirdPerson)
         {
+            
+            SelectedPlayer.transform.position = Carposition.position;
+            SelectedPlayer.transform.rotation = Carposition.rotation;
+            
             
             TpsPlayer.transform.position = tpsPosition.position;
             TpsPlayer.transform.rotation = tpsPosition.rotation;
-            HHG_GameManager.Instance. Dog.transform.position = tpsPosition.transform.position;
+           
 
-            SelectedPlayer.transform.position = Carposition.position;
-            SelectedPlayer.transform.rotation = Carposition.rotation;
+           
+            
+            HHG_GameManager.Instance. Dog.transform.position = tpsPosition.transform.position;
         }
     }
 
@@ -173,12 +178,16 @@ public class HHG_LevelManager : MonoBehaviour
     public bool isTrazitionok = false;
     public void ResetTimer()
     {
-        timer = 90f;
+        timer = 70f;
     }
 
-    public void againTimer()
+    public void StopMission()
     {
-        timer = 60f;
+        isPanelOn = true;
+    }
+    public void PlayMission()
+    {
+        isPanelOn = false;
     }
 }
 

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using HHG_Mediation;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -31,7 +33,31 @@ public class HHG_OpenWorldManager : MonoBehaviour
     }
 
 
-    
+    public async void StartMission(int Value)
+    {
+
+        HHG_UiManager.instance.AdBrakepanel.SetActive(true);
+        await Task.Delay(1000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+			
+            PrefsManager.SetInterInt(1);
+        }
+        HHG_UiManager.instance.AdBrakepanel.SetActive(false);   
+        PrefsManager.SetCurrentMission(Value);
+        HHG_LevelManager.instace.Mobilemanger.AcceptCall();
+        HHG_LevelManager.instace.isPanelOn=true;
+        HHG_LevelManager.instace.ResetTimer();
+        await Task.Delay(2000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            if (PrefsManager.GetInterInt()!=5)
+            {
+                FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+            }
+        }
+    }
 
     public bool missionon = false;
 
@@ -45,8 +71,7 @@ public class HHG_OpenWorldManager : MonoBehaviour
         CurrentMissionProperties = AllMission[PrefsManager.GetCurrentMission()];
         CurrentMissionProperties.gameObject.SetActive(true);
         missionon = true;
-        HHG_LevelManager.instace.SetTransform(CurrentMissionProperties.PlayerPosition,
-            CurrentMissionProperties.TpsPosition);
+        HHG_LevelManager.instace.SetTransform(CurrentMissionProperties.PlayerPosition, CurrentMissionProperties.TpsPosition);
         setcarok();
 
     }
@@ -61,8 +86,8 @@ public class HHG_OpenWorldManager : MonoBehaviour
         }
         else 
         {
-           HHG_LevelManager.instace.SelectedPlayer.GetComponent<Rigidbody>().drag = 50f;
-           HHG_LevelManager.instace.SelectedPlayer.GetComponent<Rigidbody>().angularDrag = 50f;
+           HHG_LevelManager.instace.SelectedPlayer.GetComponent<Rigidbody>().velocity=Vector3.zero; 
+           HHG_LevelManager.instace.SelectedPlayer.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
         }
     }
 

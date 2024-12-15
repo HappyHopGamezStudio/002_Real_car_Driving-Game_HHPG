@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HHG_Mediation;
@@ -124,4 +125,8 @@ public class HHG_MoneyCounter : MonoBehaviour
         CoinAnimation.SetActive(false);
     }
 
+    private void OnDisable()
+    {
+        HHG_SoundManager.Instance.PlayBgSound();
+    }
 }

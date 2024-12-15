@@ -57,10 +57,11 @@ public class HHG_SoundManager : MonoBehaviour
     }
     public void PusaeBgSound()
     {
-        resource.GetComponent<AudioSource>().Stop();
+        resource.GetComponent<AudioSource>().mute=true;
     } public void PlayBgSound()
     {
         resource.GetComponent<AudioSource>().Play();
+        resource.GetComponent<AudioSource>().mute=false;
     }
     public void OffPlayTimmerSound()
 	{

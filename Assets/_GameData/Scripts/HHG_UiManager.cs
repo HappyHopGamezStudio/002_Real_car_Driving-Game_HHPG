@@ -335,17 +335,25 @@ public class HHG_UiManager : MonoBehaviour
 
     public void Restart()
     {
-        Time.timeScale = 1;
-        HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
-        Loading.SetActive(true);
-        Loading.GetComponentInChildren<bl_SceneLoader>().LoadLevel("HHG_GamePlay");
-        HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
-
-        if (PrefsManager.GetInterInt()!=5)
+        if (HHG_LevelManager.instace.hhgOpenWorldManager.missionon)
         {
-            FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+            RestartMission();
         }
-        Invoke(nameof(showInterAd),5f);
+        else
+        {
+            Time.timeScale = 1;
+            HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
+            Loading.SetActive(true);
+            HideGamePlay();
+            Loading.GetComponentInChildren<bl_SceneLoader>().LoadLevel("HHG_GamePlay");
+            HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
+
+            if (PrefsManager.GetInterInt()!=5)
+            {
+                FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+            }
+            Invoke(nameof(showInterAd),5f);
+        }
     }
     public GameObject AdBrakepanel;
     public async void showInterAd()
@@ -365,6 +373,7 @@ public class HHG_UiManager : MonoBehaviour
     {
         Time.timeScale = 1;
         Loading.SetActive(true);
+        HideGamePlay();
         Loading.GetComponentInChildren<bl_SceneLoader>().LoadLevel("HHG_MainMenu");
         HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
         if (PrefsManager.GetInterInt()!=5)
@@ -378,6 +387,7 @@ public class HHG_UiManager : MonoBehaviour
     {
         HHG_LevelManager.instace.isTrazitionok = false;  
         HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.gameObject.SetActive(false);
+        HHG_LevelManager.instace.hhgOpenWorldManager.missionon = false;
         PrefsManager.SetCurrentMission(PrefsManager.GetCurrentMission() + 1);
         Complete.SetActive(true);
         // SetTimeScale(0);
@@ -465,7 +475,7 @@ public class HHG_UiManager : MonoBehaviour
         HideGamePlay();
         HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.gameObject.SetActive(false);
         HHG_LevelManager.instace.isTrazitionok = false;
-       
+        HHG_LevelManager.instace.hhgOpenWorldManager.missionon = false;
         //  GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, PrefsManager.GetGameMode(), PrefsManager.GetCurrentLevel());
      //  Admob_LogHelper.MissionOrLevelFailEventLog(PrefsManager.GetGameMode(),PrefsManager.GetCurrentLevel());
     }

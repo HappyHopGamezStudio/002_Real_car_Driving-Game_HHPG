@@ -25,7 +25,7 @@ public class HHG_StoreManager : MonoBehaviour
         instance = this;
         for (int i = 0; i < numberOfvideo.Length; i++)
         {
-            watchvideoCount[i].text = PlayerPrefs.GetInt("GetWatchVideo" + nextvideoNo) + " / " + numberOfvideo[i];
+            watchvideoCount[i].text = PlayerPrefs.GetInt("GetWatchVideo" + nextvideoNo) + "/" + numberOfvideo[i];
             //TotalWatchVideoText[i].text = " / " + numberOfvideo[i];
             nextvideoNo++;
         }
@@ -51,7 +51,7 @@ public class HHG_StoreManager : MonoBehaviour
 
             PlayerPrefs.SetInt("GetWatchVideo" + CurrentVideoNo, 0);
         }
-        watchvideoCount[CurrentVideoNo].text = PlayerPrefs.GetInt("GetWatchVideo" + CurrentVideoNo)  +" / " + numberOfvideo[CurrentVideoNo];
+        watchvideoCount[CurrentVideoNo].text = PlayerPrefs.GetInt("GetWatchVideo" + CurrentVideoNo)  +"/" + numberOfvideo[CurrentVideoNo];
      //   money.text = PrefsManager.GetCoin() + "";
      //   cashtext.text = PrefsManager.GetCoin() + "";
     }

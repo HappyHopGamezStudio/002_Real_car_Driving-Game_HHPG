@@ -48,15 +48,12 @@ public class HHG_PlayerSelection : MonoBehaviour
     public PlayableDirector Director;
     public GameObject CutSceanCamera;
 
-    public CanvasGroup GrageUi;
+    public CanvasGroup GrageUi,Menu;
     public GameObject MainCamera;
-
+    public bool IsGrage, Ismenu = false;
     private float savedValue;
 
-    public ParticleSystem []EffectinGrage;
 
-    public Color[] effectcolers;
-    
     void Start()
     {
         instance = this;
@@ -75,12 +72,6 @@ public class HHG_PlayerSelection : MonoBehaviour
             selectedPlayerValue++;
             ShowPlayerNow(selectedPlayerValue);
             CutSceanCamera.GetComponent<LookAtTargetSetter>().SetTarget(CurrentPlayer);
-            foreach (var Effect in EffectinGrage)
-            {
-                Effect.startColor = effectcolers[selectedPlayerValue];
-            }
-          
-            
             MainCamera.GetComponent<CameraRotate>().ResetTimer();
            // EffectinGrage.Play();
         }
@@ -94,11 +85,7 @@ public class HHG_PlayerSelection : MonoBehaviour
             selectedPlayerValue--;
             ShowPlayerNow(selectedPlayerValue);
             CutSceanCamera.GetComponent<LookAtTargetSetter>().SetTarget(CurrentPlayer);
-            foreach (var Effect in EffectinGrage)
-            {
-                Effect.startColor = effectcolers[selectedPlayerValue];
-            }
-          
+
             MainCamera.GetComponent<CameraRotate>().ResetTimer();
            // EffectinGrage.Play();
         }
@@ -264,6 +251,8 @@ public class HHG_PlayerSelection : MonoBehaviour
                 CarButtons[i].transform.GetChild(2).gameObject.SetActive(false);
             }
         }
+        Ismenu = false;
+        IsGrage = true;
     }
 
     public void BackToMainCanvas()
@@ -276,6 +265,8 @@ public class HHG_PlayerSelection : MonoBehaviour
         dogSelectionCanvas.SetActive(false);
         menuCanvas.SetActive(true);
         Debug.Log("Enable Here");
+        Ismenu = true;
+        IsGrage = false;
     }
 
     public void BackFromLevelScreen()
@@ -345,7 +336,14 @@ public class HHG_PlayerSelection : MonoBehaviour
     public void Success_purchase()
     {
         Time.timeScale = 1f;
-        GrageUi.alpha = 0;
+        if (IsGrage)
+        {
+            GrageUi.alpha = 0;
+        }
+        if (Ismenu)
+        {
+            Menu.alpha = 0;
+        }
         CutSceanCamera.SetActive(true);
         MainCamera.SetActive(false);
         Timeline.SetActive(true);
@@ -360,7 +358,14 @@ public class HHG_PlayerSelection : MonoBehaviour
     public  void PlayCutScne()
     {
         Time.timeScale = 1f;
-        GrageUi.alpha = 0;
+        if (IsGrage)
+        {
+            GrageUi.alpha = 0;
+        }
+        if (Ismenu)
+        {
+            Menu.alpha = 0;
+        }
         CutSceanCamera.SetActive(true);
         MainCamera.SetActive(false);
         Timeline.SetActive(true);
@@ -372,7 +377,14 @@ public class HHG_PlayerSelection : MonoBehaviour
 
     public void StopCutScene()
     {
-        GrageUi.alpha = 1;
+        if (IsGrage)
+        {
+            GrageUi.alpha = 1;
+        }
+        if (Ismenu)
+        {
+            Menu.alpha = 1;
+        }
         CutSceanCamera.SetActive(false);
         MainCamera.SetActive(true);
         Timeline.SetActive(false);
@@ -382,7 +394,14 @@ public class HHG_PlayerSelection : MonoBehaviour
 
     public void HideTimeline()
     {
-        GrageUi.alpha = 1;
+        if (IsGrage)
+        {
+            GrageUi.alpha = 0;
+        }
+        if (Ismenu)
+        {
+            Menu.alpha = 0;
+        }
         CutSceanCamera.SetActive(false);
         MainCamera.SetActive(true);
         Timeline.SetActive(false);

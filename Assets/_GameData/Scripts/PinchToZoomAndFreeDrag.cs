@@ -1,4 +1,5 @@
 using System;
+using ToastPlugin;
 using UnityEngine;
 
 public class PinchToZoomAndFreeDrag : MonoBehaviour
@@ -25,7 +26,7 @@ public class PinchToZoomAndFreeDrag : MonoBehaviour
         {
             Touch touch0 = Input.GetTouch(0);
             Touch touch1 = Input.GetTouch(1);
-
+           // ToastHelper.ShowToast(" ITS Two ");
             // Calculate the distance between touches
             float prevTouchDeltaMag = (touch0.position - touch0.deltaPosition - (touch1.position - touch1.deltaPosition)).magnitude;
             float touchDeltaMag = (touch0.position - touch1.position).magnitude;
@@ -55,7 +56,7 @@ public class PinchToZoomAndFreeDrag : MonoBehaviour
             {
                 Vector2 currentTouchPosition = touch.position;
                 Vector2 deltaPosition = currentTouchPosition - lastTouchPosition;
-
+               // ToastHelper.ShowToast(" ITS one ");
                 // Move the camera based on the touch delta in the x and z axes only
                 Vector3 deltaMovement = new Vector3(deltaPosition.x, 0f, deltaPosition.y) * dragSpeed;
 

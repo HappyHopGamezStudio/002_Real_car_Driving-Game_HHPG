@@ -26,21 +26,21 @@ MonoBehaviour:
   UserMessagesFailed: 0
   CustomArea: 
   gameKey:
-  - 9092eca5b41f9736c364dba2b686a5ef
+  - 02ec661a6dd9f1f252daefc64dfe8755
   secretKey:
-  - 638f0ac0779919c6e7ae3a6d3d5da74743294122
+  - 0cdb02673828f4e795a616e2fd004798be7474fc
   Build:
-  - 1.4
+  - 1.5
   SelectedPlatformOrganization:
   - HHG
   SelectedPlatformStudio:
   - HHG
   SelectedPlatformGame:
-  - 001_Car Driving Drifting Game
-  SelectedPlatformGameID: b26f0400
-  SelectedOrganization: 05000000
+  - HH_02_Real Car Simulator Car Games
+  SelectedPlatformGameID: 56a10400
+  SelectedOrganization: 03000000
   SelectedStudio: 01000000
-  SelectedGame: 01000000
+  SelectedGame: 03000000
   NewVersion: 
   Changes: 
   SignUpOpen: 0

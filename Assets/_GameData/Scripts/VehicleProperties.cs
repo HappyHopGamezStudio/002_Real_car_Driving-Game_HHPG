@@ -407,12 +407,6 @@ public class VehicleProperties : MonoBehaviour
         {
             Grounded = false;
         }
-
-        if (Time.time - lastHitTime > hitResetTime)
-        {
-	        hitCounter = 0;
-        }
-
     }
 
 
@@ -544,6 +538,7 @@ public class VehicleProperties : MonoBehaviour
     {
 	    currentHealth -= damage;
 	    UpdateHealthText();
+	    PrefsManager.Sethealth(CarName,currentHealth);
     }
 
     public void UpdateHealthText()
@@ -553,49 +548,55 @@ public class VehicleProperties : MonoBehaviour
 	    HHG_UiManager.instance.FillhealthBar.fillAmount = (float)currentHealth / maxHealth;
 	    if (currentHealth <= 100)
 	    {
-		    HHG_UiManager.instance.FillhealthBar.color  = HHG_LevelManager.instace.colers[0];
+		    HHG_UiManager.instance.FillhealthBar.color = HHG_LevelManager.instace.colers[0];
 		    HHG_UiManager.instance.Ripairebutton.SetActive(true);
 		    Fire.SetActive(false);
 	    }
-	    else if (currentHealth <= 50)
+
+	    if (currentHealth <= 50)
 	    {
-		    HHG_UiManager.instance.FillhealthBar.color  =  HHG_LevelManager.instace.colers[1];
+		    HHG_UiManager.instance.FillhealthBar.color = HHG_LevelManager.instace.colers[1];
 		    Fire.SetActive(false);
 	    }
-	    else if (currentHealth <= 40)
+
+	    if (currentHealth <= 40)
 	    {
-		    HHG_UiManager.instance.FillhealthBar.color  =  HHG_LevelManager.instace.colers[2];
+		    HHG_UiManager.instance.FillhealthBar.color = HHG_LevelManager.instace.colers[2];
 		    Fire.SetActive(false);
 	    }
-	    else if (currentHealth <= 30)
+
+	    if (currentHealth <= 30)
 	    {
 		    Fire.SetActive(true);
-		    HHG_UiManager.instance.FillhealthBar.color  =  HHG_LevelManager.instace.colers[3];
+		    HHG_UiManager.instance.FillhealthBar.color = HHG_LevelManager.instace.colers[3];
 	    }
-	    else if (currentHealth <= 0)
+
+	    if (currentHealth <= 0)
 	    {
-		    currentHealth = 0;
 		    Fire.SetActive(true);
 		    DestroyCar();
+		    currentHealth = 0;
 	    }
-	    
+
     }
 
     private void DestroyCar()
     {
+	    
 	    transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
 	    transform.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-	    HHG_UiManager.instance.HideGamePlay();
 	    CarController.engineRunning = false;
 	    Invoke("onpanel", 1.8f);
     }
 
-    public void onpanel()
+    public async void onpanel()
     {
-	    if (enabled)
+	    if (this.enabled)
 	    {
+		    HHG_UiManager.instance.HideGamePlay();
+		    await Task . Delay(2000);
 		    HHG_UiManager.instance.repairPanel.SetActive(true);
-		    Debug.Log("here"+transform.name);
+		    Logger.ShowLog("here"+transform.name);
 	    }
     }
     public string CarName = "";

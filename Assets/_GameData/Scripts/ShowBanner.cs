@@ -22,8 +22,8 @@ public class ShowBanner : MonoBehaviour
     {
         if (FindObjectOfType<HHG_AdsCall>())
         {
-            FindObjectOfType<HHG_AdsCall>().showBanner1();
             FindObjectOfType<HHG_AdsCall>().hideBigBanner();
+            FindObjectOfType<HHG_AdsCall>().showBanner1();
         }
     }
 }

@@ -19,13 +19,13 @@ public class Animationtexture : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-	    if (other.gameObject.CompareTag("TrafficCar"))
+	    if (collision.gameObject.CompareTag("AICar"))
 	    {
-		    GetComponent<Collider>().enabled = true;
+		    GetComponent<Collider>().enabled = false;
 	    }
-	    if (other.gameObject.CompareTag("Player"))
+	    if (collision.gameObject.CompareTag("Player"))
 	    {
 		    GetComponent<Collider>().enabled = false;
 	    }
