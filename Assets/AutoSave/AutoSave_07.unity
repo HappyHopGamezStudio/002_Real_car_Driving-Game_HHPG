@@ -3278,6 +3278,10 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 82000014277175666, guid: 752096fa1e4186c4599b5c6145dd71de, type: 3}
+      propertyPath: BypassEffects
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114000013211611000, guid: 752096fa1e4186c4599b5c6145dd71de, type: 3}
       propertyPath: click
       value: 
@@ -3289,7 +3293,7 @@ PrefabInstance:
     - target: {fileID: 114000013211611000, guid: 752096fa1e4186c4599b5c6145dd71de, type: 3}
       propertyPath: levelFail
       value: 
-      objectReference: {fileID: 8300000, guid: 563567c090e5b7f41bab7cbd2c1c5c3e, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 114000013211611000, guid: 752096fa1e4186c4599b5c6145dd71de, type: 3}
       propertyPath: menuSound
       value: 
@@ -3297,7 +3301,7 @@ PrefabInstance:
     - target: {fileID: 114000013211611000, guid: 752096fa1e4186c4599b5c6145dd71de, type: 3}
       propertyPath: LevelComplete
       value: 
-      objectReference: {fileID: 8300000, guid: cf55d99cfb458c348835dd3919edca55, type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 752096fa1e4186c4599b5c6145dd71de, type: 3}
 --- !u!1 &1942123212

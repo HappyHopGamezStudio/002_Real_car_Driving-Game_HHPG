@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using Lovatto.SceneLoader;
 using System.Collections;
 using System.Collections.Generic;
+using HHG_Mediation;
 
 [RequireComponent(typeof(AudioSource))]
 public class bl_SceneLoader : MonoBehaviour
@@ -105,8 +106,21 @@ public class bl_SceneLoader : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
+    private bool oneTime = false;
     void Update()
     {
+        if (LoadBarSlider.value>=0.85f && !oneTime)
+        {
+            if (FindObjectOfType<HHG_AdsCall>())
+            {
+                Debug.Log("HideMedium Banner");
+                FindObjectOfType<HHG_AdsCall>().hideBigBanner();
+                PrefsManager.SetInterInt(1);
+                oneTime = true;
+            }
+
+        }
+
         if (!isOperationStarted)
             return;
         if (async == null)
@@ -116,6 +130,7 @@ public class bl_SceneLoader : MonoBehaviour
         LoadingRotator();
         SkipWithKey();
     }
+
 
     /// <summary>
     /// 

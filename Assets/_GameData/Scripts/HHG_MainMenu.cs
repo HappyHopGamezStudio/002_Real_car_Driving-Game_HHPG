@@ -71,7 +71,7 @@ public class HHG_MainMenu : MonoBehaviour
     
        
 
-        AudioListener.volume = PrefsManager.GetMusic();
+        HHG_SoundManager.Instance.gameObject.GetComponent<AudioSource>().volume = PrefsManager.GetMusic();
         volume_value.value = PrefsManager.GetMusic();
 
         Time.timeScale = 1;
@@ -264,8 +264,8 @@ public class HHG_MainMenu : MonoBehaviour
     public void SettingVolume(Slider volumeSlider)
     {
         PercentageText.text = volumeSlider.value + "";
-        PrefsManager.SetSound(volume_value.value);
-        AudioListener.volume = volumeSlider.value / 100f;
+        PrefsManager.SetMusic(volume_value.value);
+        HHG_SoundManager.Instance.gameObject.GetComponent<AudioSource>().volume = volumeSlider.value / 100f;
     }
 
     public void ClickSound() {

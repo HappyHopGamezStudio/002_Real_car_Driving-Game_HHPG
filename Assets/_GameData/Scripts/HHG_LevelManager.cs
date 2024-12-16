@@ -81,6 +81,11 @@ public class HHG_LevelManager : MonoBehaviour
         SelectedPlayer.GetComponent<HHG_CarShadow>().enabled = true;
         SelectedPlayer.GetComponent<VehicleProperties>().ConeEffect.SetActive(false);
         SelectedPlayer.GetComponent<VehicleProperties>().IsCarOnintersial = false;
+        SelectedPlayer.GetComponent<Rigidbody>().constraints =
+            RigidbodyConstraints.FreezeRotationX |
+            RigidbodyConstraints.FreezeRotationZ |
+            RigidbodyConstraints.FreezePositionX |
+            RigidbodyConstraints.FreezePositionZ;
     }
 
     public void SetTransform(Transform Carposition, Transform tpsPosition )
@@ -161,8 +166,7 @@ public class HHG_LevelManager : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0f)
             {
-                TpsPlayer?.GetComponent<PlayerThrow>().SitOnBike();
-                Mobilemanger.CallMe();
+                TpsPlayer?.GetComponent<PlayerThrow>().CallMission();
                 timer = 60f;
             }
         }

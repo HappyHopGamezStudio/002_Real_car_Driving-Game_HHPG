@@ -5350,6 +5350,7 @@ GameObject:
   - component: {fileID: 7495601253630249263}
   - component: {fileID: 7495601253630249262}
   - component: {fileID: 1309159569}
+  - component: {fileID: 4221179759236513502}
   m_Layer: 3
   m_Name: 031
   m_TagString: Player
@@ -5833,11 +5834,6 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1
-  slowMotionFactor: 0.1
-  hitForceThreshold: 50
-  continuousHitCount: 5
-  hitResetTime: 3
-  hitCounter: 0
   maxHealth: 100
   currentHealth: 100
   CarName: 
@@ -5873,7 +5869,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
-  carSprite: {fileID: 0}
+--- !u!114 &4221179759236513502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7495601253630249261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec68ce007ac35da4aa751244049989fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7495601253636675608
 GameObject:
   m_ObjectHideFlags: 0
@@ -11050,16 +11057,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3893484606315277989, guid: 3e6f24f96d92bb641911ab20ba7d95b1, type: 3}
   m_PrefabInstance: {fileID: 7495601251784976953}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &6777308578245058381 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3893484604490577268, guid: 3e6f24f96d92bb641911ab20ba7d95b1, type: 3}
-  m_PrefabInstance: {fileID: 7495601251784976953}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6777308578589973690 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3893484604917413507, guid: 3e6f24f96d92bb641911ab20ba7d95b1, type: 3}
-  m_PrefabInstance: {fileID: 7495601251784976953}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1246879484788046902 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8739366919626200591, guid: 3e6f24f96d92bb641911ab20ba7d95b1, type: 3}
@@ -11068,6 +11065,16 @@ Transform:
 --- !u!4 &6777308580116791669 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3893484606376930124, guid: 3e6f24f96d92bb641911ab20ba7d95b1, type: 3}
+  m_PrefabInstance: {fileID: 7495601251784976953}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6777308578589973690 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3893484604917413507, guid: 3e6f24f96d92bb641911ab20ba7d95b1, type: 3}
+  m_PrefabInstance: {fileID: 7495601251784976953}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6777308578245058381 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3893484604490577268, guid: 3e6f24f96d92bb641911ab20ba7d95b1, type: 3}
   m_PrefabInstance: {fileID: 7495601251784976953}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7495601252190425935

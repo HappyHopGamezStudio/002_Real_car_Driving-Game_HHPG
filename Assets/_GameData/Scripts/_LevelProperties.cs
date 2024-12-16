@@ -132,7 +132,7 @@ public class _LevelProperties : MonoBehaviour
         {
             HHG_TimeController.Instance.UpdateTimer(Times);
         }
-
+        HHG_UiManager.instance.ExitMissionBtn.SetActive(true);
         if (Islap)
         {
             HHG_UiManager.instance.CheckPointBar.SetActive(false);

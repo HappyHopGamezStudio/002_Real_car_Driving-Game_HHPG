@@ -1701,6 +1701,7 @@ GameObject:
   - component: {fileID: 4075339905720758551}
   - component: {fileID: 4075339905720758550}
   - component: {fileID: 1733511372}
+  - component: {fileID: -7236897431005294620}
   m_Layer: 3
   m_Name: 008
   m_TagString: Player
@@ -1744,7 +1745,7 @@ Rigidbody:
   m_Drag: 0.05
   m_AngularDrag: 0.5
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -2184,11 +2185,6 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1
-  slowMotionFactor: 0.1
-  hitForceThreshold: 50
-  continuousHitCount: 5
-  hitResetTime: 3
-  hitCounter: 0
   maxHealth: 100
   currentHealth: 100
   CarName: 
@@ -2224,7 +2220,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
-  carSprite: {fileID: 0}
+--- !u!114 &-7236897431005294620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4075339905720758548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec68ce007ac35da4aa751244049989fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4075339905746101975
 GameObject:
   m_ObjectHideFlags: 0

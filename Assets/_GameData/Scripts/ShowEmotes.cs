@@ -27,7 +27,7 @@ public class ShowEmotes : MonoBehaviour
 
 					if (isCritical)
 					{
-						Debug.Log("here");
+						global::Logger.ShowLog("here");
 						int Emoteindex = Random.Range(0, angerEmotePrefabs.Length);
 						InstantiateEmote(angerEmotePrefabs[Emoteindex], collision.transform); // Show the second anger emote
 						randomIndex = Random.Range(0, AngerySounds.Length);
@@ -37,7 +37,7 @@ public class ShowEmotes : MonoBehaviour
 					}
 					else if (normalhit)
 					{
-						Debug.Log("here");
+						global::Logger.ShowLog("here");
 						InstantiateEmote(angerEmotePrefabs[angerIndex], collision.transform);
 						int randomIndex = Random.Range(0, AngerySounds.Length);
 						angerIndex = (angerIndex + 1) % angerEmotePrefabs.Length;
@@ -68,7 +68,7 @@ public class ShowEmotes : MonoBehaviour
 	private void InstantiateEmote(GameObject emotePrefab, Transform targetCar)
 	{
 		// Instantiate the emote above the target car
-		Vector3 emotePosition = targetCar.position + Vector3.up * 1f; // Adjust the height as needed
+		Vector3 emotePosition = targetCar.position + Vector3.up * 1.5f; // Adjust the height as needed
 		GameObject emoteInstance = Instantiate(emotePrefab, emotePosition, Quaternion.identity);
 		emoteInstance.transform.SetParent(targetCar); // Attach to the car for proper positioning
 		// Destroy the emote after 3 seconds

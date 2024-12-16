@@ -2,6 +2,7 @@ using UnityEngine;
 using StarterAssets;
 using System.Collections;
 using System.Threading.Tasks;
+using HHG_Mediation;
 
 public class PlayerThrow : MonoBehaviour
 {
@@ -36,13 +37,12 @@ public class PlayerThrow : MonoBehaviour
        
     }
 
-    public async void SitOnBike()
+    public  void SitOnBike()
     {
         if (HHG_GameManager.Instance.TpsStatus == PlayerStatus.ThirdPerson)
         {
             _animator.SetBool("SitBike", true);
             mobile.SetActive(true);
-            await Task.Delay(1000);
             uimobile.SetActive(true);
         }
         else
@@ -58,7 +58,37 @@ public class PlayerThrow : MonoBehaviour
         { 
             PrefsManager.SetCurrentMission(0);
         }
-        HHG_UiManager.instance.HideGamePlay();
+        HHG_LevelManager.instace.isPanelOn = true;  
+        HHG_UiManager.instance?.HideGamePlay();
+        FindObjectOfType<HHG_AdsCall>().hideBigBanner();
+    }
+    public  void CallMission()
+    {
+        if (HHG_GameManager.Instance.TpsStatus == PlayerStatus.ThirdPerson)
+        {
+            if (uimobile.activeSelf)
+            {
+                OffMobile();
+            }
+            _animator.SetBool("SitBike", true);
+            mobile.SetActive(true);
+            HHG_UiManager.instance?.CallPanel.SetActive(true);
+        }
+        else
+        {
+            if (uimobile.activeSelf)
+            {
+                OffMobile();
+            }
+            Time.timeScale = 0.1f;
+            HHG_UiManager.instance?.CallPanel.SetActive(true);
+        }
+        if (PrefsManager.GetCurrentMission() >= HHG_LevelManager.instace.hhgOpenWorldManager.TotalMisson)
+        { 
+            PrefsManager.SetCurrentMission(0);
+        }
+        HHG_LevelManager.instace.isPanelOn = true;  
+        HHG_UiManager.instance?.HideGamePlay();
     }
 
     public void OffMobile()
@@ -74,7 +104,8 @@ public class PlayerThrow : MonoBehaviour
         {
             uimobile.SetActive(false);
         }
-        HHG_UiManager.instance.ShowGamePlay();
+        HHG_UiManager.instance?.ShowGamePlay();
+        FindObjectOfType<HHG_AdsCall>().hideBigBanner();
     }
     
     

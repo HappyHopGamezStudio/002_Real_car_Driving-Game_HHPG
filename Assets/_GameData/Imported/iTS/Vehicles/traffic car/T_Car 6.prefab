@@ -9481,11 +9481,6 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 449
-  slowMotionFactor: 0.1
-  hitForceThreshold: 50
-  continuousHitCount: 5
-  hitResetTime: 3
-  hitCounter: 0
   maxHealth: 100
   currentHealth: 100
   CarName: 
@@ -9533,7 +9528,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 449
-  newSize: {x: 2, y: 2, z: 2}
+  newSize: {x: 4.6554, y: 4.6554, z: 4.6554}
   setpos: 0.07
   IsForTps: 0
 --- !u!114 &5225578238213705983

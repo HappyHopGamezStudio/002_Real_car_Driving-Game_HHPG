@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class HotAirBalloonController : MonoBehaviour
@@ -14,32 +15,43 @@ public class HotAirBalloonController : MonoBehaviour
 
     void Start()
     {
-        // Set an initial random target position within the area
-        SetNewTargetPosition();
-        // Maintain the balloon at the specified height
+        // Set the initial height and pick the first target position
         transform.position = new Vector3(transform.position.x, height, transform.position.z);
+        SetNewTargetPosition();
+
+        // Start the movement coroutine
+        StartCoroutine(MoveBalloon());
     }
 
-    void Update()
+    private IEnumerator MoveBalloon()
     {
-        // Move the balloon towards the target position
-        MoveTowardsTarget();
-
-        // If the balloon is close to the target, pick a new target position
-        if (Vector3.Distance(transform.position, targetPosition) < 1f)
+        while (true)
         {
+            // Move the balloon towards the target position
+            while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+            {
+                MoveTowardsTarget();
+                yield return null; // Wait for the next frame
+            }
+
+            // Wait for the interval before changing direction
+            yield return new WaitForSeconds(directionChangeInterval);
+
+            // Set a new target position
             SetNewTargetPosition();
         }
     }
 
-    void MoveTowardsTarget()
+    private void MoveTowardsTarget()
     {
         Vector3 direction = (targetPosition - transform.position).normalized;
         transform.position += direction * speed * Time.deltaTime;
-        transform.position = new Vector3(transform.position.x, height, transform.position.z); // Lock the Y-axis
+
+        // Lock the Y-axis to maintain constant height
+        transform.position = new Vector3(transform.position.x, height, transform.position.z);
     }
 
-    void SetNewTargetPosition()
+    private void SetNewTargetPosition()
     {
         // Pick a new random target position within the bounds
         float randomX = Random.Range(minX, maxX);

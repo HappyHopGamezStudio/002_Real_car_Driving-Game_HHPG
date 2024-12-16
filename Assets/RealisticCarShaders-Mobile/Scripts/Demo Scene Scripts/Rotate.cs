@@ -13,13 +13,23 @@ using UnityEngine;
 
 public class Rotate : MonoBehaviour {
 
-
     public float rotateZSpeed = 100f;
+    public GameObject[] AllFans;
 
-    void Update()
+    void Start()
     {
+        foreach (var fan in AllFans)
+        {
+            StartCoroutine(RotateFan(fan));
+        }
+    }
 
-        gameObject.transform.Rotate(Vector3.forward * Time.deltaTime * rotateZSpeed);
-
+    private IEnumerator RotateFan(GameObject fan)
+    {
+        while (true)
+        {
+            fan.transform.Rotate(Vector3.forward * rotateZSpeed * Time.deltaTime);
+            yield return null; // Wait for the next frame
+        }
     }
 }

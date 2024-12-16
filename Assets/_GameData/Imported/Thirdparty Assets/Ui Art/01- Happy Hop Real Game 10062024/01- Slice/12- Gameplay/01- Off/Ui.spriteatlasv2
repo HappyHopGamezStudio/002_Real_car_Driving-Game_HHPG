@@ -1,13 +1,14 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!687078895 &4343727234628468602
-SpriteAtlas:
+--- !u!612988286 &1
+SpriteAtlasAsset:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ui
-  m_EditorData:
+  m_Name: 
+  m_MasterAtlas: {fileID: 0}
+  m_ImporterData:
     serializedVersion: 2
     textureSettings:
       serializedVersion: 2
@@ -87,95 +88,6 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 9be71c712c86c4d4a84b3a1ec7410cd2, type: 3}
     - {fileID: 2800000, guid: 9917a18e4ac4eb04cab2a717360be4b2, type: 3}
     bindAsDefault: 1
-    isAtlasV2: 0
+    isAtlasV2: 1
     cachedData: {fileID: 0}
-  m_MasterAtlas: {fileID: 0}
-  m_PackedSprites:
-  - {fileID: 21300000, guid: 2cea0110f7fc67c45b4ee99c25e3cc06, type: 3}
-  - {fileID: 21300000, guid: 3ce1fd104e4580e42876f5aa4ab435ae, type: 3}
-  - {fileID: 21300000, guid: bdb03b4025dabcb42ac1d7ecf37580bf, type: 3}
-  - {fileID: 21300000, guid: 609bb5e0190df62469e822d06f1b8053, type: 3}
-  - {fileID: 21300000, guid: 9be71c712c86c4d4a84b3a1ec7410cd2, type: 3}
-  - {fileID: 21300000, guid: 752af191d2e384348b9cfe6fc42b3cc1, type: 3}
-  - {fileID: 21300000, guid: e0fc18f1fec81b24ea453a07fa78d1b2, type: 3}
-  - {fileID: 21300000, guid: 6f8658a2e4c82154e97f9bd67615d7ae, type: 3}
-  - {fileID: 21300000, guid: 53032f03f863ad34bb5a2962786d0e90, type: 3}
-  - {fileID: 21300000, guid: c0abb1737fe8afe42ab1fe88b9d15e79, type: 3}
-  - {fileID: 21300000, guid: c51322838ffda5442a8f3ab1ba9fae8a, type: 3}
-  - {fileID: 21300000, guid: 27b47c83678a10d4d8d069a5e6df3a55, type: 3}
-  - {fileID: 21300000, guid: 7dc4bf93c29e71a4eaf0c70d390f4a85, type: 3}
-  - {fileID: 21300000, guid: 30b2b8e3394ee8f4faf06d1fdd53adc6, type: 3}
-  - {fileID: 21300000, guid: c7a9b224490b71f49a828ad9de36ac28, type: 3}
-  - {fileID: 21300000, guid: 249346b40ea96534e9d396c586c839db, type: 3}
-  - {fileID: 21300000, guid: b74371b5e6292a640ad13323ed3a2910, type: 3}
-  - {fileID: 21300000, guid: 319935a6771d5004d8d83803055bb028, type: 3}
-  - {fileID: 21300000, guid: a69746e62cf262d4fbf87bf5afdc9d12, type: 3}
-  - {fileID: 21300000, guid: 298bb2279ae76374591fb28fc08df386, type: 3}
-  - {fileID: 21300000, guid: 3360eb685084a4a4c89f5da473010ee8, type: 3}
-  - {fileID: 21300000, guid: 1143df6818edeee49b60dafdc6ba38e9, type: 3}
-  - {fileID: 21300000, guid: ad9ba778490e24c40b950a57dd97cb1c, type: 3}
-  - {fileID: 21300000, guid: ac59cd784c74be8488215e4868b51d6c, type: 3}
-  - {fileID: 21300000, guid: e08f558891ff72940b1c76326b85154f, type: 3}
-  - {fileID: 21300000, guid: 0ca720b87963119458cecbf14ff1c7e3, type: 3}
-  - {fileID: 21300000, guid: a2962f8935d82ce49a1c9e477fd0b817, type: 3}
-  - {fileID: 21300000, guid: 392ea02a770f19c4ba0ccf37136a6995, type: 3}
-  - {fileID: 21300000, guid: 1031be4a19df68c4c97a7ba64ff76c36, type: 3}
-  - {fileID: 21300000, guid: 05dfbc7ada0b0f94f8f14c338f8324cd, type: 3}
-  - {fileID: 21300000, guid: 7b995e2be957c72449252555a1dea6c0, type: 3}
-  - {fileID: 21300000, guid: 933b835be9bf092468fc2dd0041f3c3e, type: 3}
-  - {fileID: 21300000, guid: e948086bf5e554348afbd4b81853bc2b, type: 3}
-  - {fileID: 21300000, guid: ac3b0d6b4995a6d4183c2b3551e2e008, type: 3}
-  - {fileID: 21300000, guid: aba4b1ebd0597484695ae311c7bdb29c, type: 3}
-  - {fileID: 21300000, guid: 36298d0d3c6b1d643bc5c77e19ed80c7, type: 3}
-  - {fileID: 21300000, guid: 40c1193dd13ecf04180c8ea7fdc8374f, type: 3}
-  - {fileID: 21300000, guid: 2cab7c8d8ebed6d4091ded3566b71e12, type: 3}
-  - {fileID: 21300000, guid: 508724ad07c012e49817b86804c27af6, type: 3}
-  - {fileID: 21300000, guid: 9917a18e4ac4eb04cab2a717360be4b2, type: 3}
-  - {fileID: 21300000, guid: fd6903ce8dbb51c40bc9730ead4bad6e, type: 3}
-  - {fileID: 21300000, guid: 94e8af1f6ec967e49afcb58c4ed98794, type: 3}
-  m_PackedSpriteNamesToIndex:
-  - left
-  - Rectangle 35
-  - Door_
-  - rite
-  - Slowmo (2)
-  - Nos_
-  - 8
-  - Camera Off
-  - Drift Icon_
-  - Drift
-  - Race
-  - Jump
-  - rite
-  - Coin Bar
-  - 8 (2)
-  - Drift Off
-  - left
-  - Camera
-  - Camera On
-  - Outer_
-  - 5
-  - Rectangle 35 copy
-  - Door_
-  - Brake
-  - Pause_
-  - Drift On
-  - 4
-  - 9
-  - respone
-  - 6
-  - Steering_1
-  - Pause_
-  - Outer_ 1
-  - 7
-  - coin bar
-  - brake
-  - race
-  - Nitro_
-  - Bar
-  - Unfill_
-  - respone
-  - Drift Icon_
-  m_RenderDataMap: {}
-  m_Tag: Ui
   m_IsVariant: 0

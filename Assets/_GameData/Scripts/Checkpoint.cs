@@ -1,16 +1,17 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Threading.Tasks;
 
 public class Checkpoint : MonoBehaviour
 {
 
 	public Action CheckpointActivated;
 
-	private void OnTriggerEnter(Collider other)
+	private  void OnTriggerEnter(Collider other)
 	{
 
-		if (other.gameObject.tag == "Player" || other.gameObject.tag == "AICar" )
+		if (other.gameObject.tag == "Player")
 		{
 			if (CheckpointActivated != null)
 			{
@@ -23,10 +24,9 @@ public class Checkpoint : MonoBehaviour
 				//UiManagerObject_FL.instance.ShowComplete();
 			}
 		}
-		
 	}
 
-
+	
 
 	public void CheckPointEffectOff()
 	{

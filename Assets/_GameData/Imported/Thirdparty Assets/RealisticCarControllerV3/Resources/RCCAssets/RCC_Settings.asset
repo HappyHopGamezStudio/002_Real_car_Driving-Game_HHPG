@@ -91,11 +91,11 @@ MonoBehaviour:
   exhaustFlameClips:
   - {fileID: 8300000, guid: a8cfbfa0153a85c4da8402ee5479a3de, type: 3}
   - {fileID: 8300000, guid: abe24e1d59cd24e48ab2b17acb6b57ff, type: 3}
-  - {fileID: 8300000, guid: 4ebe01570cad61a40be61693713688b4, type: 3}
   - {fileID: 8300000, guid: f772a702dcfbfe9478afe01aa9429fbc, type: 3}
+  - {fileID: 8300000, guid: 4ebe01570cad61a40be61693713688b4, type: 3}
   useSharedAudioSources: 1
   maxGearShiftingSoundVolume: 0.19
-  maxCrashSoundVolume: 0.25
+  maxCrashSoundVolume: 0.2
   maxWindSoundVolume: 0.1
   maxBrakeSoundVolume: 0.1
   foldGeneralSettings: 1

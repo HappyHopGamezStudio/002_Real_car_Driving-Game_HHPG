@@ -304,6 +304,7 @@ public GameObject RickshwaObject;
         public void Close2xReward() {
             PrefsManager.SetCoinsValue(PrefsManager.GetCoinsValue()+currentRewardPrice);
             dailyRewardPanel.SetActive(false);
+            panelReward.SetActive(false);
         }
 
     }

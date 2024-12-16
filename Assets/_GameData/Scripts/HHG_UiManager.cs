@@ -21,13 +21,7 @@ public class HHG_UiManager : MonoBehaviour
     public Image []NosFiller;
     public GameObject []NosButton; 
     public Text []NosCountText;
-    [Header("Settingpart")]
-    public Slider volume_value;
-    public Text PercentageText;
-
-    private bool isStart=false;
-    public GameObject Low, High, Med;
-    public GameObject musicbuttonON, musicebuttonOff, SounButtonON, SoundButtonOFF;
+   
     public Text displayText,LapText;
     [Header("health WORK")] 
     public Text HealthText;
@@ -46,6 +40,7 @@ public class HHG_UiManager : MonoBehaviour
     public GameObject LoadingForMission,CheckpointShot,handBrake,Left,LeftForwadrace;
     public GameObject missionComplet,MissionWased,Map;
     public GameObject CheckPointBar, Racebar, LapBar,CarMobile,Getoutbutton,LapAlert;
+    public GameObject ExitMissionBtn, ExitPanel,CallPanel;
     void Awake()
     {
 
@@ -73,41 +68,22 @@ public class HHG_UiManager : MonoBehaviour
     {
         ToSlowPanel.SetActive(false);
     }
-    void Start()
+    void OnEnable()
     {
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, PrefsManager.GetGameMode(),PrefsManager.GetCurrentLevel());
-        if (FindObjectOfType<HHG_AdsCall>())
-       {
-           FindObjectOfType<HHG_AdsCall>().showBanner1();
-           FindObjectOfType<HHG_AdsCall>().showBanner2();
-           FindObjectOfType<HHG_AdsCall>().hideBigBanner();
-           if (PrefsManager.GetInterInt()!=5)
-           {
-               FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
-           }
-       }
-       SetGraphicQuality(PrefsManager.GetGameQuality());
        
-       if (PrefsManager.GetMusic()==0)
-       {
-           musicebuttonOff.SetActive(true);
-           musicbuttonON.SetActive(false);
-       }
-       else
-       {
-           musicebuttonOff.SetActive(false);
-           musicbuttonON.SetActive(true);
-       }
-       if (PrefsManager.GetSound() == 0)
-       {
-           SoundButtonOFF.SetActive(true);
-           SounButtonON.SetActive(false);
-       }
-       else
-       {
-           SoundButtonOFF.SetActive(false);
-           SounButtonON.SetActive(true);
-       }
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            FindObjectOfType<HHG_AdsCall>().showBanner1();
+            FindObjectOfType<HHG_AdsCall>().showBanner2();
+            FindObjectOfType<HHG_AdsCall>().hideBigBanner();
+            if (PrefsManager.GetInterInt() != 5)
+            {
+                FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+            }
+        }
+
+      //  GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, PrefsManager.GetGameMode(),PrefsManager.GetCurrentLevel());
+
     }
 
     public void ShowObjective(string statment)
@@ -133,86 +109,12 @@ public class HHG_UiManager : MonoBehaviour
 
         }
     }
-    public void SetGraphicQuality(int value) {
-        PrefsManager.SetGameQuality(value);
-        switch (value) { 
-            
-            case 0:
-               
-                    
-                Low.SetActive(false);
-                Med.SetActive(false);
-                High.SetActive(true);
-                QualitySettings.SetQualityLevel(0);
-              
-                break;
-
-            case  1:
-                Low.SetActive(false);
-                Med.SetActive(true);
-                High.SetActive(false);
-               
-                QualitySettings.SetQualityLevel(1);
-                break;
-
-            case 2:
-                Low.SetActive(true);
-                Med.SetActive(false);
-                High.SetActive(false);
-                    
-                QualitySettings.SetQualityLevel(2);
-               
-                break;
-        }
-       
-     
-        if (!isStart)
-            ClickSound();
-    }
-    public void ClickSound() {
-        HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
-
-    }
-
-    public void MuteEvent ()
-    {
-        GameObject.FindGameObjectWithTag ("SoundManager").transform.GetChild (0).gameObject.GetComponent<AudioSource> ().enabled = false;
-        PrefsManager.SetSound (0);
-    }
-
-    public void UnMuteEvent ()
-    {
-		
-        GameObject.FindGameObjectWithTag ("SoundManager").transform.GetChild (0).gameObject.GetComponent<AudioSource> ().enabled = true;
-        HHG_SoundManager.Instance.PlayOneShotSounds (HHG_SoundManager.Instance.click);
-        PrefsManager.SetSound (1);
-    }
-
-    public void OFFmusic()
-    {
-        GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<AudioSource> ().enabled = true;
-        PrefsManager.SetMusic(1);;
-    }
-    public void ONmusic()
-    {
-        GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<AudioSource> ().enabled = false;
-        PrefsManager.SetMusic(0);
-    }
-
-
-    public  void SettingVolume(Slider volumeSlider)
-    {
-      PercentageText.text = volumeSlider.value + "%";
-      PrefsManager.SetSound(volume_value.value);
-      AudioListener.volume = volumeSlider.value / 100; 
-    }
     public void FillFuelbar(float fillAmount) {
         fuelBar.fillAmount = fillAmount;
         if (fillAmount <= 0) {
             OutOfFuel.SetActive(true);
         }
     }
-
     public void FillFuelTank() {
         if (PrefsManager.GetCoinsValue() > 1000)
             PrefsManager.SetCoinsValue(PrefsManager.GetCoinsValue() - 1000);
@@ -278,6 +180,7 @@ public class HHG_UiManager : MonoBehaviour
 
     public async void ShowMyAd()
     {
+        FindObjectOfType<HHG_AdsCall>().hideBigBanner();
         AdBrakepanel.SetActive(true);
         await Task.Delay(1000);
         if (FindObjectOfType<HHG_AdsCall>())
@@ -337,7 +240,9 @@ public class HHG_UiManager : MonoBehaviour
     {
         if (HHG_LevelManager.instace.hhgOpenWorldManager.missionon)
         {
-            RestartMission();
+            HHG_LevelManager.instace.isPanelOn = true;
+            HHG_LevelManager.instace.ResetTimer();
+             RestartMission();
         }
         else
         {
@@ -353,7 +258,7 @@ public class HHG_UiManager : MonoBehaviour
                 FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
             }
             Invoke(nameof(showInterAd),5f);
-        }
+       }
     }
     public GameObject AdBrakepanel;
     public async void showInterAd()
@@ -482,6 +387,7 @@ public class HHG_UiManager : MonoBehaviour
 
     public async void RestartMission()
     {
+        HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
         Fail.SetActive(false);
         Complete.SetActive(false);
         HideGamePlay();
@@ -513,6 +419,8 @@ public class HHG_UiManager : MonoBehaviour
     }
     public async void Continue()
     {
+        HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
+        HHG_SoundManager.Instance.PlayAudio(HHG_SoundManager.Instance.BgSound);
         AdBrakepanel.SetActive(true);
         await Task.Delay(1000);
         if (FindObjectOfType<HHG_AdsCall>())
@@ -521,7 +429,7 @@ public class HHG_UiManager : MonoBehaviour
 
             PrefsManager.SetInterInt(1);
         }
-
+        ExitMissionBtn.SetActive(false);
         AdBrakepanel.SetActive(false);
         Fail.SetActive(false);
         Complete.SetActive(false);
@@ -533,11 +441,13 @@ public class HHG_UiManager : MonoBehaviour
         HHG_LevelManager.instace.ResetTimer();
         CarMobile.SetActive(true);
         Getoutbutton.SetActive(true);
+        HHG_GameManager.Instance.TrafficSpawn.GetComponent<TSTrafficSpawner>().trafficCarsParent.gameObject.SetActive(true);
         if (HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties)
         {
            CheckPointBar.SetActive(false);
            Racebar.SetActive(false);
            LapBar.SetActive(false);
+         
         }    
         if (HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.IsRace)
         {
@@ -558,6 +468,67 @@ public class HHG_UiManager : MonoBehaviour
         }
     }
 
+    public void OpenExitMission()
+    {
+        HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
+        ExitPanel.SetActive(true);
+        HideGamePlay();
+        Time.timeScale = 0;
+    }
+    public void CloseExitMission()
+    {
+        HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
+        ExitPanel.SetActive(false);
+        ShowGamePlay();
+        Time.timeScale = 1;
+    }
+    public async void ExitMission()
+    {
+        HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
+        AdBrakepanel.SetActive(true);
+        await Task.Delay(1000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+
+            PrefsManager.SetInterInt(1);
+        }
+        ExitPanel.SetActive(false);
+        AdBrakepanel.SetActive(false);
+        ExitMissionBtn.SetActive(false);
+        HHG_TimeController.Instance.StopTimer();
+        Time.timeScale = 1;
+        ShowGamePlay();
+        HHG_LevelManager.instace.isPanelOn = false;
+        HHG_LevelManager.instace.ResetTimer();
+        CarMobile.SetActive(true);
+        Getoutbutton.SetActive(true);
+        HHG_LevelManager.instace.hhgOpenWorldManager.missionon = false;
+        HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.gameObject.SetActive(false);
+        if (HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties)
+        {
+            CheckPointBar.SetActive(false);
+            Racebar.SetActive(false);
+            LapBar.SetActive(false);
+        }    
+        if (HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.IsRace)
+        {
+            HHG_GameManager.Instance.CurrentCar.GetComponent<CarSpriteController>().spriteRenderer.gameObject.SetActive(false);
+            HHG_GameManager.Instance.CurrentCar.GetComponent<CarSpriteController>().enabled = false;
+        }
+        foreach (var speed in HHG_GameManager.Instance.SpeedCheck)
+        {
+            speed.gameObject.SetActive(true);
+        }
+        await Task.Delay(2000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            if (PrefsManager.GetInterInt()!=5)
+            {
+                FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+            }
+        }
+    }
     public void Next()
     {
         PrefsManager.SetCurrentLevel(PrefsManager.GetCurrentLevel()+1);

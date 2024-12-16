@@ -35,7 +35,7 @@ public class HHG_OpenWorldManager : MonoBehaviour
 
     public async void StartMission(int Value)
     {
-
+      
         HHG_UiManager.instance.AdBrakepanel.SetActive(true);
         await Task.Delay(1000);
         if (FindObjectOfType<HHG_AdsCall>())
@@ -73,7 +73,7 @@ public class HHG_OpenWorldManager : MonoBehaviour
         missionon = true;
         HHG_LevelManager.instace.SetTransform(CurrentMissionProperties.PlayerPosition, CurrentMissionProperties.TpsPosition);
         setcarok();
-
+        HHG_SoundManager.Instance.PlayAudio(HHG_SoundManager.Instance.BgSound);
     }
 
     public void setcarok()

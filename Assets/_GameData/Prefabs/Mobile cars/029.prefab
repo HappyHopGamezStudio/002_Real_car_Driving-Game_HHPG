@@ -274,7 +274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carController: {fileID: 4069720813239081505}
   emissionMaterial: {fileID: -1360991219368177298, guid: 52cff4b86a88a5341a64c960392642cf, type: 3}
-  emissionIntensity: 1
+  checkInterval: 0.1
 --- !u!1 &3582454581374869040
 GameObject:
   m_ObjectHideFlags: 0
@@ -6177,6 +6177,7 @@ GameObject:
   - component: {fileID: 4069720813239081508}
   - component: {fileID: 4069720813239081509}
   - component: {fileID: 1196104211}
+  - component: {fileID: -3889967773370234604}
   m_Layer: 3
   m_Name: 029
   m_TagString: Player
@@ -6220,7 +6221,7 @@ Rigidbody:
   m_Drag: 0.05
   m_AngularDrag: 0.5
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -6660,11 +6661,6 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1
-  slowMotionFactor: 0.1
-  hitForceThreshold: 50
-  continuousHitCount: 5
-  hitResetTime: 3
-  hitCounter: 0
   maxHealth: 100
   currentHealth: 0
   CarName: 
@@ -6700,7 +6696,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
-  carSprite: {fileID: 0}
+--- !u!114 &-3889967773370234604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4069720813239081510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec68ce007ac35da4aa751244049989fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4069720813262716238
 GameObject:
   m_ObjectHideFlags: 0
@@ -7207,13 +7214,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a4cf4f20ab10af4690fff227b43a92c, type: 3}
---- !u!4 &865247186340845044 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3781744126133936068, guid: 1a4cf4f20ab10af4690fff227b43a92c, type: 3}
-  m_PrefabInstance: {fileID: 4069720812790385200}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &865247186340845045 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3781744126133936069, guid: 1a4cf4f20ab10af4690fff227b43a92c, type: 3}
+  m_PrefabInstance: {fileID: 4069720812790385200}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &865247186340845044 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3781744126133936068, guid: 1a4cf4f20ab10af4690fff227b43a92c, type: 3}
   m_PrefabInstance: {fileID: 4069720812790385200}
   m_PrefabAsset: {fileID: 0}

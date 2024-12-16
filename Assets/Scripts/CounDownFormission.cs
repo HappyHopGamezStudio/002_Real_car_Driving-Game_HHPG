@@ -27,7 +27,7 @@ public class CounDownFormission : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentime -= Time.deltaTime;
+        currentime -= Time.deltaTime*10f;
         countdountext.text = currentime.ToString("Auto Accept in (0) Sec");
         if (currentime <= 0)
         {

@@ -8,8 +8,8 @@ using UnityEngine.UI;
 public class Mobilemanger : MonoBehaviour
 {
 
-    public GameObject Mainbar, Profile, mission, Musicplayer,mobile,CallPanel;
-    public bool IsManBar, Isprofilebar, missionBar, musicBar,MissionCall = false;
+    public GameObject Mainbar, Profile, mission, Musicplayer,mobile;
+    public bool IsManBar, Isprofilebar, missionBar, musicBar/*MissionCall*/ = false;
     // Start is called before the first frame update
    
     void Awake()
@@ -32,16 +32,16 @@ public class Mobilemanger : MonoBehaviour
         Profile.SetActive(false);
         mission.SetActive(true);
         Musicplayer.SetActive(false);
-        CallPanel.SetActive(false);
+       // CallPanel.SetActive(false);
         IsManBar = false;
         Isprofilebar = false;
         missionBar = true;
         musicBar = false;
-        MissionCall = false;
+      //  MissionCall = false;
     }
-    public void CallMe()
+    /*public void CallMe()
     {
-        HHG_LevelManager.instace.isPanelOn = true;   
+        
         Mainbar.SetActive(false);
         Profile.SetActive(false);
         mission.SetActive(false);
@@ -52,7 +52,7 @@ public class Mobilemanger : MonoBehaviour
         missionBar = false;
         MissionCall = true;
         musicBar = false;
-    }
+    }*/
 
     public void OnProFile()
     {
@@ -60,26 +60,26 @@ public class Mobilemanger : MonoBehaviour
         Profile.SetActive(true);
         mission.SetActive(false);
         Musicplayer.SetActive(false);
-        CallPanel.SetActive(false);
+       // CallPanel.SetActive(false);
         IsManBar = false;
         Isprofilebar = true;
         missionBar = false;
         musicBar = false;
-        MissionCall = false;
+       // MissionCall = false;
     }
 
     public void OnMusicBar()
     {
         Mainbar.SetActive(false);
         Profile.SetActive(false);
-        CallPanel.SetActive(false);
+      //  CallPanel.SetActive(false);
         mission.SetActive(false);
         Musicplayer.SetActive(true);
         IsManBar = false;
         Isprofilebar = false;
         missionBar = false;
         musicBar = true;
-        MissionCall = true;
+       // MissionCall = true;
     }
 
     public void OnMMainBar()
@@ -87,13 +87,13 @@ public class Mobilemanger : MonoBehaviour
         Mainbar.SetActive(true);
         Profile.SetActive(false);
         mission.SetActive(false);
-        CallPanel.SetActive(false);
+      //  CallPanel.SetActive(false);
         Musicplayer.SetActive(false);
         IsManBar = true;
         Isprofilebar = false;
         missionBar = false;
         musicBar = false;
-        MissionCall = false;
+      //  MissionCall = false;
     }
 
     public void OnBack()
@@ -101,7 +101,7 @@ public class Mobilemanger : MonoBehaviour
         Mainbar.SetActive(true);
         Profile.SetActive(false);
         mission.SetActive(false);
-        CallPanel.SetActive(false);
+       // CallPanel.SetActive(false);
         Musicplayer.SetActive(false);
         
         if (IsManBar)
@@ -113,7 +113,7 @@ public class Mobilemanger : MonoBehaviour
         Isprofilebar = false;
         missionBar = false;
         musicBar = false;
-        MissionCall = false;
+     //   MissionCall = false;
     }
 
     public void OnMap()
@@ -180,14 +180,17 @@ public class Mobilemanger : MonoBehaviour
 
     public void AcceptCall()
     {
-        
+        Time.timeScale = 1f;
+        HHG_UiManager.instance.CallPanel.SetActive(false);
         HHG_LevelManager.instace.TpsPlayer.GetComponent<PlayerThrow>().OffMobile();
         HHG_UiManager.instance.HideGamePlay();
         HHG_UiManager.instance.LoadingForMission.SetActive(true);
-        OnMMainBar();
     }
     public void Rejectcall()
     {
+        Time.timeScale = 1f;
+        HHG_UiManager.instance.CallPanel.SetActive(false);
+        HHG_LevelManager.instace.TpsPlayer.GetComponent<PlayerThrow>().OffMobile();
         HHG_LevelManager.instace.isPanelOn = false;
         HHG_LevelManager.instace.ResetTimer();
     }

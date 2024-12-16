@@ -15,7 +15,7 @@ public class HHG_MoneyCounter : MonoBehaviour
     public List<int> addCointList = new List<int>();
     private int tempMoney;
     public GameObject startsObj;
-    public GameObject AllButton, DoubleRewardBtn,Contrinebtn,CoinAnimation,Claim;
+    public GameObject AllButton, DoubleRewardBtn,Contrinebtn,CoinAnimation,Claim,CalimContinue;
     public AudioClip coinsCountSound;
     int reward;
 
@@ -35,7 +35,7 @@ public class HHG_MoneyCounter : MonoBehaviour
         CoinAnimation.SetActive(false);
         Contrinebtn.SetActive(false);
         Claim.SetActive(true);
-        
+         CalimContinue.SetActive(false);   
         addCointList.Clear();
         //     addCointList.Add(LevelManager.instace.coinsCounter);
         addCointList.Add(reward);
@@ -72,20 +72,32 @@ public class HHG_MoneyCounter : MonoBehaviour
             speed = 50f; // Speed of the counting (adjustable)
 
             tempMoney = 0;
+            bool isPlayingSound = false; // Track if the sound is playing
 
             // Smoothly count from 0 to the target value
             while (currentMoney < targetMoney)
             {
-                coinsSource.PlayOneShot(coinsCountSound); // Play coin sound
+                if (!isPlayingSound)
+                {
+                    coinsSource.PlayOneShot(coinsCountSound); // Play coin sound
+                    isPlayingSound = true;
+                }
+
                 currentMoney += Mathf.CeilToInt(speed); // Increment by speed
                 if (currentMoney > targetMoney)
                     currentMoney = targetMoney; // Clamp to target value
 
                 rewradMoneyText[i].text = "$ " + currentMoney.ToString("N0"); // Update text
+            
+                // Stop the sound when the target money is reached
+                if (currentMoney >= targetMoney && isPlayingSound)
+                {
+                    coinsSource.Stop();
+                    isPlayingSound = false;
+                }
+
                 yield return new WaitForSeconds(0.02f); // Small delay for smooth effect
             }
-
-            coinsSource.Stop();
         }
 
         AllButton.SetActive(true);
@@ -99,7 +111,6 @@ public class HHG_MoneyCounter : MonoBehaviour
         Debug.Log("TimeScale: " + Time.timeScale);
     }
 
-
     public void DoubleReward()
     {
         DoubleRewardBtn.SetActive(false);
@@ -109,6 +120,7 @@ public class HHG_MoneyCounter : MonoBehaviour
         rewradMoneyText[0].text = "$ " + (reward * 2).ToString("N0");
         Contrinebtn.SetActive(true);
         Claim.SetActive(false);
+        CalimContinue.SetActive(false);
         Invoke(nameof(offcoinAnmation),2f);
     }
 
@@ -117,6 +129,7 @@ public class HHG_MoneyCounter : MonoBehaviour
         CoinAnimation.SetActive(true);
         rewradMoneyText[0].text = "$ 0,000 " ;
         Claim.SetActive(false); 
+        CalimContinue.SetActive(true);   
         Invoke(nameof(offcoinAnmation),2f);
     }
 

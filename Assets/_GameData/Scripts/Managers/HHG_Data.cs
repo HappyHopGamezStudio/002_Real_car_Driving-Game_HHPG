@@ -52,7 +52,7 @@ public class HHG_Data : MonoBehaviour {
     {
         //LevelSelectionScript1.instance.UnlockAllLevels();
 
-        Debug.Log("Unlock All Levels");
+       global::Logger.ShowLog("Unlock All Levels");
         PrefsManager.SetLevelLocking(20);
         PlayerPrefs.SetFloat("UnlockAllLevels", 1f);
         OnUnlockAllMission.Invoke();
@@ -81,7 +81,7 @@ public class HHG_Data : MonoBehaviour {
         UnlockAllVehiclesPurchased();
        // PrefsManager.SetCoinsValue(PrefsManager.GetCoinsValue() + 50000);
         PlayerPrefs.SetFloat("unlockEconomyPackage", 1);
-        Debug.Log("Reward economy pakage  ");
+       global::Logger.ShowLog("Reward economy pakage  ");
         OnUnlockPlayersCheck?.Invoke();
     }
 
@@ -89,7 +89,7 @@ public class HHG_Data : MonoBehaviour {
 
     public static void RewardedAdWatched()
     {
-        Debug.Log("Reward Received");
+       global::Logger.ShowLog("Reward Received");
         if (AdType == 0)
         {
             PrefsManager.SetCoinsValue(PrefsManager.GetCoinsValue() + 500);

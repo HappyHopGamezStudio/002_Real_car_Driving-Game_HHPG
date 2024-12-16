@@ -1,62 +1,72 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class BrakeEmissionController : MonoBehaviour
 {
     public RCC_CarControllerV3 carController; // Reference to the RCC car controller
-    public Material emissionMaterial; // Reference to the material with emission property
-    public float emissionIntensity = 1.0f; // Intensity of the emission when braking
+    public Material emissionMaterial;        // Reference to the material with emission property
+    public float checkInterval = 0.1f;       // Time interval to check input states
 
-    private bool isBraking = false;
+    private bool isEmitting = false;         // Tracks the current emission state
 
     private void Awake()
     {
-        if (carController==null)
+        if (carController == null)
         {
-            carController = transform.GetComponent<RCC_CarControllerV3>();
+            carController = GetComponent<RCC_CarControllerV3>();
+        }
+
+        if (emissionMaterial == null)
+        {
+            Debug.LogWarning("Emission material is not assigned.");
         }
     }
 
-    void Update()
+    private void OnEnable()
     {
-        if (carController.brakeInput > 0)
+        // Start the coroutine to monitor brake and handbrake input
+        StartCoroutine(CheckBrakeInput());
+    }
+
+    private void OnDisable()
+    {
+        // Stop the coroutine when the object is disabled
+        StopCoroutine(CheckBrakeInput());
+    }
+
+    private IEnumerator CheckBrakeInput()
+    {
+        while (true)
         {
-            isBraking = true;
-            SetEmission(true);
+            // Determine if emission should be enabled
+            bool shouldEmit = carController.brakeInput > 0 || carController.handbrakeInput > 0;
+
+            // Update emission state only if it changes
+            if (shouldEmit != isEmitting)
+            {
+                isEmitting = shouldEmit;
+                SetEmission(isEmitting);
+            }
+
+            // Wait for the next check
+            yield return new WaitForSeconds(checkInterval);
         }
-        else  if (carController.handbrakeInput > 0)
+    }
+
+    private void SetEmission(bool enable)
+    {
+        if (emissionMaterial == null) return;
+
+        if (enable)
         {
-            isBraking = true;
-            SetEmission(true);
+            emissionMaterial.EnableKeyword("_EMISSION");
+            emissionMaterial.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
         }
         else
         {
-            if (isBraking)
-            {
-                isBraking = false;
-                SetEmission(false);
-            }
-        }
-    }
-
-    void SetEmission(bool enable)
-    {
-        if (carController.enabled)
-        {
-           
-            if (emissionMaterial != null)
-            {
-                if (enable)
-                {
-                    emissionMaterial.EnableKeyword("_EMISSION");
-                    emissionMaterial.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
-                }
-                else
-                {
-                    emissionMaterial.DisableKeyword("_EMISSION");
-                    emissionMaterial.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
-                }
-            }
+            emissionMaterial.DisableKeyword("_EMISSION");
+            emissionMaterial.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
         }
     }
 }

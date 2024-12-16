@@ -18,6 +18,8 @@ using UnityEngine.EventSystems;
 [RequireComponent (typeof(Rigidbody))]
 public class RCC_CarControllerV3 : MonoBehaviour {
 
+
+
 	private RCC_Settings RCCSettings{get{return RCC_Settings.Instance;}}		// Getting an Instance of Main Shared RCC Settings.
 	private Rigidbody rigid;		// Rigidbody.
 	internal bool sleepingRigid = false;		// Used For Disabling Unnecessary Raycasts When RB Is Sleeping.
@@ -464,7 +466,7 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 		}
 		
 		if(allWheelModels != null && allWheelModels[0] == null){
-			Debug.LogError("You haven't choose your Wheel Models. Please select all of your Wheel Models before creating Wheel Colliders. Script needs to know their sizes and positions, aye?");
+			global::Logger.ShowLog("You haven't choose your Wheel Models. Please select all of your Wheel Models before creating Wheel Colliders. Script needs to know their sizes and positions, aye?");
 			return;
 		}
 		
@@ -575,17 +577,17 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 	
 	// public void KillOrStartEngine ()
 	// {
-	// 	Debug.Log("Engine Running Call "+transform.name);
+	// 	global::Logger.ShowLog("Engine Running Call "+transform.name);
 	// 	if(engineRunning && !engineStarting)
 	// 	{
 	// 		engineRunning = false;
 	// 		fuelInput = 0f;
-	// 		Debug.Log("Engine Running Call if");
+	// 		global::Logger.ShowLog("Engine Running Call if");
 	// 	}
 	// 	else if(!engineStarting)
 	// 	{
 	// 		StartCoroutine("StartEngine");
-	// 		Debug.Log("Engine Running else ");
+	// 		global::Logger.ShowLog("Engine Running else ");
 	// 	}
 	// }
 	
@@ -634,7 +636,7 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 	
 	public void KillEngine ()
 	{
-		Debug.Log("killed engine "+transform.name);
+		global::Logger.ShowLog("killed engine "+transform.name);
 		fuelInput = 0f;
 		engineRunning = false;
 	}
@@ -999,6 +1001,8 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 		#endregion Wheel Type
 		
 	}
+
+
 
 	void Sounds(){
 
@@ -1573,13 +1577,13 @@ void ApplyBrakeTorque(WheelCollider wheel, float brakeForce)
         }
         else
         {
-            //  Debug.Log("else");
+            //  global::Logger.ShowLog("else");
             //  if (NoS < 100 )
             //  {
             //  NoS += (NoSConsumption / 1.5f) * Time.deltaTime;
             // }
             //  
-            //Debug.Log(NoS+"");
+            //global::Logger.ShowLog(NoS+"");
             if (NoS <= 2)
             {
                 if (PrefsManager.GetNosCount() <= 0)
@@ -1695,7 +1699,7 @@ public	void ResetCar (){
 	}
 public	void ResetCarNow (){
 		
-	Debug.Log("Come");
+	global::Logger.ShowLog("Come");
 	//if(transform.eulerAngles.z < 300 && transform.eulerAngles.z > 60){
 		//resetTime += Time.deltaTime;
 		//if(resetTime > 3){
@@ -1928,7 +1932,7 @@ public	void ResetCarFrombutton (){
 		if(defMaxSpeed != maxspeed){
 
 			if(totalGears < 1){
-				Debug.LogError("You are trying to set your vehicle gear to 0 or below! Why you trying to do this???");
+				global::Logger.ShowLog("You are trying to set your vehicle gear to 0 or below! Why you trying to do this???");
 				totalGears = 1;
 				return;
 			}

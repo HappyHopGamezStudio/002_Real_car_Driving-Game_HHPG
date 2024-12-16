@@ -69,7 +69,7 @@ public class RCC_MobileButtons : MonoBehaviour {
 
 		}
 
-		ChangeController(PrefsManager.GetControlls());
+
 		orgBrakeButtonPos = brakeButton.transform.position;
 		GetVehicles();
 
@@ -253,39 +253,5 @@ public class RCC_MobileButtons : MonoBehaviour {
 	}
 
 
-	public GameObject Arrow, Tild, Setring;
-	public void ChangeController(int index){
-
-		Arrow.SetActive(false);
-		Tild.SetActive(false);
-		Setring.SetActive(false);
-		
-		
-		switch(index){
-
-		case 0:
-			RCC_Settings.Instance.useAccelerometerForSteering = false;
-			RCC_Settings.Instance.useSteeringWheelForSteering = false;
-			Arrow.SetActive(true);
-			
-			break;
-		case 1:
-			RCC_Settings.Instance.useAccelerometerForSteering = false;
-			RCC_Settings.Instance.useSteeringWheelForSteering = true;
-			Setring.SetActive(true);
-			
-			
-			
-			
-			break;
-		case 2:
-			RCC_Settings.Instance.useAccelerometerForSteering = true;
-			RCC_Settings.Instance.useSteeringWheelForSteering = false;
-			Tild.SetActive(true);
-			break;
-
-		}
-
-	}
 
 }

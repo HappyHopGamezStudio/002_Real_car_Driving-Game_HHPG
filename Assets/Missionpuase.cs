@@ -7,11 +7,25 @@ public class Missionpuase : MonoBehaviour
 {
     private void OnEnable()
     {
-       HHG_LevelManager.instace.isPanelOn = true;
+        if (HHG_LevelManager.instace.hhgOpenWorldManager.missionon)
+        {
+            HHG_LevelManager.instace.isPanelOn = true;
+        }
+        else
+        {
+            HHG_LevelManager.instace.isPanelOn = true;
+        }
     }
 
     private void OnDisable()
     {
-        HHG_LevelManager.instace. isPanelOn = false;
+        if (HHG_LevelManager.instace.hhgOpenWorldManager.missionon)
+        {
+            HHG_LevelManager.instace.isPanelOn = true;
+        }
+        else
+        {
+            HHG_LevelManager.instace.isPanelOn = false;
+        }
     }
 }

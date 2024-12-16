@@ -350,6 +350,7 @@ GameObject:
   - component: {fileID: 8446176082135193219}
   - component: {fileID: 8446176082135193218}
   - component: {fileID: 2072058041}
+  - component: {fileID: 392285631300523248}
   m_Layer: 3
   m_Name: 012
   m_TagString: Player
@@ -393,7 +394,7 @@ Rigidbody:
   m_Drag: 0.05
   m_AngularDrag: 0.5
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -833,11 +834,6 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1
-  slowMotionFactor: 0.1
-  hitForceThreshold: 50
-  continuousHitCount: 5
-  hitResetTime: 3
-  hitCounter: 0
   maxHealth: 100
   currentHealth: 100
   CarName: 
@@ -873,7 +869,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
-  carSprite: {fileID: 0}
+--- !u!114 &392285631300523248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8446176082135193231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec68ce007ac35da4aa751244049989fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8446176082225013682
 GameObject:
   m_ObjectHideFlags: 0
@@ -1504,7 +1511,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carController: {fileID: 8446176082135193217}
   emissionMaterial: {fileID: 2100000, guid: 0e0b1c518718e12488ce51399e3caa58, type: 2}
-  emissionIntensity: 1
+  checkInterval: 0.1
 --- !u!1 &8446176083675883181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1989,9 +1996,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b28093c859aa0e4698f5a6211dcaa04, type: 3}
---- !u!4 &2654545192510090908 stripped
+--- !u!4 &2654545191485187804 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5899731645791176142, guid: 8b28093c859aa0e4698f5a6211dcaa04, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5899731644641267086, guid: 8b28093c859aa0e4698f5a6211dcaa04, type: 3}
   m_PrefabInstance: {fileID: 8446176082675854162}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2654545192743048018 stripped
@@ -2009,9 +2016,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3972246568982666205, guid: 8b28093c859aa0e4698f5a6211dcaa04, type: 3}
   m_PrefabInstance: {fileID: 8446176082675854162}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &2654545191485187804 stripped
+--- !u!4 &2654545192510090908 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5899731644641267086, guid: 8b28093c859aa0e4698f5a6211dcaa04, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5899731645791176142, guid: 8b28093c859aa0e4698f5a6211dcaa04, type: 3}
   m_PrefabInstance: {fileID: 8446176082675854162}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8446176082801182729

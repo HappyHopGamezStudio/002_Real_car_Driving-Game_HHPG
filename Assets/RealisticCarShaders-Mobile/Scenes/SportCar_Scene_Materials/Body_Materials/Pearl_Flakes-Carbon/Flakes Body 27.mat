@@ -28,7 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Decal:
-        m_Texture: {fileID: 2800000, guid: 5722dc8d6b2702a4cb80aeade08f07a1, type: 3}
+        m_Texture: {fileID: 2800000, guid: bed9dfda292d3b844836da2fb6ffab4b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -116,7 +116,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.40665886, g: 0, b: 0, a: 1}
-    - _DecalColor: {r: 0.9433962, g: 0.9433962, b: 0.9433962, a: 0}
+    - _DecalColor: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _PearlescentColor: {r: 0.40665886, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

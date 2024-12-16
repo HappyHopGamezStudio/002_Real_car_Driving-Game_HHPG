@@ -74,7 +74,7 @@ public class HHG_GameControl: MonoBehaviour
         if (joystickHandle != null)
             joystickHandle.anchoredPosition = initialHandlePosition;
      
-        Debug.Log("Joystick Reset to 0");
+       global::Logger.ShowLog("Joystick Reset to 0");
     }
 
     public void RestoreJoystick()
@@ -83,6 +83,6 @@ public class HHG_GameControl: MonoBehaviour
         if (joystickHandle != null)
             joystickHandle.anchoredPosition = initialHandlePosition;
 
-        Debug.Log("Joystick Restored to Normal");
+       global::Logger.ShowLog("Joystick Restored to Normal");
     }
 }

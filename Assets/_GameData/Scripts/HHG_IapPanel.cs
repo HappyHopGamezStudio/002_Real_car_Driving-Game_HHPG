@@ -19,7 +19,7 @@ public class HHG_IapPanel : MonoBehaviour
     public void GiverewaredNow()
     {
         HHG_Data.RewardedAdWatched();
-        Debug.Log("RewardGiven");
+        global::Logger.ShowLog("RewardGiven");
     }
     public void LoadInter()
     {

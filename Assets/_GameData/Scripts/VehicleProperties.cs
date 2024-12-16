@@ -171,20 +171,20 @@ public class VehicleProperties : MonoBehaviour
 
 	public bool TrafficCarAi=false;
 	public bool IsCarOnintersial=false;
+
 	public async void GetInCarForDrive()
 	{
-		
-		
+
+
 
 		TurnONAllLights();
-	
+
 		StopCoroutine(CheckisGrounded());
 		if (CarController.chassis)
 		{
 			CarController.chassis.GetComponent<RCC_Chassis>().enabled = true;
 		}
-		GetComponent<Rigidbody>().drag = 0f;
-		GetComponent<Rigidbody>().angularDrag = 0f;
+
 		CarController.enabled = true;
 		transform.name = "!!!!!!!!!!!!!!MYCAR!!!!!!!!!!!!!!!!";
 		GetComponent<RCC_CameraConfig>()?.SetCameraSettingsNow();
@@ -192,6 +192,7 @@ public class VehicleProperties : MonoBehaviour
 		{
 			ConeEffect.SetActive(false);
 		}
+
 		if (AllAudioSource != null)
 		{
 			AllAudioSource.SetActive(false);
@@ -201,43 +202,49 @@ public class VehicleProperties : MonoBehaviour
 			AllAudioSource = transform.Find("All Audio Sources").gameObject;
 			AllAudioSource?.SetActive(false);
 		}
-		Rb.drag=0.05f;
+
+		Rb.drag = 0.05f;
 		if (Rb)
 		{
 			Rb.constraints = RigidbodyConstraints.None;
 			Rb.isKinematic = false;
 			Rb.useGravity = true;
 		}
+
 		GetComponent<RCC_CameraConfig>().enabled = true;
-		
+
 		if (GetComponent<TSSimpleCar>())
 		{
 			if (CarController.chassis)
 			{
-				if (CarController.chassis.GetComponent<RCC_Chassis>().ColliderParent!=null)
+				if (CarController.chassis.GetComponent<RCC_Chassis>().ColliderParent != null)
 				{
 					CarController.chassis.GetComponent<RCC_Chassis>().ColliderParent?.SetActive(true);
 				}
 			}
+
 			GetComponent<TSSimpleCar>().enabled = false;
 			GetComponent<TSTrafficAI>().enabled = false;
 			GetComponent<TSAntiRollBar>().enabled = false;
 			GetComponent<TSAntiRollBar>().enabled = false;
 			GetComponent<ChangeWheelTrafficToPlayer>().ChangeToPlayer();
 		}
-		
+
 		CarController.FrontLeftWheelCollider.enabled = true;
 		CarController.FrontRightWheelCollider.enabled = true;
 		CarController.RearLeftWheelCollider.enabled = true;
 		CarController.RearRightWheelCollider.enabled = true;
-		
-		
-		
+
+
+
 		Exuset.SetActive(true);
 
-		
-		
-		
+		if (TrafficCarAi)
+		{
+			HHG_LevelManager.instace.isPanelOn = true;
+		}
+
+
 		UpdateHealthText();
 		if (IsCarOnintersial)
 		{
@@ -246,28 +253,30 @@ public class VehicleProperties : MonoBehaviour
 				FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
 				PrefsManager.SetInterInt(1);
 			}
+
 			await Task.Delay(2000);
-			
+
 			if (FindObjectOfType<HHG_AdsCall>())
 			{
-				if (PrefsManager.GetInterInt()!=5)
+				if (PrefsManager.GetInterInt() != 5)
 				{
 					FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
 				}
 			}
 		}
-		
-		
-		
+
+
+
 		await Task.Delay(2000);
 		if (AllAudioSource != null)
 		{
 			AllAudioSource.SetActive(true);
 		}
+
 		CarController.FrontLeftWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
-        		CarController.FrontRightWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
-        		CarController.RearLeftWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
-        		CarController.RearRightWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
+		CarController.FrontRightWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
+		CarController.RearLeftWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
+		CarController.RearRightWheelCollider.transform.GetChild(0).gameObject.SetActive(true);
 	}
 
 
@@ -293,8 +302,7 @@ public class VehicleProperties : MonoBehaviour
 			CarController.chassis.GetComponent<RCC_Chassis>().enabled = false;
 		}
 
-		GetComponent<Rigidbody>().drag = 50f;
-		GetComponent<Rigidbody>().angularDrag = 50f;
+		
 		CarController.FrontLeftWheelCollider.enabled = false;
 		CarController.FrontRightWheelCollider.enabled = false;
 		CarController.RearLeftWheelCollider.enabled = false;
@@ -353,7 +361,12 @@ public class VehicleProperties : MonoBehaviour
 				StartCoroutine(CheckisGrounded());
 			}
 		}
-
+		Rb.GetComponent<Rigidbody>().velocity=Vector3.zero; 
+		Rb.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
+		if (TrafficCarAi)
+		{
+			HHG_LevelManager.instace.isPanelOn = false;
+		}
 		if (IsCarOnintersial)
 		{
 			if (FindObjectOfType<HHG_AdsCall>())
@@ -469,7 +482,7 @@ public class VehicleProperties : MonoBehaviour
 	   // HHG_UiManager.instance.EffectForcoin.SetActive(false);
     }
 
-    #region Hitpanel
+    /*#region Hitpanel
    
     public float slowMotionFactor = 0.1f; 
     public float hitForceThreshold = 50f; 
@@ -521,7 +534,7 @@ public class VehicleProperties : MonoBehaviour
 	    hitCounter = 0;
     }
 
-    #endregion
+    #endregion*/
 
     #region HeallthWork
     
@@ -632,8 +645,7 @@ public class VehicleProperties : MonoBehaviour
   
     void StopTimeAndCapture()
     {
-	    Invoke(nameof(aoutoSpeedCaputheroff),8f);
-        HHG_LevelManager.instace.rcc_camera.gameObject.SetActive(false);
+	    HHG_LevelManager.instace.rcc_camera.gameObject.SetActive(false);
         originalFOV = mainCamera.fieldOfView;
         HHG_UiManager.instance.HideGamePlay();
         isTimeStopped = true;
@@ -646,7 +658,7 @@ public class VehicleProperties : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    System.Collections.IEnumerator CaptureAndShow()
+    System.Collections.IEnumerator  CaptureAndShow()
     {
        // isTransitioning = true;
         yield return new WaitForEndOfFrame();
@@ -663,14 +675,16 @@ public class VehicleProperties : MonoBehaviour
         // Show the captured image in the UI
        HHG_UiManager.instance.capturedImage.sprite = Sprite.Create(screenShot, new Rect(0, 0, screenShot.width, screenShot.height), new Vector2(0.5f, 0.5f));
        HHG_UiManager.instance.uiPanel.SetActive(true);
-      
+       aoutoSpeedCaputheroff();
+    
     }
     
 
     #endregion
 
-    void aoutoSpeedCaputheroff()
+   async void aoutoSpeedCaputheroff()
     {
-	    HHG_GameManager.Instance.ResumwTime();
+	    await Task.Delay(2000);
+	    HHG_GameManager.Instance?.ResumwTime();
     }
 }

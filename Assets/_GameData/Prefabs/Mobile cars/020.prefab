@@ -3981,6 +3981,7 @@ GameObject:
   - component: {fileID: 510039003292430430}
   - component: {fileID: 510039003292430431}
   - component: {fileID: 976376801}
+  - component: {fileID: -2656527553498332078}
   m_Layer: 3
   m_Name: 020
   m_TagString: Player
@@ -4024,7 +4025,7 @@ Rigidbody:
   m_Drag: 0.05
   m_AngularDrag: 0.5
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -4464,11 +4465,6 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1
-  slowMotionFactor: 0.1
-  hitForceThreshold: 50
-  continuousHitCount: 5
-  hitResetTime: 3
-  hitCounter: 0
   maxHealth: 100
   currentHealth: 0
   CarName: 
@@ -4504,7 +4500,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
-  carSprite: {fileID: 0}
+--- !u!114 &-2656527553498332078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510039003292430428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec68ce007ac35da4aa751244049989fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &510039003314106616
 GameObject:
   m_ObjectHideFlags: 0
@@ -7224,7 +7231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carController: {fileID: 510039003292430427}
   emissionMaterial: {fileID: 2100000, guid: 4d9f1573e14ff8742b6996b700feccbf, type: 2}
-  emissionIntensity: 1
+  checkInterval: 0.1
 --- !u!1001 &510039003314387371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7426,13 +7433,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a4cf4f20ab10af4690fff227b43a92c, type: 3}
---- !u!1 &3706306338709038702 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3781744126133936069, guid: 1a4cf4f20ab10af4690fff227b43a92c, type: 3}
-  m_PrefabInstance: {fileID: 510039003314387371}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3706306338709038703 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3781744126133936068, guid: 1a4cf4f20ab10af4690fff227b43a92c, type: 3}
+  m_PrefabInstance: {fileID: 510039003314387371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3706306338709038702 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3781744126133936069, guid: 1a4cf4f20ab10af4690fff227b43a92c, type: 3}
   m_PrefabInstance: {fileID: 510039003314387371}
   m_PrefabAsset: {fileID: 0}
