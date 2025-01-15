@@ -92,6 +92,10 @@ public enum  CarNames
 	C79=79,
 	C80=80,
 	C81=81,
+	C82=82,
+	C83=83,
+	C84=84,
+	C85=85,
 }
 
 public class VehicleProperties : MonoBehaviour

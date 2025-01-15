@@ -87,10 +87,10 @@ public class CameraRotate : MonoBehaviour
     public void SetMianPos()
     {
 	    isDragging = true;
-	    StartCoroutine(SetPos(-130f, 7, 5f));
+	    StartCoroutine(SetPos(-130f, 13, 5f));
 	    isrimSelect = false;
-        maxDistance = 5f;
-        minDistance = 5f;
+        maxDistance = 4.3f;
+        minDistance = 4.3f;
         isPanelOn = true;
         OFFanimater();
     }

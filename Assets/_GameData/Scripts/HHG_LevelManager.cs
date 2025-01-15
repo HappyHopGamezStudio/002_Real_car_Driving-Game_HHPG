@@ -136,8 +136,8 @@ public class HHG_LevelManager : MonoBehaviour
         if (!isUp)
         {
             HHG_GameManager.Instance.CurrentCar.GetComponent<RCC_CarControllerV3>().ResetCarNow();
-            HHG_GameManager.Instance.CurrentCar.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            HHG_GameManager.Instance.CurrentCar.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+          //  HHG_GameManager.Instance.CurrentCar.GetComponent<Rigidbody>().velocity = Vector3.zero;
+          //  HHG_GameManager.Instance.CurrentCar.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             isUp = true;
             Invoke(nameof(ofool), 2f);
         }
@@ -160,7 +160,7 @@ public class HHG_LevelManager : MonoBehaviour
         offset += Time.deltaTime * multiplaxer;
         CarEffect.mainTextureOffset = new Vector2(0, offset);
         
-        if (!isPanelOn)
+        /*if (!isPanelOn)
         {
            
             timer -= Time.deltaTime;
@@ -169,7 +169,7 @@ public class HHG_LevelManager : MonoBehaviour
                 TpsPlayer?.GetComponent<PlayerThrow>().CallMission();
                 timer = 60f;
             }
-        }
+        }*/
 
         if (!isTrazitionok) return;
         

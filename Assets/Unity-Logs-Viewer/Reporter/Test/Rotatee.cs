@@ -12,7 +12,7 @@ public class Rotatee : MonoBehaviour
 
 	void Update()
 	{
-		angle.y += Time.deltaTime * 100;
+		angle.x += Time.deltaTime * 100;
 		transform.eulerAngles = angle;
 	}
 
