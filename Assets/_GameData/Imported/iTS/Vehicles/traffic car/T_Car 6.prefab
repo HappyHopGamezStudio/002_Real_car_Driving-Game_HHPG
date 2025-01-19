@@ -9475,7 +9475,7 @@ MonoBehaviour:
   Fire: {fileID: 7683616205542929706}
   DefaultCarPostion: {fileID: 0}
   TrafficCarAi: 1
-  IsCarOnintersial: 0
+  IsCarOnintersial: 1
   Grounded: 0
   groundCheckDistance: 1.1
   LayerMask:

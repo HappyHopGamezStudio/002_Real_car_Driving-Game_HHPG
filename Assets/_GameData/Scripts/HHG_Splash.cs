@@ -27,6 +27,7 @@ public class HHG_Splash : MonoBehaviour
         StartCoroutine("changeScene");
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         Application.targetFrameRate = Screen.currentResolution.refreshRate;
+        PrefsManager.SetComeFromSplash(1);
     }
     IEnumerator changeScene()
     {

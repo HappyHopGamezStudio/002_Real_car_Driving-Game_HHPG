@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 using System.Collections;
@@ -12,6 +13,12 @@ public class MapMarker : MonoBehaviour
 		isActive = false;
         hide();
 	}
+
+    private void OnEnable()
+    {
+        isActive = true;
+        show();
+    }
 
     #region Public
 
@@ -93,13 +100,19 @@ public class MapMarker : MonoBehaviour
 
     public void show()
     {
-        markerImage.gameObject.SetActive(true);
+        if (markerImage)
+        {
+            markerImage.gameObject.SetActive(true);
+        }
+           
     }
 
     public void hide()
     {
-        if(markerImage)
+        if (markerImage)
+        {
             markerImage.gameObject.SetActive(false);
+        }
     }
 
     public bool isVisible()

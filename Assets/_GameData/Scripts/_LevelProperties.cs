@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables;
+using Random = UnityEngine.Random;
 
 public class _LevelProperties : MonoBehaviour
 {
@@ -80,7 +82,10 @@ public class _LevelProperties : MonoBehaviour
 
     }
 
-
+    private void OnDisable()
+    {
+        HHG_LevelManager.instace.hhgOpenWorldManager. AllMissionTrggers.SetActive(true);
+    }
 
     public bool freemode = false;
 

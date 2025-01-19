@@ -29,6 +29,9 @@ public class bannerdata
 
 public class MissionTrigger02:MonoBehaviour
 {
+    public int MissionId;
+    public int Reaward;
+    public string MissionTitle, MissionStatment;
     public MissionType Mission;
     public GameObject portal;
     public float POrtalActiveRange;
@@ -48,7 +51,7 @@ public class MissionTrigger02:MonoBehaviour
     public bannerdata CheckPointData;
     public Image startPointImage;
     public LineRenderer LineRender_;
-    public Image BannerBgImage;
+  //  public Image BannerBgImage;
     public ParticleSystem roundportal;
 
     private bool fromOpenworld=false;
@@ -64,56 +67,56 @@ public class MissionTrigger02:MonoBehaviour
             case MissionType.ColorCube:
                 BannerImage.sprite = ColorCubeData.icone;
                 BannerNameText.text = ColorCubeData.BannerName.ToString();
-                BannerBgImage.sprite = ColorCubeData.BgSprite;
+                //BannerBgImage.sprite = ColorCubeData.BgSprite;
                 LineRender_.startColor = ColorCubeData.triggerColor;
                 LineRender_.endColor = ColorCubeData.triggerColor;
-                startPointImage.color=ColorCubeData.triggerColor;
+               // startPointImage.color=ColorCubeData.triggerColor;
                 mainModule.startColor=new ParticleSystem.MinMaxGradient(ColorCubeData.triggerColor);
                 BannerNameText.color = Color.black;
                 break;
             case MissionType.Demolish:
                 BannerImage.sprite = demolishData.icone;
                 BannerNameText.text = demolishData.BannerName.ToString();
-                BannerBgImage.sprite = demolishData.BgSprite;
+             //   BannerBgImage.sprite = demolishData.BgSprite;
                 LineRender_.startColor = demolishData.triggerColor;
                 LineRender_.endColor = demolishData.triggerColor;
-                startPointImage.color=demolishData.triggerColor;
+              //  startPointImage.color=demolishData.triggerColor;
                 mainModule.startColor=new ParticleSystem.MinMaxGradient(demolishData.triggerColor);
                 break;
             case MissionType.Racing:
                 BannerImage.sprite = RacingData.icone;
                 BannerNameText.text = RacingData.BannerName.ToString();
-                BannerBgImage.sprite = RacingData.BgSprite;
+             //   BannerBgImage.sprite = RacingData.BgSprite;
                 LineRender_.startColor = RacingData.triggerColor;
                 LineRender_.endColor = RacingData.triggerColor;
-                startPointImage.color=RacingData.triggerColor;
+             //   startPointImage.color=RacingData.triggerColor;
                 mainModule.startColor=new ParticleSystem.MinMaxGradient(RacingData.triggerColor);
                 break;
             case MissionType.MegaRamp:
                 BannerImage.sprite = MegaRampData.icone;
                 BannerNameText.text = MegaRampData.BannerName.ToString();
-                BannerBgImage.sprite = MegaRampData.BgSprite;
+              //  BannerBgImage.sprite = MegaRampData.BgSprite;
                 LineRender_.startColor = MegaRampData.triggerColor;
                 LineRender_.endColor = MegaRampData.triggerColor;
-                startPointImage.color=MegaRampData.triggerColor;
+             //   startPointImage.color=MegaRampData.triggerColor;
                 mainModule.startColor=new ParticleSystem.MinMaxGradient(MegaRampData.triggerColor);
                 break;
             case MissionType.CheckPoint:
                 BannerImage.sprite = CheckPointData.icone;
                 BannerNameText.text = CheckPointData.BannerName.ToString();
-                BannerBgImage.sprite = CheckPointData.BgSprite;
+               // BannerBgImage.sprite = CheckPointData.BgSprite;
                 LineRender_.startColor = CheckPointData.triggerColor;
                 LineRender_.endColor = CheckPointData.triggerColor;
-                startPointImage.color=CheckPointData.triggerColor;
+               // startPointImage.color=CheckPointData.triggerColor;
                 mainModule.startColor=new ParticleSystem.MinMaxGradient(CheckPointData.triggerColor);
                 break;
             case MissionType.PoliceEscape:
                 BannerImage.sprite = PoliceEscapeData.icone;
                 BannerNameText.text = PoliceEscapeData.BannerName.ToString();
-                BannerBgImage.sprite = PoliceEscapeData.BgSprite;
+             //   BannerBgImage.sprite = PoliceEscapeData.BgSprite;
                 LineRender_.startColor = PoliceEscapeData.triggerColor;
                 LineRender_.endColor = PoliceEscapeData.triggerColor;
-                startPointImage.color=PoliceEscapeData.triggerColor;
+              //  startPointImage.color=PoliceEscapeData.triggerColor;
                 mainModule.startColor=new ParticleSystem.MinMaxGradient(PoliceEscapeData.triggerColor);
                 break;
         }
@@ -126,6 +129,7 @@ public class MissionTrigger02:MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             portal.SetActive(false);
+            Time.timeScale = 0.2f;
         }
     }
 
@@ -134,6 +138,7 @@ public class MissionTrigger02:MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             ActivePortalAgain();
+            Time.timeScale = 1f;
         }
     }
 

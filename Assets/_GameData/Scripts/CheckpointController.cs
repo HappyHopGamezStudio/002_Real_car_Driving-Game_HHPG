@@ -59,7 +59,7 @@ public class CheckpointController : MonoBehaviour
         if (HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.IsCheckpoint)
         {
             float inverseValue = CheckpointId > 0 ? 1f / CheckpointId : 0f;
-            HHG_UiManager.instance.displayText.text = CheckpointId + "/" + CheckpointsList.Length + " = " + inverseValue.ToString("F2");
+            HHG_UiManager.instance.displayText.text = CheckpointId + "/" + CheckpointsList.Length;
         }
         else if (HHG_LevelManager.instace.hhgOpenWorldManager.CurrentMissionProperties.Islap)
         {

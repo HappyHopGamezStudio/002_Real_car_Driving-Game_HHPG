@@ -37,8 +37,10 @@ public class Seeting : MonoBehaviour
             SoundButtonOFF.SetActive(false);
             SounButtonON.SetActive(true);
         }
-        AudioListener.volume = PrefsManager.GetMusic();
+        AudioListener.volume =0.7f;
         volume_value.value = PrefsManager.GetMusic();
+        PercentageText.text = volume_value.value + "%";
+        Time.timeScale = 1;
     }
 
      public void SetGraphicQuality(int value) {

@@ -15,7 +15,7 @@ public class HHG_MoneyCounter : MonoBehaviour
     public List<int> addCointList = new List<int>();
     private int tempMoney;
     public GameObject startsObj;
-    public GameObject AllButton, DoubleRewardBtn,Contrinebtn,CoinAnimation,Claim,CalimContinue;
+    public GameObject AllButton, DoubleRewardBtn,CoinAnimation;
     public AudioClip coinsCountSound;
     int reward;
 
@@ -33,9 +33,7 @@ public class HHG_MoneyCounter : MonoBehaviour
 
         DoubleRewardBtn.SetActive(true);
         CoinAnimation.SetActive(false);
-        Contrinebtn.SetActive(false);
-        Claim.SetActive(true);
-         CalimContinue.SetActive(false);   
+       // Contrinebtn.SetActive(false);
         addCointList.Clear();
         //     addCointList.Add(LevelManager.instace.coinsCounter);
         addCointList.Add(reward);
@@ -118,9 +116,8 @@ public class HHG_MoneyCounter : MonoBehaviour
         PrefsManager.SetCoinsValue(PrefsManager.GetCoinsValue() + reward);
         // rewradMoneyText[1].text = PrefsManager.GetCoinsValue() + "";
         rewradMoneyText[0].text = "$ " + (reward * 2).ToString("N0");
-        Contrinebtn.SetActive(true);
-        Claim.SetActive(false);
-        CalimContinue.SetActive(false);
+   //     Contrinebtn.SetActive(true);
+        // StartCoroutine(AddCoins());
         Invoke(nameof(offcoinAnmation),2f);
     }
 
@@ -128,8 +125,6 @@ public class HHG_MoneyCounter : MonoBehaviour
     {
         CoinAnimation.SetActive(true);
         rewradMoneyText[0].text = "$ 0,000 " ;
-        Claim.SetActive(false); 
-        CalimContinue.SetActive(true);   
         Invoke(nameof(offcoinAnmation),2f);
     }
 

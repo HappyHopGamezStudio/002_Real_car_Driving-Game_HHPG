@@ -1,5 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using GameAnalyticsSDK;
+using HHG_Mediation;
 using UnityEngine;
 using UnityEngine.UI;
 using  SickscoreGames.HUDNavigationSystem;
@@ -27,7 +30,7 @@ public class HHG_LevelManager : MonoBehaviour
     // public PlayerCamera_New Tpscamera;
     public HHG_OpenWorldManager hhgOpenWorldManager;
     public GameObject TpsPlayer;
-    public GameObject Tpscamera;
+  //  public GameObject Tpscamera;
     public DriftCanvasManager driftCanvasManagerNow;
 
     public Vector3 LastPosition;
@@ -39,6 +42,7 @@ public class HHG_LevelManager : MonoBehaviour
     public AudioClip CheckPointSound;
     public AudioSource CoinSound;
     public Color[] colers;
+    public MissionTrigger02 Currentmission;
 
     void Awake()
     {
@@ -80,7 +84,7 @@ public class HHG_LevelManager : MonoBehaviour
         SelectedPlayer.GetComponent<Rigidbody>().isKinematic = false;
         SelectedPlayer.GetComponent<HHG_CarShadow>().enabled = true;
         SelectedPlayer.GetComponent<VehicleProperties>().ConeEffect.SetActive(false);
-        SelectedPlayer.GetComponent<VehicleProperties>().IsCarOnintersial = false;
+       // SelectedPlayer.GetComponent<VehicleProperties>().IsCarOnintersial = false;
         SelectedPlayer.GetComponent<Rigidbody>().constraints =
             RigidbodyConstraints.FreezeRotationX |
             RigidbodyConstraints.FreezeRotationZ |
@@ -123,7 +127,49 @@ public class HHG_LevelManager : MonoBehaviour
             HHG_UiManager.instance.ShowObjective(currentHhgLevelProperties.LevelStatment);
         }
     }
-
+    public float ForwardOffSet=10f;
+    private Vector3 spawnPosition,RampEularAngle;
+    private GameObject ramp;
+    public int CurrentramnpValue = 0;
+    public GameObject RampModel;
+    public async void CheckForAdd()
+    {
+        HHG_UiManager.instance. AdBrakepanel.SetActive(true);
+        await Task.Delay(1000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+			
+            PrefsManager.SetInterInt(1);
+        }
+        CurrentramnpValue = 2; 
+     
+        HHG_UiManager.instance.RanmpValuetext.text = "" + CurrentramnpValue.ToString();
+        HHG_UiManager.instance. AdBrakepanel.SetActive(false);
+        HHG_UiManager.instance. AdButtonForranmp.SetActive(false);
+    }
+    
+    public async void InstiateRamp()
+    {
+        CurrentramnpValue --;
+        GameAnalytics.NewAdEvent(GAAdAction.RewardReceived, GAAdType.Interstitial, "Admob", "Get_ranmp");
+        ramp = Instantiate(RampModel);
+        ramp.transform.position = HHG_GameManager.Instance.CurrentCar.transform.position + HHG_GameManager.Instance.CurrentCar.transform.forward * ForwardOffSet;
+        ramp.transform.eulerAngles =  new Vector3(0f,HHG_GameManager.Instance.CurrentCar.transform.eulerAngles.y,-0.9f);
+        if (CurrentramnpValue <= 0)
+        {
+            HHG_UiManager.instance.AdButtonForranmp.SetActive(true);
+        }
+        HHG_UiManager.instance.RanmpValuetext.text = "" + CurrentramnpValue.ToString();
+        await Task.Delay(2000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            if (PrefsManager.GetInterInt() != 5)
+            {
+                FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+            }
+        }
+    }
     public void TaskCompleted()
     {
         currentHhgLevelProperties.Nextobjective();

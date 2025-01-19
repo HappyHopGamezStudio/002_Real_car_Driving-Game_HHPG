@@ -6,4 +6,5 @@ public class CarAngale : MonoBehaviour
 {
   public float  maxDistance = 4.5f;
   public float  minDistance = 4.5f;
+  public float  yDeg = 4.5f;
 }

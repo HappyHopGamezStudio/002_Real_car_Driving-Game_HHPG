@@ -75,7 +75,7 @@ public class HHG_LevelSelection : MonoBehaviour {
 	HHG_PlayerSelection.instance.dogSelectionCanvas.SetActive(false);
 	HHG_PlayerSelection.instance.levelSelectionCanvas.SetActive(false);
 	
-	CameraRotate.instance.SetMianPos();
+	HHG_PlayerSelection.instance.MainCamera.GetComponent<CameraRotate>().SetMianPos();
 	playeloading();
 
 	}

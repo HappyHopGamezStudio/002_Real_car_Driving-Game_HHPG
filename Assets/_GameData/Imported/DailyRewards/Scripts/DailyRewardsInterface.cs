@@ -261,7 +261,7 @@ public GameObject RickshwaObject;
                 var showWhenNotAvailable = DailyRewards.instance.keepOpen;
                 var isRewardAvailable = DailyRewards.instance.availableReward > 0;
 
-                dailyRewardPanel.SetActive(showWhenNotAvailable || (!showWhenNotAvailable && isRewardAvailable));
+              //  dailyRewardPanel.SetActive(showWhenNotAvailable || (!showWhenNotAvailable && isRewardAvailable));
                 UpdateUI();
 
                 SnapToReward();
@@ -269,7 +269,17 @@ public GameObject RickshwaObject;
                 //DailyRewards.instance.ClaimPrize();
                 //readyToClaim = false;
                 //UpdateUI();
-
+                if (PrefsManager.GetComeFromSplash() == 1)
+                {
+	                dailyRewardPanel.SetActive(true);
+	                PrefsManager.SetComeFromSplash(0);
+	                
+                }
+                else
+                {
+	                dailyRewardPanel.SetActive(showWhenNotAvailable || (!showWhenNotAvailable && isRewardAvailable));
+	                
+                }
 
             }
         }

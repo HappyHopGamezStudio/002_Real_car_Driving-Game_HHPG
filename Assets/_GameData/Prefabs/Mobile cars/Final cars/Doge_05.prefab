@@ -319,7 +319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carController: {fileID: 8921697504609021314}
   emissionMaterial: {fileID: 2100000, guid: 2df6df2aac17b3e4a82329818061ece5, type: 2}
-  emissionIntensity: 1
+  checkInterval: 0.1
 --- !u!1 &8921697502565213831
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,7 +1242,7 @@ MonoBehaviour:
   minEngineRPM: 1000
   engineInertia: 1
   useRevLimiter: 0
-  useExhaustFlame: 1
+  useExhaustFlame: 0
   useFuelConsumption: 0
   steerAngle: 40
   highspeedsteerAngle: 25
@@ -1396,11 +1396,6 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1
-  slowMotionFactor: 0.1
-  hitForceThreshold: 35
-  continuousHitCount: 5
-  hitResetTime: 3
-  hitCounter: 0
   maxHealth: 100
   currentHealth: 100
   CarName: 
@@ -1436,7 +1431,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
-  carSprite: {fileID: 0}
 --- !u!1001 &8921697503164973413
 PrefabInstance:
   m_ObjectHideFlags: 0

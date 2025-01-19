@@ -2031,7 +2031,7 @@ MonoBehaviour:
   minEngineRPM: 1000
   engineInertia: 1
   useRevLimiter: 0
-  useExhaustFlame: 1
+  useExhaustFlame: 0
   useFuelConsumption: 0
   steerAngle: 40
   highspeedsteerAngle: 25

@@ -19,7 +19,7 @@ public class Animationtexture : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {
 	    if (collision.gameObject.CompareTag("AICar"))
 	    {
@@ -29,5 +29,5 @@ public class Animationtexture : MonoBehaviour
 	    {
 		    GetComponent<Collider>().enabled = false;
 	    }
-    }
+    }*/
 }

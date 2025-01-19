@@ -36,7 +36,21 @@ public class PrefsManager : MonoBehaviour
     public const string CurrentMission = "CurrentMission";
     // Use this for initialization
     public const string CurrentCarShadow = "CURRENT_CarShadow";
+    static string ComeSplash = "ComeSplash";
+
     
+    
+    
+    public static void SetComeFromSplash(int currentPlayer)
+    {
+
+        PlayerPrefs.SetInt(ComeSplash, currentPlayer);
+
+    }
+    public static int GetComeFromSplash()
+    {
+        return PlayerPrefs.GetInt(ComeSplash, 0);
+    }
     
     
     
@@ -256,7 +270,7 @@ public class PrefsManager : MonoBehaviour
 
     public static float GetMusic ()
     {
-        return PlayerPrefs.GetFloat (Music, 10f);
+        return PlayerPrefs.GetFloat (Music, 100f);
     }
 
     public static void SetMusic (float AdValue)

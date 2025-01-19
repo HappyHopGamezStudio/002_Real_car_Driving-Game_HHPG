@@ -2,6 +2,7 @@ using UnityEngine;
 using StarterAssets;
 using System.Collections;
 using System.Threading.Tasks;
+using GameAnalyticsSDK;
 using HHG_Mediation;
 
 public class PlayerThrow : MonoBehaviour
@@ -50,8 +51,8 @@ public class PlayerThrow : MonoBehaviour
             uimobile.SetActive(true);
             if (HHG_GameManager.Instance.CurrentCar != null)
             {
-                HHG_GameManager.Instance.CurrentCar.transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                HHG_GameManager.Instance.CurrentCar.transform.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+                HHG_GameManager.Instance.CurrentCar.transform.GetComponent<Rigidbody>().drag = 20;  
+                HHG_GameManager.Instance.CurrentCar.transform.GetComponent<Rigidbody>().angularDrag =50;
             }
         }
         if (PrefsManager.GetCurrentMission() >= HHG_LevelManager.instace.hhgOpenWorldManager.TotalMisson)
@@ -80,7 +81,7 @@ public class PlayerThrow : MonoBehaviour
             {
                 OffMobile();
             }
-            Time.timeScale = 0.1f;
+         //   Time.timeScale = 0.1f;
             HHG_UiManager.instance?.CallPanel.SetActive(true);
         }
         if (PrefsManager.GetCurrentMission() >= HHG_LevelManager.instace.hhgOpenWorldManager.TotalMisson)
@@ -103,6 +104,11 @@ public class PlayerThrow : MonoBehaviour
         else
         {
             uimobile.SetActive(false);
+            if (HHG_GameManager.Instance.CurrentCar != null)
+            {
+                HHG_GameManager.Instance.CurrentCar.transform.GetComponent<Rigidbody>().drag = 0;  
+                HHG_GameManager.Instance.CurrentCar.transform.GetComponent<Rigidbody>().angularDrag =0;
+            }
         }
         HHG_UiManager.instance?.ShowGamePlay();
         FindObjectOfType<HHG_AdsCall>().hideBigBanner();
@@ -115,7 +121,9 @@ public class PlayerThrow : MonoBehaviour
     
     private void PlayThrowAnimation()
     {
+        HHG_GameControl.manager?.ResetJoystick();
         _animator.SetTrigger("Throw"); // Trigger the throw animation
+        GameAnalytics.NewAdEvent(GAAdAction.RewardReceived, GAAdType.Interstitial, "Admob", "Dog_Going_For_Ball");
     }
 
     private IEnumerator ThrowBallWithDelay()
@@ -136,7 +144,10 @@ public class PlayerThrow : MonoBehaviour
        
 
     }
-
+private void OnDisable()
+    {
+    HHG_GameControl.manager?.RestoreJoystick();
+    }
     void callFacteh()
     {
        // ballPrefab.GetComponent<DestroyAfter>().IsStart = true;

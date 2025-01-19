@@ -16,6 +16,8 @@ TagManager:
   - CinemachineTarget
   - AICar
   - positionChanger
+  - Checkpoint
+  - Racing Mission
   layers:
   - Default
   - TransparentFX

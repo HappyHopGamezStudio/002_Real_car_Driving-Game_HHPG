@@ -260,8 +260,9 @@ namespace SickscoreGames.HUDNavigationSystem
 
 			// create indicator gameobject
 			GameObject indicatorGO = Instantiate (Prefabs.IndicatorPrefab.gameObject, Vector3.zero, Quaternion.identity) as GameObject;
-			indicatorGO.transform.SetParent (HUDNavigationCanvas.Instance.Indicator.ElementContainer, false);
 			indicatorGO.SetActive (false);
+			indicatorGO.transform.SetParent (HUDNavigationCanvas.Instance.Indicator.ElementContainer, false);
+			
 
 			// assign indicator prefab
 			Indicator = indicatorGO.GetComponent<HNSIndicatorPrefab> ();

@@ -345,8 +345,7 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 
 		SoundsInitialize();
 
-		if(useDamage)
-			DamageInit();
+	
 
 		if(runEngineAtAwake || AIController)
 			KillOrStartEngine();
@@ -424,7 +423,14 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 		carCamera = GameObject.FindObjectOfType<RCC_Camera> ();
 
 	}
-
+	private void Start()
+	{
+		if (useDamage)
+		{
+			DamageInit();
+		}
+		
+	}
 	void OnEnable()
 	{
 
@@ -650,12 +656,16 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 			MeshFilter[] allMeshFilters = GetComponentsInChildren<MeshFilter>();
 			List <MeshFilter> properMeshFilters = new List<MeshFilter>();
 
-			foreach(MeshFilter mf in allMeshFilters){
-				if(!mf.transform.IsChildOf(FrontLeftWheelTransform) && !mf.transform.IsChildOf(FrontRightWheelTransform) && !mf.transform.IsChildOf(RearLeftWheelTransform) && !mf.transform.IsChildOf(RearRightWheelTransform))
-					properMeshFilters.Add(mf);
+			foreach(MeshFilter mf in allMeshFilters)
+			{
+				if (!mf.transform.IsChildOf(FrontLeftWheelTransform) &&
+				    !mf.transform.IsChildOf(FrontRightWheelTransform) &&
+				    !mf.transform.IsChildOf(RearLeftWheelTransform) &&
+				    !mf.transform.IsChildOf(RearRightWheelTransform)) ;
+				//properMeshFilters.Add(mf);
 			}
-
-			deformableMeshFilters = properMeshFilters.ToArray();
+			
+			//deformableMeshFilters = properMeshFilters.ToArray();
 
 		}
 		
@@ -728,9 +738,14 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 		
 		Vector3[] vertices = mesh.vertices;
 		
+		
+		
+		
+		
 		foreach (ContactPoint contact in collision.contacts)
 		{
-			if (HHG_GameManager.Instance.TpsStatus==PlayerStatus.CarDriving)
+			
+			/*if (HHG_GameManager.Instance.TpsStatus==PlayerStatus.CarDriving)
 			{
 				if (GetComponent<VehicleProperties>().enabled)
 				{
@@ -738,7 +753,7 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 					//PrefsManager.Gethealth(CarName,GetComponent<VehicleProperties>().currentHealth);
 				}
 			}
-			
+			*/
 			
 			
 			Vector3 point = meshTransform.InverseTransformPoint(contact.point);
@@ -775,6 +790,10 @@ public class RCC_CarControllerV3 : MonoBehaviour {
 				
 				
 				contactSparkeList[i].Play(); 
+				if (GetComponent<VehicleProperties>())
+				{
+					GetComponent<VehicleProperties>().ApplyDamage(1.1f);
+				}
 			}
 	}
 
@@ -1732,7 +1751,6 @@ public	void ResetCarFrombutton (){
 
 
 	void OnCollisionEnter (Collision collision){
-
 		
 		if (HHG_GameManager.Instance.TpsStatus == PlayerStatus.ThirdPerson)
 		{
@@ -1751,6 +1769,10 @@ public	void ResetCarFrombutton (){
 					if (HHG_GameManager.Instance.TpsStatus == PlayerStatus.CarDriving)
 					{
 						crashSound.Play();
+						if (enabled)
+						{
+							//PrefsManager.Gethealth(CarName,GetComponent<VehicleProperties>().currentHealth);
+						}
 					}
 					else
 					{
@@ -1777,9 +1799,9 @@ public	void ResetCarFrombutton (){
 				if (originalMeshData == null)
 					LoadOriginalMeshData();
 				
-				for (int i = 0; i < deformableMeshFilters.Length; i++){
+				/*for (int i = 0; i < deformableMeshFilters.Length; i++){
 					DeformMesh(deformableMeshFilters[i].mesh, originalMeshData[i].meshVerts, collision, cos, deformableMeshFilters[i].transform, rot);
-				}
+				}*/
 				
 			}
 

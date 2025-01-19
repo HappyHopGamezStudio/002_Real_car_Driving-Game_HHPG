@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using System.Threading.Tasks;
+using HHG_Mediation;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -33,7 +36,8 @@ public class HHG_PlayerSelection : MonoBehaviour
         successPannel,
         unlockPlayerButton,
         TestDriveButton,
-        MainNextBack;
+        MainNextBack,
+        SkipButton;
 
     public Text coinText, coinText2, ls_cointext, PriceText;
     bool isReadyForPurchase;
@@ -47,22 +51,24 @@ public class HHG_PlayerSelection : MonoBehaviour
     [Header("CarSoldCutSSceane")] public GameObject Timeline;
     public PlayableDirector Director;
     public GameObject CutSceanCamera;
-
-    public CanvasGroup GrageUi,Menu;
+    
     public GameObject MainCamera;
-    public bool IsGrage, Ismenu = false;
+    public bool IsGrage = false;
     private float savedValue;
 
 
-    void Start()
+    void Awake()
     {
         instance = this;
         Time.timeScale = 1;
 
-        CarButtons[selectedPlayerValue].transform.GetChild(0).gameObject.SetActive(true);
+       // CarButtons[selectedPlayerValue].transform.GetChild(0).gameObject.SetActive(true);
     }
 
- 
+    private void OnEnable()
+    {
+        MainCamera.GetComponent<CameraRotate>().SetMen();
+    }
 
     public void OnNextPressed()
     {
@@ -238,7 +244,7 @@ public class HHG_PlayerSelection : MonoBehaviour
         //  AdmobAdsManager.Instance.LoadInterstitialAd();
         HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
      //   fakeLoading.SetActive(true);
-        CameraRotate.instance.SetMianPos();
+       MainCamera.GetComponent<CameraRotate>().SetMianPos();
         dogSelectionCanvas.SetActive(true);
         menuCanvas.SetActive(false);
         ShowPlayerNow(PrefsManager.GetLastJeepUnlock());
@@ -251,7 +257,6 @@ public class HHG_PlayerSelection : MonoBehaviour
                 CarButtons[i].transform.GetChild(2).gameObject.SetActive(false);
             }
         }
-        Ismenu = false;
         IsGrage = true;
     }
 
@@ -260,12 +265,12 @@ public class HHG_PlayerSelection : MonoBehaviour
         //  AdmobAdsManager.Instance.LoadInterstitialAd();
         HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
         ShowPlayerNow(PrefsManager.GetLastJeepUnlock());
-        CameraRotate.instance.SetMianPos();
+        MainCamera.GetComponent<CameraRotate>().SetMianPos();
       //  fakeLoading.SetActive(true);
         dogSelectionCanvas.SetActive(false);
         menuCanvas.SetActive(true);
         Debug.Log("Enable Here");
-        Ismenu = true;
+       
         IsGrage = false;
     }
 
@@ -331,23 +336,27 @@ public class HHG_PlayerSelection : MonoBehaviour
     public void Offsuccess()
     {
         successPannel.SetActive(false);
+        stoppanel=false;
     }
-
+    
     public void Success_purchase()
     {
         Time.timeScale = 1f;
         if (IsGrage)
         {
-            GrageUi.alpha = 0;
+            dogSelectionCanvas.gameObject.SetActive(false);
         }
-        if (Ismenu)
+        else
         {
-            Menu.alpha = 0;
+            menuCanvas.gameObject.SetActive(false);
         }
+     
         CutSceanCamera.SetActive(true);
         MainCamera.SetActive(false);
+        SkipButton.SetActive(false);
         Timeline.SetActive(true);
         Director.Play();
+        stoppanel=true;
         Invoke("HideTimeline", (float)Director.duration - 0.9f);
         GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<AudioSource> ().enabled = false;
         GameObject.FindGameObjectWithTag ("SoundManager").transform.GetChild (0).gameObject.GetComponent<AudioSource> ().enabled = false;
@@ -355,16 +364,22 @@ public class HHG_PlayerSelection : MonoBehaviour
 
 
 
-    public  void PlayCutScne()
+    public async void PlayCutScne()
     {
         Time.timeScale = 1f;
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+			
+            PrefsManager.SetInterInt(1);
+        }
         if (IsGrage)
         {
-            GrageUi.alpha = 0;
+            dogSelectionCanvas.gameObject.SetActive(false);
         }
-        if (Ismenu)
+        else
         {
-            Menu.alpha = 0;
+            menuCanvas.gameObject.SetActive(false);
         }
         CutSceanCamera.SetActive(true);
         MainCamera.SetActive(false);
@@ -373,46 +388,80 @@ public class HHG_PlayerSelection : MonoBehaviour
         GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<AudioSource> ().enabled = false;
         GameObject.FindGameObjectWithTag ("SoundManager").transform.GetChild (0).gameObject.GetComponent<AudioSource> ().enabled = false;
         Invoke("StopCutScene", (float)Director.duration - 0.9f);
+        await Task.Delay(1000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            if (PrefsManager.GetInterInt()!=5)
+            {
+                FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+            }
+        }
     }
 
-    public void StopCutScene()
+    public async void StopCutScene()
     {
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+			
+            PrefsManager.SetInterInt(1);
+        }
         if (IsGrage)
         {
-            GrageUi.alpha = 1;
+            dogSelectionCanvas.gameObject.SetActive(true);
         }
-        if (Ismenu)
+        else
         {
-            Menu.alpha = 1;
+            menuCanvas.gameObject.SetActive(true);
         }
         CutSceanCamera.SetActive(false);
         MainCamera.SetActive(true);
         Timeline.SetActive(false);
         GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<AudioSource> ().enabled = true;
         GameObject.FindGameObjectWithTag ("SoundManager").transform.GetChild (0).gameObject.GetComponent<AudioSource> ().enabled = true;
+        await Task.Delay(1000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            if (PrefsManager.GetInterInt()!=5)
+            {
+                FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+            }
+        }
     }
+
+    public bool stoppanel=false;
 
     public void HideTimeline()
     {
         if (IsGrage)
         {
-            GrageUi.alpha = 0;
+            dogSelectionCanvas.gameObject.SetActive(true);
         }
-        if (Ismenu)
+        else
         {
-            Menu.alpha = 0;
+            menuCanvas.gameObject.SetActive(true);
         }
+
+        if (stoppanel)
+        {
+            successPannel.SetActive(true);
+        }
+        else
+        {
+            successPannel.SetActive(false);
+        }
+
         CutSceanCamera.SetActive(false);
         MainCamera.SetActive(true);
         Timeline.SetActive(false);
-        GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<AudioSource> ().enabled = true;
-        GameObject.FindGameObjectWithTag ("SoundManager").transform.GetChild (0).gameObject.GetComponent<AudioSource> ().enabled = true;
-        isReadyForPurchase = true;
-        successPannel.SetActive(true);
+        GameObject.FindGameObjectWithTag("SoundManager").GetComponent<AudioSource>().enabled = true;
+        GameObject.FindGameObjectWithTag("SoundManager").transform.GetChild(0).gameObject.GetComponent<AudioSource>()
+            .enabled = true;
+        Invoke("Offsuccess", 3f);
         lockSprite.SetActive(false);
         unlockPlayerButton.SetActive(false);
         Play.SetActive(true);
-        Invoke("Offsuccess", 3f);
+        SkipButton.SetActive(true);
         PriceText.transform.parent.gameObject.SetActive(false);
     }
 }

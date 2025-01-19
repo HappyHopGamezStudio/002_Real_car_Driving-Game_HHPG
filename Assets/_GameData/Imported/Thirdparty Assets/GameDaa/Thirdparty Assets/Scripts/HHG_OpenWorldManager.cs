@@ -17,10 +17,11 @@ public class HHG_OpenWorldManager : MonoBehaviour
 
     public _LevelProperties CurrentMissionProperties;
     public static HHG_OpenWorldManager Instance;
+    public int CuurentlevelId;
    
     public bool IsComplte;
     public int TotalMisson;
-   
+    public GameObject AllMissionTrggers;
     private void Awake()
     {
         Instance = this;
@@ -32,7 +33,23 @@ public class HHG_OpenWorldManager : MonoBehaviour
         return AllMission[PrefsManager.GetCurrentMission()].GetComponent<_LevelProperties>().LevelStatment; 
     }
 
-
+    public async void StartTriggerMission()
+    {
+        HHG_UiManager.instance.MssionPanel.SetActive(false);
+        HHG_UiManager.instance.AdBrakepanel.SetActive(false);   
+        PrefsManager.SetCurrentMission(CuurentlevelId);
+        HHG_LevelManager.instace.Mobilemanger.AcceptCall();
+        HHG_LevelManager.instace.isPanelOn=true;
+        HHG_LevelManager.instace.ResetTimer();
+        await Task.Delay(2000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            if (PrefsManager.GetInterInt()!=5)
+            {
+                FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+            }
+        }
+    }
     public async void StartMission(int Value)
     {
       
@@ -70,6 +87,7 @@ public class HHG_OpenWorldManager : MonoBehaviour
 
         CurrentMissionProperties = AllMission[PrefsManager.GetCurrentMission()];
         CurrentMissionProperties.gameObject.SetActive(true);
+        AllMissionTrggers.SetActive(false);
         missionon = true;
         HHG_LevelManager.instace.SetTransform(CurrentMissionProperties.PlayerPosition, CurrentMissionProperties.TpsPosition);
         setcarok();

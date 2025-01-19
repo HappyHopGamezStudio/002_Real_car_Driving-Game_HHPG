@@ -128,6 +128,7 @@ public class DogController : MonoBehaviour
     }
     IEnumerator FetchBall()
     {
+        HHG_GameControl.manager?.RestoreJoystick();
         isFetchingBall = true;
         dogAnimator.SetFloat("Speed", 2f); // Running animation for fetch
 
@@ -159,4 +160,15 @@ public class DogController : MonoBehaviour
         DogButton.gameObject.SetActive(true);
         mouth.gameObject.SetActive(false);
     }
+    private void OnDisable()
+    {
+        isFetchingBall = false;
+        if (ball!=null)
+        {
+            ball.GetComponent<DestroyAfter>().Destroyme();
+        }
+        DogButton.gameObject.SetActive(true);
+        mouth.gameObject.SetActive(false);
+        }
+        
 }

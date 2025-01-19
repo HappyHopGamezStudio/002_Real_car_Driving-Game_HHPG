@@ -34,7 +34,7 @@ public class CameraRotate : MonoBehaviour
 
     public float xDeg;
 
-    public float yDeg;
+    //public float yDeg;
 
     private float currentDistance;
 
@@ -52,16 +52,11 @@ public class CameraRotate : MonoBehaviour
 
     private float idleSmooth;
 
-    public static CameraRotate instance;
+   
 
-    private void Start()
-    {
-        instance = this;
+ 
 
-        Init();
-    }
-
-	private void OnEnable()
+	public void SetMen()
 	{
 		Init();
 	}
@@ -88,9 +83,11 @@ public class CameraRotate : MonoBehaviour
     {
 	    isDragging = true;
 	    StartCoroutine(SetPos(-130f, 13, 5f));
-	    isrimSelect = false;
-        maxDistance = 4.3f;
-        minDistance = 4.3f;
+	    if (HHG_PlayerSelection.instance.CurrentPlayer!=null)
+	    {
+		    maxDistance = HHG_PlayerSelection.instance.CurrentPlayer.GetComponent<CarAngale>().maxDistance;
+		    minDistance = HHG_PlayerSelection.instance.CurrentPlayer.GetComponent<CarAngale>().minDistance;
+	    }
         isPanelOn = true;
         OFFanimater();
     }
@@ -128,14 +125,14 @@ public class CameraRotate : MonoBehaviour
     {
         int loopCount = 20;
         float xStep = Mathf.Abs(((x - xDeg) / loopCount ));
-        float yStep = Mathf.Abs(((y - yDeg) / loopCount));
+        float yStep = Mathf.Abs(((y - HHG_PlayerSelection.instance.CurrentPlayer.GetComponent<CarAngale>().yDeg) / loopCount));
         float desiredDistanceStep = Mathf.Abs(((dd - desiredDistance) / loopCount));
 
         for (int i = 0; i < loopCount; i++)
         {
             yield return null;
             xDeg = Mathf.MoveTowards(xDeg, x, xStep);
-            yDeg = Mathf.MoveTowards(yDeg, y, yStep);
+            HHG_PlayerSelection.instance.CurrentPlayer.GetComponent<CarAngale>().yDeg = Mathf.MoveTowards(HHG_PlayerSelection.instance.CurrentPlayer.GetComponent<CarAngale>().yDeg, y, yStep);
             desiredDistance = Mathf.MoveTowards(desiredDistance, dd, desiredDistanceStep);
         }
     }
@@ -149,9 +146,9 @@ public class CameraRotate : MonoBehaviour
         {
 			xDeg += CnControls.CnInputManager.GetAxis("Mouse X") * xSpeed * 0.04f;
             xDeg = ClampAngle(xDeg, -360, 360);
-            yDeg -= CnControls.CnInputManager.GetAxis("Mouse Y") * ySpeed * 0.04f;
-			yDeg = ClampAngle(yDeg, yMinLimit, yMaxLimit);
-			desiredRotation = Quaternion.Euler(yDeg, xDeg, 0f);
+            HHG_PlayerSelection.instance.CurrentPlayer.GetComponent<CarAngale>().yDeg -= CnControls.CnInputManager.GetAxis("Mouse Y") * ySpeed * 0.04f;
+            HHG_PlayerSelection.instance.CurrentPlayer.GetComponent<CarAngale>().yDeg = ClampAngle(HHG_PlayerSelection.instance.CurrentPlayer.GetComponent<CarAngale>().yDeg, yMinLimit, yMaxLimit);
+			desiredRotation = Quaternion.Euler(HHG_PlayerSelection.instance.CurrentPlayer.GetComponent<CarAngale>().yDeg, xDeg, 0f);
 			currentRotation = base.transform.rotation;
 			rotation = Quaternion.Lerp(currentRotation, desiredRotation, 0.02f * zoomDampening);
 			base.transform.rotation = rotation;
@@ -161,8 +158,8 @@ public class CameraRotate : MonoBehaviour
 		else if(!isrimSelect)
 		{
             xDeg +=xSpeed * AutoSpeed * Time.deltaTime;
-            yDeg = ClampAngle(yDeg, yMinLimit, yMaxLimit);
-			desiredRotation = Quaternion.Euler(yDeg, xDeg, 0f);
+            HHG_PlayerSelection.instance.CurrentPlayer.GetComponent<CarAngale>(). yDeg = ClampAngle(HHG_PlayerSelection.instance.CurrentPlayer.GetComponent<CarAngale>().yDeg, yMinLimit, yMaxLimit);
+			desiredRotation = Quaternion.Euler(HHG_PlayerSelection.instance.CurrentPlayer.GetComponent<CarAngale>().yDeg, xDeg, 0f);
 			currentRotation = base.transform.rotation;
 			rotation = Quaternion.Lerp(currentRotation, desiredRotation, 0.02f * zoomDampening * 2f);
 			base.transform.rotation = rotation;

@@ -41,6 +41,14 @@ public class HHG_UiManager : MonoBehaviour
     public GameObject missionComplet,MissionWased,Map;
     public GameObject CheckPointBar, Racebar, LapBar,CarMobile,Getoutbutton,LapAlert;
     public GameObject ExitMissionBtn, ExitPanel,CallPanel;
+    
+    
+    public GameObject AdButtonForranmp;
+    public Text RanmpValuetext;
+    public GameObject MssionPanel;
+    public Text MissionStatment, RewardText, MissionTitle;
+    public Image missionicon;
+    public GameObject AdbrakenitySec;
     void Awake()
     {
 
@@ -52,8 +60,15 @@ public class HHG_UiManager : MonoBehaviour
         Ripairebutton.SetActive(false);
         uiPanel.SetActive(false);
         Invoke(nameof(offFadeimage),4f);
+        Invoke(nameof(onnitysec),90f);
+        
     }
 
+    void onnitysec()
+    {
+        AdbrakenitySec.SetActive(true);
+        Invoke(nameof(onnitysec),90f);
+    }
    void offFadeimage()
     {
         Fadeimage.SetActive(false);
@@ -81,7 +96,7 @@ public class HHG_UiManager : MonoBehaviour
                 FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
             }
         }
-
+        AudioListener.volume =.7f;
       //  GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, PrefsManager.GetGameMode(),PrefsManager.GetCurrentLevel());
 
     }
@@ -141,6 +156,7 @@ public class HHG_UiManager : MonoBehaviour
    public void HideGamePlay()
    {
        HHG_GameControl.manager?.ResetJoystick();
+       controls.GetComponent<CanvasGroup>().alpha=0;
        controls.SetActive(false);
        Map.SetActive(false);
        TpsControle.SetActive(false);
@@ -161,7 +177,7 @@ public class HHG_UiManager : MonoBehaviour
        {
            controls.SetActive(false);
            TpsControle.SetActive(true);
-         
+          controls.GetComponent<CanvasGroup>().alpha=0;
          
        }
        Map.SetActive(true);
@@ -204,20 +220,21 @@ public class HHG_UiManager : MonoBehaviour
         
        
         HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+            PrefsManager.SetInterInt(1);
+        }
       //  AdmobAdsManager.Instance.ShowInt(ShowPauseNow,true);
       ShowPauseNow();
     }
 
     public async void ShowPauseNow()
     {
-        if (FindObjectOfType<HHG_AdsCall>())
-        {
-            FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
-            PrefsManager.SetInterInt(1);
-        }
+        AudioListener.volume = 0;
         Pause.SetActive(true);
-        SetTimeScale(0);
         HideGamePlay();
+        SetTimeScale(0);
         await Task.Delay(2000);
         if (FindObjectOfType<HHG_AdsCall>())
         {
@@ -230,14 +247,16 @@ public class HHG_UiManager : MonoBehaviour
 
     public void Resume()
     {
-        Pause.SetActive(false);
         SetTimeScale(1);
+        Pause.SetActive(false);
         ShowGamePlay();
+        AudioListener.volume = 1;
         //AdmobAdsManager.Instance.LoadInterstitialAd();
     }
 
     public void Restart()
     {
+        AudioListener.volume = 0;
         if (HHG_LevelManager.instace.hhgOpenWorldManager.missionon)
         {
             HHG_LevelManager.instace.isPanelOn = true;
@@ -276,6 +295,7 @@ public class HHG_UiManager : MonoBehaviour
 
     public void Home()
     {
+        AudioListener.volume = 0;
         Time.timeScale = 1;
         Loading.SetActive(true);
         HideGamePlay();
@@ -387,6 +407,15 @@ public class HHG_UiManager : MonoBehaviour
 
     public async void RestartMission()
     {
+        AdBrakepanel.SetActive(true);
+        await Task.Delay(1000);
+        if (FindObjectOfType<HHG_AdsCall>())
+        {
+            FindObjectOfType<HHG_AdsCall>().showInterstitialAD();
+			
+            PrefsManager.SetInterInt(1);
+        }
+        AdBrakepanel.SetActive(false);
         HHG_SoundManager.Instance.PlayOneShotSounds(HHG_SoundManager.Instance.click);
         Fail.SetActive(false);
         Complete.SetActive(false);

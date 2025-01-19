@@ -477,6 +477,25 @@ public class VehicleProperties : MonoBehaviour
 			    }
 		    }
 	    }
+
+	    if (other.gameObject.tag=="Checkpoint")
+	    { 
+		    HHG_UiManager.instance.MssionPanel.SetActive(true);
+		    HHG_LevelManager.instace.Currentmission = other.gameObject.GetComponent<MissionTrigger02>();
+		    HHG_LevelManager.instace.hhgOpenWorldManager.CuurentlevelId = other.gameObject.GetComponent<MissionTrigger02>().MissionId;
+		    HHG_UiManager.instance.MissionTitle.text = other.gameObject.GetComponent<MissionTrigger02>().MissionTitle;
+		    HHG_UiManager.instance.MissionStatment.text = other.gameObject.GetComponent<MissionTrigger02>().MissionStatment;
+		    HHG_UiManager.instance.RewardText.text = other.gameObject.GetComponent<MissionTrigger02>().Reaward.ToString("N0");;
+		    HHG_UiManager.instance.missionicon.sprite = other.gameObject.GetComponent<MissionTrigger02>().MegaRampData.icone;
+	    }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+	    if (other.gameObject.tag=="Checkpoint")
+	    { 
+		    HHG_UiManager.instance.MssionPanel.SetActive(false);
+	    }
     }
 
     private bool ison = true;
@@ -691,4 +710,15 @@ public class VehicleProperties : MonoBehaviour
 	    await Task.Delay(2000);
 	    HHG_GameManager.Instance?.ResumwTime();
     }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
 }

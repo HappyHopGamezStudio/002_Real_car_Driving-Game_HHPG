@@ -35,7 +35,7 @@ namespace StarterAssets
         }
         public  async void ThrowInput(bool virtualSprintState)
         {
-            HHG_UiManager.instance. HideGamePlay();
+         
             HHG_UiManager.instance. AdBrakepanel.SetActive(true);
             await Task.Delay(1000);
             if (FindObjectOfType<HHG_AdsCall>())
@@ -44,9 +44,17 @@ namespace StarterAssets
 			
                 PrefsManager.SetInterInt(1);
             }
-            HHG_UiManager.instance.ShowGamePlay();
+         
             HHG_UiManager.instance.AdBrakepanel.SetActive(false);
             starterAssetsInputs.ThrowInput(virtualSprintState);
+            await Task.Delay(2000);
+            if (FindObjectOfType<HHG_AdsCall>())
+            {
+                if (PrefsManager.GetInterInt() != 5)
+                {
+                    FindObjectOfType<HHG_AdsCall>().loadInterstitialAD();
+                }
+            }
         }
     }
 

@@ -88,7 +88,12 @@ public class HHG_GameManager : MonoBehaviour
         BigMapCamera.enabled = true;
         HHG_UiManager.instance.HideGamePlay();
       //  Time.timeScale = 0;
-        await Task.Delay(2000);
+      await Task.Delay(2000);
+      if (TpsStatus==PlayerStatus.CarDriving)
+      {
+          CurrentCar.GetComponent<Rigidbody>().velocity=Vector3.zero; 
+          CurrentCar.GetComponent<Rigidbody>().angularVelocity=Vector3.zero; 
+      }
         if (FindObjectOfType<HHG_AdsCall>())
         {
             if (PrefsManager.GetInterInt()!=5)
@@ -119,6 +124,7 @@ public class HHG_GameManager : MonoBehaviour
         Invoke("offimage", 0.5f);
         HHG_UiManager.instance.controls.SetActive(true);
         HHG_UiManager.instance.TpsControle.SetActive(false);
+        HHG_UiManager.instance.controls.GetComponent<CanvasGroup>().alpha=1;
         CurrentCar.GetComponent<Rigidbody>().angularDrag = 0.05f;
         if (CurrentCar.GetComponent<VehicleProperties>() == null)
         {
@@ -202,6 +208,7 @@ public class HHG_GameManager : MonoBehaviour
         HHG_UiManager.instance.blankimage.SetActive(true);
         Debug.Log("Here");
         HHG_UiManager.instance.controls.SetActive(false);
+        HHG_UiManager.instance.controls.GetComponent<CanvasGroup>().alpha=0;
         HHG_UiManager.instance.TpsControle.SetActive(true);
         Invoke("offimage",0.5f);
         TPSPlayer.SetActive(true);
@@ -292,6 +299,7 @@ public class HHG_GameManager : MonoBehaviour
     public void GetOutVehicleForInstantiate()
     {
         Time.timeScale = 1;
+        CurrentCar.GetComponent<VehicleProperties>().IsCarOnintersial = false;
         CurrentCar.GetComponent<RCC_CarControllerV3>().KillOrStartEngine();
         HHG_UiManager.instance.blankimage.SetActive(true);
         Debug.Log("Here");

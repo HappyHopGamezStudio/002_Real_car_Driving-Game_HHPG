@@ -35,10 +35,4 @@ public class CounDownFormission : MonoBehaviour
             HHG_LevelManager.instace.Mobilemanger?.AcceptCall();
         }
     }
-
-    public void statemanent(string statment)
-    {
-      //  UiManagerObject_EG.instance.ObjectiveText.text = statment;
-    }
-    
 }

@@ -5892,7 +5892,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 1a6aea2accbb8ce428643f23e4782e7b, type: 2}
-  - {fileID: 2100000, guid: 922d988774159344db6fde6988ef0dd1, type: 2}
+  - {fileID: 2100000, guid: 38ff761bc37718c4f91254f338d9bd77, type: 2}
   - {fileID: 2100000, guid: aa24b0201bfc9c045b5c5450fe928a88, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -6462,7 +6462,7 @@ MonoBehaviour:
   minEngineRPM: 1000
   engineInertia: 1
   useRevLimiter: 0
-  useExhaustFlame: 1
+  useExhaustFlame: 0
   useFuelConsumption: 0
   steerAngle: 40
   highspeedsteerAngle: 25

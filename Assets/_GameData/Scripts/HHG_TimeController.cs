@@ -220,16 +220,16 @@ public class HHG_TimeController : MonoBehaviour
     }
 
     private int intTime, minuts, seconds;
-    //  private float fraction;
+    private float fraction;
     private string timeText;
     string FormatTime(float time)
     {
         intTime = (int)time;
         minuts = intTime / 60;
         seconds = intTime % 60;
-        // fraction = time * 1000;
-        // fraction = (fraction % 1000);
-        timeText = String.Format("{0:00}:{1:00}", minuts, seconds);
+        fraction = time * 1000;
+        fraction = (fraction % 1000);
+        timeText = String.Format("{0:00}:{1:00}.{2:000}", minuts, seconds, fraction);
         return timeText;
     }
     private bool isrewardAlready = false;
